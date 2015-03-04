@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	android:id="@+id/tabContainer"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/material_tabs_height"
+	android:background="@drawable/tab_ripple"
+	android:orientation="vertical">
+
+	<TextView
+		android:id="@+id/tabText"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="center"
+		android:textAllCaps="true"
+		android:textColor="@color/textColorPrimary"
+		android:textSize="@dimen/material_tabs_text_size"
+		/>
+</LinearLayout>
