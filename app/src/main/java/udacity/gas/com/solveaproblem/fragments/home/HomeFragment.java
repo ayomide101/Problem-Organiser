@@ -9,7 +9,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +50,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View layout = inflater.inflate(R.layout.fragment_home, container, false);
-		recyclerView = (RecyclerView) layout.findViewById(R.id.problemsList);
-		recyclerView.setAdapter(problemsAdapter);
 		return layout;
 	}
 
@@ -57,8 +57,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		getLoaderManager().initLoader(PROBLEM_LOADER_ID, savedInstanceState, this);
+		problemsAdapter = new ProblemsAdapter(getActivity(), null);
+
 		FloatingActionButton btAddProblem = (FloatingActionButton) getActivity().findViewById(R.id.btAddProblem);
 		btAddProblem.setOnClickListener(this);
+		recyclerView = (RecyclerView) getActivity().findViewById(R.id.problemsList);
+		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+		recyclerView.setAdapter(problemsAdapter);
 	}
 
 	@Override
@@ -71,10 +76,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String sortOrder = PailContract.ProblemEntry.COLUMN_DATE + " ASC";
+		String sortOrder = PailContract.ProblemEntry.COLUMN_DATE + " DESC";
 		return new CursorLoader(getActivity(),
 				PailContract.ProblemEntry.buildProblemsUri(),
-				null,
+				PailContract.ProblemEntry.PROBLEM_COLUMNS,
 				null,
 				null,
 				sortOrder
@@ -86,7 +91,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 		if (getActivity() == null) {
 			return;
 		}
-		problemsAdapter.swapCursor(data);
+		//Data found
+		if (data.moveToFirst()) {
+			Log.e("HomeFragment", "Contents found :" +data.getString(PailContract.ProblemEntry.i_PROBLEM_TITLE));
+			problemsAdapter.swapCursor(data);
+		} else {
+			Log.e("HomeFragment", "Contents not found");
+			problemsAdapter.swapCursor(null);
+		}
 	}
 
 	@Override
@@ -96,17 +108,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 
 	public class ProblemsAdapter extends CursorRecyclerViewAdapter<ProblemsAdapter.ProblemViewHolder> {
 
-		private LayoutInflater inflater;
-
 		public ProblemsAdapter(Context context, Cursor cursor) {
 			super(context, cursor);
 		}
 
 		@Override
 		public ProblemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			View view = inflater.inflate(R.layout.fragment_home_list_view, parent, false);
-			ProblemViewHolder vh = new ProblemViewHolder(view);
-			return vh;
+			try {
+				View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_home_list_view, parent, false);
+				ProblemViewHolder vh = new ProblemViewHolder(view);
+				return vh;
+			} catch (NullPointerException e) {
+				Log.e("HomeFragment", e.getMessage()+"");
+				return null;
+			}
 		}
 
 		@Override

@@ -84,6 +84,21 @@ public class PailContract {
 		public static final int VAL_PROBLEM_STATUS_SOLVED = 1;
 		public static final int VAL_PROBLEM_STATUS_NOT_SOLVED = 2;
 
+		public static final String[] PROBLEM_COLUMNS = {
+			ProblemEntry._ID,
+			ProblemEntry.COLUMN_TITLE,
+			ProblemEntry.COLUMN_DESCRIPTION,
+			ProblemEntry.COLUMN_PROBLEM_STATUS,
+			ProblemEntry.COLUMN_PRIVACY
+		};
+		//the indexes are tied to the columns, if the columns arrangment changes
+		//these should change too
+		public static final int i_PROBLEM_ID = 0;
+		public static final int i_PROBLEM_TITLE = 1;
+		public static final int i_PROBLEM_DESCRIPTION = 2;
+		public static final int i_PROBLEM_PROBLEM_STATUS = 3;
+		public static final int i_PROBLEM_PRIVACY = 1;
+
 		//problem
 		public static Uri buildProblemsUri() {
 			return CONTENT_URI;
