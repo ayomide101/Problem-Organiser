@@ -93,10 +93,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 		}
 		//Data found
 		if (data.moveToFirst()) {
-			Log.e("HomeFragment", "Contents found :" +data.getString(PailContract.ProblemEntry.i_PROBLEM_TITLE));
 			problemsAdapter.swapCursor(data);
 		} else {
-			Log.e("HomeFragment", "Contents not found");
 			problemsAdapter.swapCursor(null);
 		}
 	}
