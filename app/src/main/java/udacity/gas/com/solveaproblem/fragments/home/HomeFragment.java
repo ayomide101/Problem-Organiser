@@ -1,24 +1,43 @@
 package udacity.gas.com.solveaproblem.fragments.home;
 
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
+
+import udacity.gas.com.solveaproblem.AddProblem;
 import udacity.gas.com.solveaproblem.R;
+import udacity.gas.com.solveaproblem.adapters.CursorRecyclerViewAdapter;
+import udacity.gas.com.solveaproblem.data.PailContract;
+import udacity.gas.com.solveaproblem.data.ProblemItem;
 
 /**
  * Created by Fagbohungbe on 04/03/2015.
  */
-public class HomeFragment extends Fragment {
-	public static int ID = 0;
-	private TextView textView;
+public class HomeFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
-	public static BrowseFragment getInstance(int position) {
-		BrowseFragment myFragment = new BrowseFragment();
+	public static int ID = 0;
+	public static int PROBLEM_LOADER_ID = 0;
+	private TextView textView;
+	private ProblemsAdapter problemsAdapter;
+	private RecyclerView recyclerView;
+
+
+	public static HomeFragment getInstance(int position) {
+		HomeFragment myFragment = new HomeFragment();
 		Bundle args = new Bundle();
 		args.putInt("position", position);
 		myFragment.setArguments(args);
@@ -28,13 +47,92 @@ public class HomeFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View layout = inflater.inflate(R.layout.fragment_browse, container, false);
-		textView = (TextView) layout.findViewById(R.id.position);
-		Bundle bundle = getArguments();
-		if (bundle != null) {
-			textView.setText("Browse " + bundle.getInt("position"));
+		View layout = inflater.inflate(R.layout.fragment_home, container, false);
+		recyclerView = (RecyclerView) layout.findViewById(R.id.problemsList);
+		recyclerView.setAdapter(problemsAdapter);
+		return layout;
+	}
+
+	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		getLoaderManager().initLoader(PROBLEM_LOADER_ID, savedInstanceState, this);
+		FloatingActionButton btAddProblem = (FloatingActionButton) getActivity().findViewById(R.id.btAddProblem);
+		btAddProblem.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (v.getId() == R.id.btAddProblem) {
+			Intent intent = new Intent(getActivity(), AddProblem.class);
+			startActivity(intent);
+		}
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		String sortOrder = PailContract.ProblemEntry.COLUMN_DATE + " ASC";
+		return new CursorLoader(getActivity(),
+				PailContract.ProblemEntry.buildProblemsUri(),
+				null,
+				null,
+				null,
+				sortOrder
+		);
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		if (getActivity() == null) {
+			return;
+		}
+		problemsAdapter.swapCursor(data);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+		problemsAdapter.swapCursor(null);
+	}
+
+	public class ProblemsAdapter extends CursorRecyclerViewAdapter<ProblemsAdapter.ProblemViewHolder> {
+
+		private LayoutInflater inflater;
+
+		public ProblemsAdapter(Context context, Cursor cursor) {
+			super(context, cursor);
 		}
 
-		return layout;
+		@Override
+		public ProblemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+			View view = inflater.inflate(R.layout.fragment_home_list_view, parent, false);
+			ProblemViewHolder vh = new ProblemViewHolder(view);
+			return vh;
+		}
+
+		@Override
+		public void onBindViewHolder(ProblemViewHolder viewHolder, Cursor cursor) {
+			ProblemItem problemItem = ProblemItem.fromCursor(cursor);
+			viewHolder.title.setText(problemItem.getTitle());
+			viewHolder.description.setText(problemItem.getDescription());
+		}
+
+		class ProblemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+			TextView title;
+			TextView description;
+
+			public ProblemViewHolder(View itemView) {
+				super(itemView);
+				title = (TextView) itemView.findViewById(R.id.problemTitle);
+				description = (TextView) itemView.findViewById(R.id.problemDescription);
+				itemView.setOnClickListener(this);
+			}
+
+			@Override
+			public void onClick(View v) {
+				//Use the getPosition(); to determine the position and launch the
+				//respective activity
+				Toast.makeText(v.getContext(), "cLICKED", Toast.LENGTH_SHORT).show();
+			}
+		}
 	}
 }
