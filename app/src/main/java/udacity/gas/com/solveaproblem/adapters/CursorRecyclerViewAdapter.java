@@ -214,7 +214,6 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
 	 *
 	 * @return a Cursor representing the results of the new query
 	 *
-	 * @see #getFilter()
 	 * @see #getFilterQueryProvider()
 	 * @see #setFilterQueryProvider(android.widget.FilterQueryProvider)
 	 */

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="title_activity_main">PROBLEMS</string>
+    <string name="title_activity_main">Problems Organiser</string>
     <string name="app_name">Problem Organiser</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -41,5 +41,7 @@
 	<string name="privacy">PRIVACY</string>
 	<string name="privacy_statement">Do you want me to share your problems with others so that they can help?</string>
 	<string name="add_notes">ADD NOTES</string>
+	<string name="menu_share">Share</string>
+	<string name="menu_discard">Delete</string>
 
 </resources>

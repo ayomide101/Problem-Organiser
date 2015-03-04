@@ -18,4 +18,5 @@
 	<dimen name="material_label_text_margin_top">16dp</dimen>
 	<dimen name="material_editText_text_size">16sp</dimen>
 	<dimen name="material_divider_padding">8dp</dimen>
+	<dimen name="carddemo_list_padding">16dp</dimen>
 </resources>
