@@ -2,7 +2,6 @@ package udacity.gas.com.solveaproblem;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -31,7 +30,6 @@ import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 import udacity.gas.com.solveaproblem.data.PailContract;
-import udacity.gas.com.solveaproblem.data.PailDbHelper;
 import udacity.gas.com.solveaproblem.data.PailUtilities;
 import udacity.gas.com.solveaproblem.fragments.attach.AudiosFragment;
 import udacity.gas.com.solveaproblem.fragments.attach.FilesFragment;
@@ -56,7 +54,6 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 	private MaterialTabHost mTabs;
 	private ArrayList<Fragment> mFragments;
 	private TabsAdapter mPagerAdapter;
-	private SQLiteDatabase writer;
 
 	private Switch swPrivacy;
 	private int etPrivacy;
@@ -69,20 +66,14 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_problem);
-		//Setup Db
-		setupDb();
 		//Toolbar
 		setupToolbar();
 		//Drawer
 		setupDrawer();
-		//Setup Tabs
+		//SetupUI Tabs
 		setupTabs();
-		//Setup Form
+		//SetupUI Form
 		setupForm();
-	}
-
-	private void setupDb () {
-		writer = new PailDbHelper(this).getWritableDatabase();
 	}
 
 	private void setupForm() {
@@ -129,7 +120,7 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 		if (probCursor.moveToFirst()) {
 			int id = probCursor.getColumnIndex(PailContract.ProblemEntry._ID);
 			Log.e(TAG_NAME, "Insert Id : "+id);
-			Toast.makeText(this, "Problem has been added", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Problem has been added", Toast.LENGTH_SHORT).show();
 			//finish the activity
 			finish();
 		} else {
@@ -163,6 +154,7 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 			slidingDrawer.toggle();
 			bt_close_attach_window.setVisibility(View.GONE);
 			bt_confirm_attach_window.setVisibility(View.GONE);
+			hideKeyboard();
 		}
 
 		//Close the sliding drawer with the custom x button
@@ -170,11 +162,11 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 			@Override
 			public void onClick(View v) {
 				slidingDrawer.animateClose();
+				hideKeyboard();
 			}
 		});
 
 		bt_confirm_attach_window.setOnClickListener(this);
-
 		slidingDrawer.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
 			@Override
 			public void onDrawerClosed() {
@@ -182,9 +174,10 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 				bt_confirm_attach_window.setVisibility(View.GONE);
 				slidingDrawer.unlock();
 				handle.setClickable(true);
+				//Hide the keyboard
+				hideKeyboard();
 			}
 		});
-		final AddProblem activity = this;
 		slidingDrawer.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener() {
 			@Override
 			public void onDrawerOpened() {
@@ -193,9 +186,14 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 				slidingDrawer.lock(); //Do not allow the main holder to be clickable
 				handle.setClickable(false);
 				//Hide the keyboard
-				PailUtilities.hideKeyBoardFromScreen(activity, etDescription);
+				hideKeyboard();
 			}
 		});
+	}
+
+	private void hideKeyboard() {
+		PailUtilities.hideKeyBoardFromScreen(this, etDescription);
+		PailUtilities.hideKeyBoardFromScreen(this, etTitle);
 	}
 
 	private void setupTabs() {
@@ -241,7 +239,7 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 
 		switch (item.getItemId()) {
 			// Respond to the action bar's Up/Home button
-			case android.R.id.home:
+			case R.id.home:
 				NavUtils.navigateUpFromSameTask(this);
 				return true;
 			case R.id.action_settings:

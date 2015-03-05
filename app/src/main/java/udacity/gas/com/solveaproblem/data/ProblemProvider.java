@@ -492,6 +492,15 @@ public class ProblemProvider extends ContentProvider {
 				rowsUpdated = db.update(PailContract.ProblemEntry.TABLE_NAME, values, selection, selectionArgs);
 				break;
 			}
+			case PROBLEMS_WITH_ID : {
+				normalizeData(values);
+				long id = PailContract.ProblemEntry.getProblemIdFromUri(uri);
+				rowsUpdated = db
+						.update(
+								PailContract.ProblemEntry.TABLE_NAME,
+								values, sProblemQuery,  new String[] { Long.toString(id) });
+				break;
+			}
 			//attachments/attachmenttype
 			case ATTACHMENTS_WITH_ATTACHMENTTYPE : {
 				normalizeData(values);

@@ -30,7 +30,28 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
     private Toolbar toolbar;
     private ViewPager mPager;
-    private MaterialTabHost mTabs;
+
+	public ArrayList<Fragment> getmFragments() {
+		return mFragments;
+	}
+
+	public MaterialTabHost getmTabs() {
+		return mTabs;
+	}
+
+	public ViewPager getmPager() {
+		return mPager;
+	}
+
+	public Toolbar getToolbar() {
+		return toolbar;
+	}
+
+	public static String getTagName() {
+		return TAG_NAME;
+	}
+
+	private MaterialTabHost mTabs;
 	private ArrayList<Fragment> mFragments;
 
 	@Override
@@ -121,7 +142,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 	}
 
 	private void setupDrawer() {
-		//Setup a drawer fragment
+		//SetupUI a drawer fragment
 		NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
 				getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 		drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);

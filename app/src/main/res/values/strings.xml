@@ -18,30 +18,30 @@
         <item>PROBLEMS</item>
         <item>SOLVED</item>
     </string-array>
-
-	<string-array name="attach_activity_tabs">
-		<item>MOST RELEVANT</item>
-		<item>NOTES</item>
-		<item>LINKS</item>
-		<item>IMAGES</item>
-		<item>VIDEOS</item>
-		<item>AUDIO</item>
-		<item>FILES</item>
-	</string-array>
+    <string-array name="attach_activity_tabs">
+        <item>MOST RELEVANT</item>
+        <item>NOTES</item>
+        <item>LINKS</item>
+        <item>IMAGES</item>
+        <item>VIDEOS</item>
+        <item>AUDIO</item>
+        <item>FILES</item>
+    </string-array>
 
     <string name="title_activity_add_problem">ADD PROJECT</string>
-	<string name="attach_files_text">ATTACH FILES</string>
-	<string name="icon_description_text">icon</string>
-	<string name="save_text">SAVE</string>
-	<string name="ux_support_text">Hello there,\ntell me a little bit more about your problem.\n\nYou can attach <b>IMAGES</b>, <b>VIDEOS</b> or <b>FILES</b> to the problem to aid you and others in solving it.</string>
-	<string name="title">TITLE</string>
-	<string name="description">DESCRIPTION</string>
-	<string name="hint_description">Please describe what the problem is</string>
-	<string name="hint_title">Give the problem you\'re having a title</string>
-	<string name="privacy">PRIVACY</string>
-	<string name="privacy_statement">Do you want me to share your problems with others so that they can help?</string>
-	<string name="add_notes">ADD NOTES</string>
-	<string name="menu_share">Share</string>
-	<string name="menu_discard">Delete</string>
+    <string name="attach_files_text">ATTACH FILES</string>
+    <string name="icon_description_text">icon</string>
+    <string name="save_text">SAVE</string>
+    <string name="ux_support_text">Hello there,\ntell me a little bit more about your problem.\n\nYou can attach <b>IMAGES</b>, <b>VIDEOS</b> or <b>FILES</b> to the problem to aid you and others in solving it.</string>
+    <string name="title">TITLE</string>
+    <string name="description">DESCRIPTION</string>
+    <string name="hint_description">Please describe what the problem is</string>
+    <string name="hint_title">Give the problem you\'re having a title</string>
+    <string name="privacy">PRIVACY</string>
+    <string name="privacy_statement">Do you want me to share your problems with others so that they can help?</string>
+    <string name="add_notes">ADD NOTES</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_discard">Delete</string>
+    <string name="title_activity_edit_problem">Edit Problem</string>
 
 </resources>

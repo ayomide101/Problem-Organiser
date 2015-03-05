@@ -21,11 +21,6 @@
 			android:orientation="vertical"
 			tools:context="MainActivity">
 
-			<!--<udacity.gas.com.solveaproblem.tabs.SlidingTabLayout
-				android:id="@+id/tabs"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				/>-->
 			<it.neokree.materialtabs.MaterialTabHost
 				android:id="@+id/tabs"
 				android:layout_width="match_parent"

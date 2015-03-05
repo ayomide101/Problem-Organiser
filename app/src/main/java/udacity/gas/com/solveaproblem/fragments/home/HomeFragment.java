@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.melnykov.fab.FloatingActionButton;
 
 import udacity.gas.com.solveaproblem.AddProblem;
+import udacity.gas.com.solveaproblem.EditProblem;
 import udacity.gas.com.solveaproblem.R;
 import udacity.gas.com.solveaproblem.adapters.CursorRecyclerViewAdapter;
 import udacity.gas.com.solveaproblem.data.PailContract;
@@ -35,6 +36,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 
 	public static int ID = 0;
 	public static int PROBLEM_LOADER_ID = 0;
+	public final static String EXTRA_ID = "udacity.gas.com.solveaproblem.PROBLEMID";
 	private ProblemsAdapter problemsAdapter;
 	private RecyclerView recyclerView;
 
@@ -59,7 +61,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 
 		FloatingActionButton btAddProblem = (FloatingActionButton) getActivity().findViewById(R.id.btAddProblem);
 		btAddProblem.setOnClickListener(this);
-		/*btAddProblem.attachToListView(listView);*/
+		btAddProblem.attachToRecyclerView(recyclerView);
 	}
 
 	@Override
@@ -129,6 +131,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 		}
 
 		class ProblemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+
+			private final ImageButton problemEdit;
 			TextView title;
 			TextView description;
 			ImageButton problemShare;
@@ -145,19 +149,29 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 				problemShare.setOnClickListener(this);
 				problemDelete = (ImageButton) itemView.findViewById(R.id.problemDelete);
 				problemDelete.setOnClickListener(this);
+				problemEdit = (ImageButton) itemView.findViewById(R.id.problemEdit);
+				problemEdit.setOnClickListener(this);
 				itemView.setOnClickListener(this);
 				itemView.setOnLongClickListener(this);
+
 			}
 
 			@Override
 			public void onClick(View v) {
 				switch (v.getId()) {
+					case(R.id.problemEdit) : {
+						Log.e(ProblemViewHolder.class.getSimpleName(), _ID+"");
+						//Load the edit activity
+						Intent intent = new Intent(getActivity(), EditProblem.class);
+						intent.putExtra(EXTRA_ID, _ID);
+						startActivity(intent);
+						break;
+					}
 					case(R.id.problemShare) : {
 						Toast.makeText(v.getContext(), "Share", Toast.LENGTH_SHORT).show();
 						break;
 					}
 					case(R.id.problemDelete) : {
-						Toast.makeText(v.getContext(), "Delete "+_ID, Toast.LENGTH_SHORT).show();
 						getActivity().getContentResolver()
 								.delete(PailContract.ProblemEntry.buildProblemWithIdUri(_ID), null, null);
 						break;
