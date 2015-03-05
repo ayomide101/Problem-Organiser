@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="match_parent"
+			  android:layout_height="wrap_content"
+			  android:minHeight="60dp"
+			  android:orientation="vertical">
+
+	<TextView
+		android:id="@+id/carddemo_cursor_main_inner_subtitle"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_alignParentBottom="true"
+		android:layout_marginBottom="10dp"
+		android:text="Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum"
+		android:textColor="@color/textColorSecondary"
+		android:textSize="16sp"
+		android:paddingLeft="@dimen/actions_padding_left"
+		android:paddingRight="@dimen/actions_padding_left"/>
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				  android:layout_width="match_parent"
+				  android:layout_height="wrap_content"
+				  android:gravity="right"
+				  android:orientation="horizontal"
+				  android:padding="12dp"
+				  android:background="@color/accentColor"
+				  android:paddingLeft="@dimen/actions_padding_left"
+				  android:paddingRight="@dimen/actions_padding_left">
+
+		<ImageButton
+			android:id="@+id/action_share"
+			style="@style/card.native.actions.button"
+			android:layout_marginRight="8dp"
+			android:background="?android:selectableItemBackground"
+			android:scaleType="fitCenter"
+			android:src="@drawable/ic_action_share"
+			/>
+
+		<ImageButton
+			android:id="@+id/action_delete"
+			style="@style/card.native.actions.button"
+			android:layout_marginRight="8dp"
+			android:background="?android:selectableItemBackground"
+			android:scaleType="fitCenter"
+			android:src="@drawable/ic_action_discard"
+			/>
+	</LinearLayout>
+</LinearLayout>

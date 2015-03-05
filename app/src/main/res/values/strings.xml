@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="title_activity_main">Problems Organiser</string>
+    <string name="title_activity_main">Problem Organiser</string>
     <string name="app_name">Problem Organiser</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -15,8 +15,8 @@
     <string name="btTextAddProblem">ADD PROBLEM</string>
 
     <string-array name="tabs">
-        <item>MY PROBLEMS</item>
-        <item>BROWSE PROBLEMS</item>
+        <item>PROBLEMS</item>
+        <item>SOLVED</item>
     </string-array>
 
 	<string-array name="attach_activity_tabs">
