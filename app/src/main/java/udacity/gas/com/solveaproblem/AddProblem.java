@@ -3,7 +3,6 @@ package udacity.gas.com.solveaproblem;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -115,8 +114,7 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 
 
 		//Use cursor to insert into data
-		Uri returnUri =
-				getContentResolver().insert(PailContract.ProblemEntry.buildProblemsUri(), cn);
+		getContentResolver().insert(PailContract.ProblemEntry.buildProblemsUri(), cn);
 
 		Cursor probCursor = getContentResolver()
 				.query(

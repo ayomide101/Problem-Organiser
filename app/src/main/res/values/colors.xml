@@ -12,4 +12,5 @@
 	<color name="primaryButtonColor">#ff2477cb</color>
 	<color name="secondaryButtonColor">#ff143a67</color>
 	<color name="tertiaryButtonColor">#ff2587e1</color>
+	<color name="shadownColor">#63000000</color>
 </resources>

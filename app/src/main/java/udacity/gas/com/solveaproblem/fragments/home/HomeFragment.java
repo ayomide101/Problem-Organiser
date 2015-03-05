@@ -9,12 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -107,7 +109,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 		@Override
 		public ProblemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 			try {
-				View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_home_list_view, parent, false);
+				CardView view = (CardView) getActivity().getLayoutInflater().inflate(R.layout.fragment_home_list_view, parent, false);
 				ProblemViewHolder vh = new ProblemViewHolder(view);
 				return vh;
 			} catch (NullPointerException e) {
@@ -121,24 +123,55 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 			ProblemItem problemItem = ProblemItem.fromCursor(cursor);
 			viewHolder.title.setText(problemItem.getTitle());
 			viewHolder.description.setText(problemItem.getDescription());
+			viewHolder._ID = problemItem.get_ID();
+			viewHolder.privacy = problemItem.getPrivacy();
+			viewHolder.status = problemItem.getStatus();
 		}
 
-		class ProblemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+		class ProblemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 			TextView title;
 			TextView description;
+			ImageButton problemShare;
+			ImageButton problemDelete;
+			long _ID;
+			int privacy;
+			int status;
 
 			public ProblemViewHolder(View itemView) {
 				super(itemView);
 				title = (TextView) itemView.findViewById(R.id.problemTitle);
 				description = (TextView) itemView.findViewById(R.id.problemDescription);
+				problemShare = (ImageButton) itemView.findViewById(R.id.problemShare);
+				problemShare.setOnClickListener(this);
+				problemDelete = (ImageButton) itemView.findViewById(R.id.problemDelete);
+				problemDelete.setOnClickListener(this);
 				itemView.setOnClickListener(this);
+				itemView.setOnLongClickListener(this);
 			}
 
 			@Override
 			public void onClick(View v) {
-				//Use the getPosition(); to determine the position and launch the
-				//respective activity
-				Toast.makeText(v.getContext(), "cLICKED", Toast.LENGTH_SHORT).show();
+				switch (v.getId()) {
+					case(R.id.problemShare) : {
+						Toast.makeText(v.getContext(), "Share", Toast.LENGTH_SHORT).show();
+						break;
+					}
+					case(R.id.problemDelete) : {
+						Toast.makeText(v.getContext(), "Delete "+_ID, Toast.LENGTH_SHORT).show();
+						getActivity().getContentResolver()
+								.delete(PailContract.ProblemEntry.buildProblemWithIdUri(_ID), null, null);
+						break;
+					}
+					case(R.id.card_view) : {
+						Toast.makeText(v.getContext(), "Card View", Toast.LENGTH_SHORT).show();
+						break;
+					}
+				}
+			}
+
+			@Override
+			public boolean onLongClick(View v) {
+				return false;
 			}
 		}
 	}

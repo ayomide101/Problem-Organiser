@@ -459,6 +459,11 @@ public class ProblemProvider extends ContentProvider {
 				rowsDeleted = db.delete(PailContract.ProblemEntry.TABLE_NAME, selection, selectionArgs);
 				break;
 			}
+			case PROBLEMS_WITH_ID : {
+				long id = PailContract.ProblemEntry.getProblemIdFromUri(uri);
+				rowsDeleted = db.delete(PailContract.ProblemEntry.TABLE_NAME, sProblemQuery, new String[] { Long.toString(id) });
+				break;
+			}
 			//attachments/attachmenttype
 			case ATTACHMENTS_WITH_ATTACHMENTTYPE : {
 				String type = PailContract.Attachment.getAttachmentTypeFromUri(uri);

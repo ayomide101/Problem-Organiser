@@ -1,14 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  android:orientation="vertical"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent">
-	<TextView
+<android.support.v7.widget.CardView
+	android:id="@+id/card_view"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:card_view="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_gravity="center"
+	android:layout_margin="8dp"
+	card_view:cardCornerRadius="0dp"
+	card_view:cardElevation="2dp"
+	card_view:contentPadding="0dp"
+	card_view:paddingEnd="0dp"
+	card_view:paddingStart="0dp"
+	card_view:cardBackgroundColor="@android:color/white"
+	card_view:cardPreventCornerOverlap="true"
+	card_view:cardUseCompatPadding="true"
+	card_view:contentPaddingTop="0dp"
+	card_view:contentPaddingBottom="0dp"
+	card_view:contentPaddingLeft="0dp"
+	card_view:contentPaddingRight="0dp">
+
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:id="@+id/problemTitle"/>
-	<TextView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:id="@+id/problemDescription"/>
-</LinearLayout>
+		android:layout_height="wrap_content"
+		android:layout_margin="0dp"
+		android:orientation="vertical"
+		android:padding="0dp"
+		card_view:cardCornerRadius="4dp"
+		android:weightSum="1">
+
+		<TextView
+			android:id="@+id/problemTitle"
+			android:layout_width="match_parent"
+			android:layout_height="@dimen/tabhostHeight"
+			android:textColor="@color/colorHighlight"
+			android:background="@color/secondaryButtonColor"
+			android:paddingLeft="22dp"
+			android:text="Project Title"
+			android:textAlignment="center"
+			android:textAllCaps="true"
+			android:textSize="@dimen/material_editText_text_size"
+			android:gravity="center_vertical"
+			/>
+
+		<TextView
+			android:id="@+id/problemDescription"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum "
+			android:textSize="@dimen/material_label_text_size"/>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="right"
+			android:orientation="horizontal"
+			android:padding="0dp"
+			android:paddingLeft="@dimen/actions_padding_left"
+			android:paddingRight="@dimen/actions_padding_left"
+			>
+
+			<ImageButton
+				android:id="@+id/problemShare"
+				style="@style/card.native.actions.button"
+				android:layout_marginRight="8dp"
+				android:background="?android:selectableItemBackground"
+				android:scaleType="fitCenter"
+				android:src="@drawable/ic_action_share"
+				/>
+
+			<ImageButton
+				android:id="@+id/problemDelete"
+				style="@style/card.native.actions.button"
+				android:layout_marginRight="8dp"
+				android:background="?android:selectableItemBackground"
+				android:scaleType="fitCenter"
+				android:src="@drawable/ic_action_discard"
+				/>
+		</LinearLayout>
+	</LinearLayout>
+
+</android.support.v7.widget.CardView>

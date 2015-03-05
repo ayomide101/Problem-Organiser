@@ -92,7 +92,7 @@
 					android:layout_marginBottom="16dp"
 					android:layout_marginTop="8dp"
 					android:gravity="center_vertical"
-					android:textOn="@string/privacy"
+					android:textOn="Private"
 					android:textOff="Public"
 					android:textSize="@dimen/material_editText_text_size"/>
 			</LinearLayout>
