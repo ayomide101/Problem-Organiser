@@ -20,6 +20,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 	public void onCreate(SQLiteDatabase db) {
 		final String SQL_CREATE_PROBLEM_TABLE = "CREATE TABLE "+ PailContract.ProblemEntry.TABLE_NAME + " ("+
 				PailContract.ProblemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				PailContract.ProblemEntry.COLUMN_PROB_ID + " INTEGER NOT NULL, " +
 				PailContract.ProblemEntry.COLUMN_DATE + " INTEGER NOT NULL, "+
 				PailContract.ProblemEntry.COLUMN_DATE_MODIFIED + " INTEGER NOT NULL, "+
 				PailContract.ProblemEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
@@ -38,7 +39,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.NoteAttachmentEntry.COLUMN_PROB_KEY + " INTEGER NOT NULL, " +
 				PailContract.NoteAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
 				" FOREIGN KEY (" + PailContract.NoteAttachmentEntry.COLUMN_PROB_KEY + ") REFERENCES " +
-				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry._ID + ") )";
+				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry.COLUMN_PROB_ID + ") )";
 
 		final String SQL_CREATE_LINK_TABLE = "CREATE TABLE "+ PailContract.LinkAttachmentEntry.TABLE_NAME + " ("+
 				PailContract.LinkAttachmentEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -52,7 +53,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.LinkAttachmentEntry.COLUMN_PROB_KEY + " INTEGER NOT NULL, " +
 				PailContract.NoteAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
 				" FOREIGN KEY (" + PailContract.LinkAttachmentEntry.COLUMN_PROB_KEY + ") REFERENCES " +
-				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry._ID + ") )";
+				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry.COLUMN_PROB_ID + ") )";
 
 		final String SQL_CREATE_IMAGE_TABLE = "CREATE TABLE "+ PailContract.ImageAttachmentEntry.TABLE_NAME + " ("+
 				PailContract.ImageAttachmentEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -69,7 +70,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.ImageAttachmentEntry.COLUMN_PROB_KEY + " INTEGER NOT NULL, " +
 				PailContract.NoteAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
 				" FOREIGN KEY (" + PailContract.ImageAttachmentEntry.COLUMN_PROB_KEY + ") REFERENCES " +
-				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry._ID + ") )";
+				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry.COLUMN_PROB_ID + ") )";
 
 		final String SQL_CREATE_VIDEO_TABLE = "CREATE TABLE "+ PailContract.VideoAttachmentEntry.TABLE_NAME + " ("+
 				PailContract.VideoAttachmentEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -86,7 +87,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.VideoAttachmentEntry.COLUMN_PROB_KEY + " INTEGER NOT NULL, " +
 				PailContract.NoteAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
 				" FOREIGN KEY (" + PailContract.VideoAttachmentEntry.COLUMN_PROB_KEY + ") REFERENCES " +
-				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry._ID + ") )";
+				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry.COLUMN_PROB_ID + ") )";
 
 		final String SQL_CREATE_AUDIO_TABLE = "CREATE TABLE "+ PailContract.AudioAttachmentEntry.TABLE_NAME + " ("+
 				PailContract.AudioAttachmentEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -103,7 +104,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.AudioAttachmentEntry.COLUMN_PROB_KEY + " INTEGER NOT NULL, " +
 				PailContract.NoteAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
 				" FOREIGN KEY (" + PailContract.AudioAttachmentEntry.COLUMN_PROB_KEY + ") REFERENCES " +
-				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry._ID + ") )";
+				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry.COLUMN_PROB_ID + ") )";
 
 		final String SQL_CREATE_FILE_TABLE = "CREATE TABLE "+ PailContract.FileAttachmentEntry.TABLE_NAME + " ("+
 				PailContract.FileAttachmentEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -120,7 +121,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.FileAttachmentEntry.COLUMN_PROB_KEY + " INTEGER NOT NULL, " +
 				PailContract.NoteAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
 				" FOREIGN KEY (" + PailContract.FileAttachmentEntry.COLUMN_PROB_KEY + ") REFERENCES " +
-				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry._ID + ") )";
+				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry.COLUMN_PROB_ID + ") )";
 
 		db.execSQL(SQL_CREATE_PROBLEM_TABLE);
 		db.execSQL(SQL_CREATE_NOTES_TABLE);

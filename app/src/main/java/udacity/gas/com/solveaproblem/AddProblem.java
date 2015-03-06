@@ -74,6 +74,7 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 	private void createProblem() {
 		//Show loading screen and perform query
 		ContentValues cn = new ContentValues();
+		cn.put(PailContract.ProblemEntry.COLUMN_PROB_ID, PailContract.ProblemEntry.generateProblemId());
 		cn.put(PailContract.ProblemEntry.COLUMN_TITLE, etTitle.getText().toString());
 		cn.put(PailContract.ProblemEntry.COLUMN_DESCRIPTION, etDescription.getText().toString());
 		cn.put(PailContract.ProblemEntry.COLUMN_PRIVACY, etPrivacy);
@@ -86,8 +87,8 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 		getContentResolver().insert(PailContract.ProblemEntry.buildProblemsUri(), cn);
 		Cursor probCursor = getContentResolver().query(PailContract.ProblemEntry.buildProblemsUri(), null, null, null, null, null);
 		if (probCursor.moveToFirst()) {
-			int id = probCursor.getColumnIndex(PailContract.ProblemEntry._ID);
-			Log.e(TAG_NAME, "Insert Id : "+id);
+			int id = probCursor.getColumnIndex(PailContract.ProblemEntry.COLUMN_PROB_ID);
+			Log.e(TAG_NAME, "Insert Id : "+ id);
 			Toast.makeText(this, "Problem has been added", Toast.LENGTH_SHORT).show();
 			//finish the activity
 			finish();

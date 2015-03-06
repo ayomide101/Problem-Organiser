@@ -5,6 +5,9 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.util.Date;
+import java.util.Random;
+
 public class PailContract {
 
 	public static final String CONTENT_AUTHORITY = "udacity.gas.com.solveaproblem";
@@ -73,6 +76,8 @@ public class PailContract {
 		// Table name
 		public static final String TABLE_NAME = "problems";
 		/*string*/
+		public static final String COLUMN_PROB_ID = "prob_id";
+		/*string*/
 		public static final String COLUMN_TITLE = "title";
 		/*string*/
 		public static final String COLUMN_DESCRIPTION = "description";
@@ -88,7 +93,7 @@ public class PailContract {
 		public static final int VAL_PROBLEM_STATUS_NOT_SOLVED = 2;
 
 		public static final String[] PROBLEM_COLUMNS = {
-			ProblemEntry._ID,
+			ProblemEntry.COLUMN_PROB_ID,
 			ProblemEntry.COLUMN_TITLE,
 			ProblemEntry.COLUMN_DESCRIPTION,
 			ProblemEntry.COLUMN_PROBLEM_STATUS,
@@ -101,6 +106,12 @@ public class PailContract {
 		public static final int i_PROBLEM_DESCRIPTION = 2;
 		public static final int i_PROBLEM_PROBLEM_STATUS = 3;
 		public static final int i_PROBLEM_PRIVACY = 1;
+
+		public static int generateProblemId() {
+			Random r = new Random();
+			r.setSeed(new Date().getTime());
+			return r.nextInt(999999999);
+		}
 
 		//problem
 		public static Uri buildProblemsUri() {
