@@ -39,6 +39,7 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 	private int etProblemStatus;
 	public static final String TAG_NAME = AddProblem.class.getSimpleName();
 	private SetupUI ui;
+	private long PROBLEM_ID = PailContract.ProblemEntry.generateProblemId();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 		//Setup toolbar
 		ui = new SetupUI(this);
 		ui.setupToolbar();
-		ui.setupTabs();
+		ui.setupTabs(PROBLEM_ID);
 		//setup drawer
 		setupDrawer();
 		//SetupUI Form
@@ -74,7 +75,7 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 	private void createProblem() {
 		//Show loading screen and perform query
 		ContentValues cn = new ContentValues();
-		cn.put(PailContract.ProblemEntry.COLUMN_PROB_ID, PailContract.ProblemEntry.generateProblemId());
+		cn.put(PailContract.ProblemEntry.COLUMN_PROB_ID, PROBLEM_ID);
 		cn.put(PailContract.ProblemEntry.COLUMN_TITLE, etTitle.getText().toString());
 		cn.put(PailContract.ProblemEntry.COLUMN_DESCRIPTION, etDescription.getText().toString());
 		cn.put(PailContract.ProblemEntry.COLUMN_PRIVACY, etPrivacy);

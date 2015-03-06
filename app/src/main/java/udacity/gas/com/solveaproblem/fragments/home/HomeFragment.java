@@ -125,6 +125,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 			ProblemItem problemItem = ProblemItem.fromCursor(cursor);
 			viewHolder.title.setText(problemItem.getTitle());
 			viewHolder.description.setText(problemItem.getDescription());
+			viewHolder._PROBLEM_ID = problemItem.getPROB_ID();
 			viewHolder._ID = problemItem.get_ID();
 			viewHolder.privacy = problemItem.getPrivacy();
 			viewHolder.status = problemItem.getStatus();
@@ -137,6 +138,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 			TextView description;
 			ImageButton problemShare;
 			ImageButton problemDelete;
+			long _PROBLEM_ID;
 			long _ID;
 			int privacy;
 			int status;
@@ -160,10 +162,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 			public void onClick(View v) {
 				switch (v.getId()) {
 					case(R.id.problemEdit) : {
-						Log.e(ProblemViewHolder.class.getSimpleName(), _ID+"");
+						Log.e(ProblemViewHolder.class.getSimpleName(), _PROBLEM_ID +"");
 						//Load the edit activity
 						Intent intent = new Intent(getActivity(), EditProblem.class);
-						intent.putExtra(EXTRA_ID, _ID);
+						intent.putExtra(EXTRA_ID, _PROBLEM_ID);
 						startActivity(intent);
 						break;
 					}
@@ -173,7 +175,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 					}
 					case(R.id.problemDelete) : {
 						getActivity().getContentResolver()
-								.delete(PailContract.ProblemEntry.buildProblemWithIdUri(_ID), null, null);
+								.delete(PailContract.ProblemEntry.buildProblemWithIdUri(_PROBLEM_ID), null, null);
 						break;
 					}
 					case(R.id.card_view) : {

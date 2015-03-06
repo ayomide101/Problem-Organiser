@@ -78,6 +78,34 @@ public class SetupUI implements MaterialTabListener {
 		mFragments.add(FilesFragment.ID, new FilesFragment());
 	}
 
+	public void setupTabs(long problemid) {
+		mTabs = (MaterialTabHost) mActionBarActivity.findViewById(R.id.tabs);
+		mPager = (ViewPager) mActionBarActivity.findViewById(R.id.pager);
+		mPagerAdapter = new TabsAdapter(mActionBarActivity.getSupportFragmentManager());
+		mPager.setAdapter(mPagerAdapter);
+		mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageSelected(int position) {
+				mTabs.setSelectedNavigationItem(position);
+			}
+		});
+
+		for (int i = 0; i < mPagerAdapter.getCount(); i++) {
+			mTabs.addTab(mTabs.newTab().setText(mPagerAdapter.getPageTitle(i)).setTabListener(this));
+		}
+
+		//The arraylist of the mFragments
+		mFragments = new ArrayList<Fragment>(7);
+		mFragments.add(RelevantAttachmentFragment.ID, RelevantAttachmentFragment.getInstance(problemid));
+		mFragments.add(NotesFragment.ID, NotesFragment.getInstance(problemid));
+		mFragments.add(LinksFragment.ID, LinksFragment.getInstance(problemid));
+		mFragments.add(ImagesFragment.ID, ImagesFragment.getInstance(problemid));
+		mFragments.add(VideosFragment.ID, VideosFragment.getInstance(problemid));
+		mFragments.add(AudiosFragment.ID, AudiosFragment.getInstance(problemid));
+		mFragments.add(FilesFragment.ID, FilesFragment.getInstance(problemid));
+	}
+
+
 	@Override
 	public void onTabSelected(MaterialTab materialTab) {
 		mPager.setCurrentItem(materialTab.getPosition());

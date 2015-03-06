@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import udacity.gas.com.solveaproblem.R;
+import udacity.gas.com.solveaproblem.data.PailContract;
 
 /**
  * Created by Fagbohungbe on 02/03/2015.
@@ -17,11 +18,12 @@ public class RelevantAttachmentFragment extends Fragment {
 
 	public static int ID = 0;
 	private TextView textView;
+	private static long PROB_ID;
 
-	public static ImagesFragment getInstance(int position) {
-		ImagesFragment myFragment = new ImagesFragment();
+	public static RelevantAttachmentFragment getInstance(long problemId) {
+		RelevantAttachmentFragment myFragment = new RelevantAttachmentFragment();
 		Bundle args = new Bundle();
-		args.putInt("position", position);
+		args.putLong(PailContract.ProblemEntry.BUNDLE_KEY, problemId);
 		myFragment.setArguments(args);
 
 		return myFragment;
@@ -30,12 +32,10 @@ public class RelevantAttachmentFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View layout = inflater.inflate(R.layout.fragment_relevant_attachment, container, false);
-//		textView = (TextView) layout.findViewById(R.id.position);
-//		Bundle bundle = getArguments();
-//		if (bundle != null) {
-//			textView.setText("Browse " + bundle.getInt("position"));
-//		}
-
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			PROB_ID = bundle.getLong(PailContract.ProblemEntry.BUNDLE_KEY);
+		}
 		return layout;
 	}
 }

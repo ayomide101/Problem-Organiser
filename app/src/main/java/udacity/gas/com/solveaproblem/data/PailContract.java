@@ -64,8 +64,8 @@ public class PailContract {
 		public static final Uri CONTENT_URI =
 				BASE_CONTENT_URI.buildUpon().appendPath(PATH_PROBLEM).build();
 
-		public static final Uri BUNDLE_KEY =
-				BASE_CONTENT_URI.buildUpon().appendPath(PATH_PROBLEM).build();
+		public static final String BUNDLE_KEY =
+				BASE_CONTENT_URI.buildUpon().appendPath(PATH_PROBLEM).build().toString();
 
 		public static final String CONTENT_TYPE =
 				ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PROBLEM;
@@ -93,11 +93,12 @@ public class PailContract {
 		public static final int VAL_PROBLEM_STATUS_NOT_SOLVED = 2;
 
 		public static final String[] PROBLEM_COLUMNS = {
-			ProblemEntry.COLUMN_PROB_ID,
+			ProblemEntry._ID,
 			ProblemEntry.COLUMN_TITLE,
 			ProblemEntry.COLUMN_DESCRIPTION,
 			ProblemEntry.COLUMN_PROBLEM_STATUS,
-			ProblemEntry.COLUMN_PRIVACY
+			ProblemEntry.COLUMN_PRIVACY,
+			ProblemEntry.COLUMN_PROB_ID
 		};
 		//the indexes are tied to the columns, if the columns arrangment changes
 		//these should change too
@@ -105,12 +106,13 @@ public class PailContract {
 		public static final int i_PROBLEM_TITLE = 1;
 		public static final int i_PROBLEM_DESCRIPTION = 2;
 		public static final int i_PROBLEM_PROBLEM_STATUS = 3;
-		public static final int i_PROBLEM_PRIVACY = 1;
+		public static final int i_PROBLEM_PRIVACY = 4;
+		public static final int i_PROBLEM_PROBLEMID = 5;
 
-		public static int generateProblemId() {
+		public static long generateProblemId() {
 			Random r = new Random();
 			r.setSeed(new Date().getTime());
-			return r.nextInt(999999999);
+			return r.nextLong();
 		}
 
 		//problem

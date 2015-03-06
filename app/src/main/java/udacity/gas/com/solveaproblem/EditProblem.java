@@ -58,7 +58,7 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 		//Setup toolbar
 		ui = new SetupUI(this);
 		ui.setupToolbar();
-		ui.setupTabs();
+		ui.setupTabs(mProbID);
 		setupDrawer();
 		setupForm();
 	}
@@ -73,15 +73,14 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 		cn.put(PailContract.ProblemEntry.COLUMN_DATE, new Date().getTime());
 		cn.put(PailContract.ProblemEntry.COLUMN_DATE_MODIFIED, new Date().getTime());
 
-
 		//Use cursor to insert into data
 		int d = getContentResolver().update(PailContract.ProblemEntry.buildProblemWithIdUri(mProbID), cn , null, null);
 		if (d != -1) {
-			Log.e(TAG_NAME, "Update successful");
 			Toast.makeText(this, "Problem has been updated", Toast.LENGTH_SHORT).show();
 			finish();
 		} else {
-			Log.e(TAG_NAME, "Update not successful");
+			Toast.makeText(this, "Problem could not be updated", Toast.LENGTH_SHORT).show();
+			finish();
 		}
 	}
 

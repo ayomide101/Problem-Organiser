@@ -9,7 +9,17 @@ public class ProblemItem {
 	private String title;
 	private String description;
 	private long _ID;
+	private int status;
+	private int privacy;
+	private long PROB_ID;
 
+	public long getPROB_ID() {
+		return PROB_ID;
+	}
+
+	public void setPROB_ID(long PROB_ID) {
+		this.PROB_ID = PROB_ID;
+	}
 	public long get_ID() {
 		return _ID;
 	}
@@ -34,9 +44,6 @@ public class ProblemItem {
 		this.status = status;
 	}
 
-	private int status;
-	private int privacy;
-
 	public String getTitle() {
 		return title;
 	}
@@ -57,6 +64,7 @@ public class ProblemItem {
 		ProblemItem pItem = new ProblemItem();
 		//Use valid projections
 		pItem.set_ID(cursor.getLong(PailContract.ProblemEntry.i_PROBLEM_ID));
+		pItem.setPROB_ID(cursor.getLong(PailContract.ProblemEntry.i_PROBLEM_PROBLEMID));
 		pItem.setTitle(cursor.getString(PailContract.ProblemEntry.i_PROBLEM_TITLE));
 		pItem.setDescription(cursor.getString(PailContract.ProblemEntry.i_PROBLEM_DESCRIPTION));
 		pItem.setPrivacy(cursor.getInt(PailContract.ProblemEntry.i_PROBLEM_PRIVACY));

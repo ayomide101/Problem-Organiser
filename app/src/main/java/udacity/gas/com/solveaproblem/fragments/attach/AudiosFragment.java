@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import udacity.gas.com.solveaproblem.R;
+import udacity.gas.com.solveaproblem.data.PailContract;
 
 /**
  * Created by Fagbohungbe on 02/03/2015.
@@ -17,25 +18,23 @@ public class AudiosFragment extends Fragment{
 
 	public static int ID = 5;
 	private TextView textView;
+	private static long PROB_ID;
 
-	public static ImagesFragment getInstance(int position) {
-		ImagesFragment myFragment = new ImagesFragment();
+	public static AudiosFragment getInstance(long position) {
+		AudiosFragment myFragment = new AudiosFragment();
 		Bundle args = new Bundle();
-		args.putInt("position", position);
+		args.putLong(PailContract.ProblemEntry.BUNDLE_KEY, position);
 		myFragment.setArguments(args);
-
 		return myFragment;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View layout = inflater.inflate(R.layout.fragment_audio, container, false);
-//		textView = (TextView) layout.findViewById(R.id.position);
-//		Bundle bundle = getArguments();
-//		if (bundle != null) {
-//			textView.setText("Browse " + bundle.getInt("position"));
-//		}
-
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			PROB_ID = bundle.getLong(PailContract.ProblemEntry.BUNDLE_KEY);
+		}
 		return layout;
 	}
 }
