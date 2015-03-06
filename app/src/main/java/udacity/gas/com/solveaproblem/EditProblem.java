@@ -22,8 +22,6 @@ import android.widget.SlidingDrawer;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import java.util.Date;
-
 import udacity.gas.com.solveaproblem.data.PailContract;
 import udacity.gas.com.solveaproblem.data.PailUtilities;
 import udacity.gas.com.solveaproblem.data.ProblemItem;
@@ -53,7 +51,7 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_problem);
 		Intent intent = getIntent();
-		mProbID = intent.getLongExtra(HomeFragment.EXTRA_ID, -0);
+		mProbID = intent.getLongExtra(HomeFragment.EXTRA_ID, 0);
 		getSupportLoaderManager().initLoader(PROBLEM_LOADER_ID, savedInstanceState, this);
 		//Setup toolbar
 		ui = new SetupUI(this);
@@ -65,23 +63,45 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 
 	private void updateProblem() {
 		//Show loading screen and perform query
-		ContentValues cn = new ContentValues();
-		cn.put(PailContract.ProblemEntry.COLUMN_TITLE, etTitle.getText().toString());
-		cn.put(PailContract.ProblemEntry.COLUMN_DESCRIPTION, etDescription.getText().toString());
-		cn.put(PailContract.ProblemEntry.COLUMN_PRIVACY, etPrivacy);
-		cn.put(PailContract.ProblemEntry.COLUMN_PROBLEM_STATUS, etProblemStatus);
-		cn.put(PailContract.ProblemEntry.COLUMN_DATE, new Date().getTime());
-		cn.put(PailContract.ProblemEntry.COLUMN_DATE_MODIFIED, new Date().getTime());
-
+		ContentValues cn = getData();
 		//Use cursor to insert into data
 		int d = getContentResolver().update(PailContract.ProblemEntry.buildProblemWithIdUri(mProbID), cn , null, null);
 		if (d != -1) {
 			Toast.makeText(this, "Problem has been updated", Toast.LENGTH_SHORT).show();
-			finish();
 		} else {
 			Toast.makeText(this, "Problem could not be updated", Toast.LENGTH_SHORT).show();
-			finish();
 		}
+		finish();
+	}
+
+	private void updateProblemWithoutFinish() {
+		//Show loading screen and perform query
+		ContentValues cn = getData();
+		//Use cursor to insert into data
+		int d = getContentResolver().update(PailContract.ProblemEntry.buildProblemWithIdUri(mProbID), cn, null, null);
+		if (d != -1) {
+			Toast.makeText(this, "Problem has been updated", Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(this, "Problem could not be updated", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private ContentValues getData () {
+		ContentValues cn = new ContentValues();
+		cn.put(PailContract.ProblemEntry.COLUMN_PROB_ID, mProbID);
+		cn.put(PailContract.ProblemEntry.COLUMN_PRIVACY, etPrivacy);
+		cn.put(PailContract.ProblemEntry.COLUMN_PROBLEM_STATUS, etProblemStatus);
+		if (etTitle.getText().length() <= 0) {
+			cn.put(PailContract.ProblemEntry.COLUMN_TITLE, "p");
+		} else {
+			cn.put(PailContract.ProblemEntry.COLUMN_TITLE, etTitle.getText().toString());
+		}
+		if (etTitle.getText().length() <= 0) {
+			cn.put(PailContract.ProblemEntry.COLUMN_DESCRIPTION, "d");
+		} else {
+			cn.put(PailContract.ProblemEntry.COLUMN_DESCRIPTION, etDescription.getText().toString());
+		}
+		return cn;
 	}
 
 	private void setupForm() {
@@ -141,12 +161,14 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		if (data.moveToFirst()) {
-			//populate data
-			populateView(data);
-		} else {
-			//data not found
-			Log.e(TAG_NAME, "No item returned");
+		if (null != data) {
+			if (data.moveToFirst()) {
+				//populate data
+				populateView(data);
+			} else {
+				//data not found
+				Log.e(TAG_NAME, "No item returned");
+			}
 		}
 	}
 
@@ -216,6 +238,7 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 				handle.setClickable(false);
 				//Hide the keyboard
 				hideKeyboard();
+				updateProblemWithoutFinish();
 			}
 		});
 	}
