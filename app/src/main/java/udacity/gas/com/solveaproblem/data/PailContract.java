@@ -29,6 +29,8 @@ public class PailContract {
 		public static final String COLUMN_DATE = "date";
 		/*int*/
 		public static final String COLUMN_DATE_MODIFIED = "date_modified";
+		/*int*/
+		public static final String COLUMN_PRIVACY = "privacy";
 	}
 
 	public static interface AttachmentInterface {
@@ -45,8 +47,6 @@ public class PailContract {
 		public static final String COLUMN_ATTACH_ID = "attach_id";
 		/*int*/
 		public static final String COLUMN_RELEVANCE = "relevance";
-		/*int*/
-		public static final String COLUMN_PRIVACY = "privacy";
 	}
 
 	private static class AttachmentFileEntry extends AttachmentEntry {
@@ -89,8 +89,6 @@ public class PailContract {
 		public static final String COLUMN_DESCRIPTION = "description";
 		/*int*/
 		public static final String COLUMN_PROBLEM_STATUS = "status";
-		/*int*/
-		public static final String COLUMN_PRIVACY = "privacy";
 
 		public static final String[] PROBLEM_COLUMNS = {
 			ProblemEntry._ID,
@@ -116,7 +114,7 @@ public class PailContract {
 		public static long generateProblemId() {
 			Random r = new Random();
 			r.setSeed(new Date().getTime());
-			return r.nextLong();
+			return (long) r.nextInt(999999999);
 		}
 
 		//problem

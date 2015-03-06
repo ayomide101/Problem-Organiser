@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  android:orientation="vertical"
+			  android:weightSum="1">
+
+	<EditText
+		android:id="@+id/note_content"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:ems="10"
+		android:hint="@string/note_info_text"
+		android:includeFontPadding="true"
+		android:inputType="textMultiLine"
+		android:minLines="2"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:paddingBottom="8dp"
+		android:paddingTop="8dp"
+		android:weightSum="10">
+
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="4"
+			android:gravity="center_vertical"
+			android:text="@string/privacy_text"
+			android:textSize="16sp"/>
+
+		<Switch
+			android:id="@+id/note_privacy"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="6"
+			android:gravity="center_vertical"
+			android:textOff="Public"
+			android:textOn="Private"
+			android:textSize="@dimen/material_editText_text_size"/>
+	</LinearLayout>
+</LinearLayout>

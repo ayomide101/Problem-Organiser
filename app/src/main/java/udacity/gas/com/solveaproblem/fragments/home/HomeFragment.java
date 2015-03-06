@@ -27,6 +27,7 @@ import udacity.gas.com.solveaproblem.EditProblem;
 import udacity.gas.com.solveaproblem.R;
 import udacity.gas.com.solveaproblem.adapters.CursorRecyclerViewAdapter;
 import udacity.gas.com.solveaproblem.data.PailContract;
+import udacity.gas.com.solveaproblem.data.PailUtilities;
 import udacity.gas.com.solveaproblem.data.ProblemItem;
 
 /**
@@ -128,12 +129,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 			viewHolder._PROBLEM_ID = problemItem.getPROB_ID();
 			viewHolder._ID = problemItem.get_ID();
 			viewHolder.privacy = problemItem.getPrivacy();
+			viewHolder.date = problemItem.getDate();
+			viewHolder.date_modified = problemItem.getDate_modified();
+			viewHolder.carddate.setText(Long.toString(viewHolder.date));
+			if (problemItem.getPrivacy() == PailContract.VAL_PRIVACY_PRIVATE) {
+				viewHolder.problemLock.setImageDrawable(getResources().getDrawable(R.drawable.device_access_secure));
+			} else {
+				viewHolder.problemLock.setImageDrawable(getResources().getDrawable(R.drawable.device_access_not_secure));
+			}
 			viewHolder.status = problemItem.getStatus();
 		}
 
 		class ProblemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-			private final ImageButton problemEdit;
+			final ImageButton problemEdit;
+			final ImageButton problemLock;
+			final TextView carddate;
 			TextView title;
 			TextView description;
 			ImageButton problemShare;
@@ -142,31 +153,38 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 			long _ID;
 			int privacy;
 			int status;
+			public long date;
+			public long date_modified;
 
 			public ProblemViewHolder(View itemView) {
 				super(itemView);
 				title = (TextView) itemView.findViewById(R.id.problemTitle);
 				description = (TextView) itemView.findViewById(R.id.problemDescription);
 				problemShare = (ImageButton) itemView.findViewById(R.id.sharecard);
-				problemShare.setOnClickListener(this);
 				problemDelete = (ImageButton) itemView.findViewById(R.id.deletecard);
-				problemDelete.setOnClickListener(this);
 				problemEdit = (ImageButton) itemView.findViewById(R.id.editcard);
-				problemEdit.setOnClickListener(this);
-				itemView.setOnClickListener(this);
-				itemView.setOnLongClickListener(this);
+				problemLock = (ImageButton) itemView.findViewById(R.id.lockcard);
+				carddate = (TextView) itemView.findViewById(R.id.carddate);
 
+				problemDelete.setOnClickListener(this);
+				problemEdit.setOnClickListener(this);
+				problemLock.setOnClickListener(this);
+				problemShare.setOnClickListener(this);
+				itemView.setOnClickListener(this);
 			}
 
 			@Override
 			public void onClick(View v) {
 				switch (v.getId()) {
 					case(R.id.editcard) : {
-						Log.e(ProblemViewHolder.class.getSimpleName(), _PROBLEM_ID +"");
 						//Load the edit activity
 						Intent intent = new Intent(getActivity(), EditProblem.class);
 						intent.putExtra(EXTRA_ID, _PROBLEM_ID);
 						startActivity(intent);
+						break;
+					}
+					case (R.id.lockcard) : {
+						privacy = PailUtilities.switchPrivacy(getActivity(), privacy, problemLock, PailContract.ProblemEntry.buildProblemWithIdUri(_PROBLEM_ID));
 						break;
 					}
 					case(R.id.sharecard) : {

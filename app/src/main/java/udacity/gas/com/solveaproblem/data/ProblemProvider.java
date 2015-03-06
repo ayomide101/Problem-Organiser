@@ -51,10 +51,10 @@ public class ProblemProvider extends ContentProvider {
 					"."+PailContract.ProblemEntry.COLUMN_PROB_ID + " = ?";
 
 	private static final String sAttachQuery =
-			PailContract.Attachment.COLUMN_ATTACH_ID + " = ?";
+			PailContract.Attachment._ID + " = ?";
 
 	private static final String sProblemAttachQuery =
-			PailContract.Attachment.COLUMN_PROB_KEY + " = ? AND " + PailContract.Attachment.COLUMN_ATTACH_ID + " = ? ";
+			PailContract.Attachment.COLUMN_PROB_KEY + " = ? AND " + PailContract.Attachment._ID + " = ? ";
 
 
 	private String getQuery (String table) {
@@ -128,7 +128,7 @@ public class ProblemProvider extends ContentProvider {
 	}
 	//Query the database by the problemId
 	private Cursor getProblemById(Uri uri, String[] projection, String sortOrder) {
-		Long id = PailContract.ProblemEntry.getProblemIdFromUri(uri);
+		long id = PailContract.ProblemEntry.getProblemIdFromUri(uri);
 
 		return mOpenHelper.getReadableDatabase()
 				.query(PailContract.ProblemEntry.TABLE_NAME,
@@ -167,39 +167,13 @@ public class ProblemProvider extends ContentProvider {
 	//get a specified attachment type based on the id
 	private Cursor getProblemAttachmentsByAttachmentTypeAndId(Uri uri, String[] projection, String sortOrder) {
 		String attachmentType = PailContract.ProblemEntry.getAttachmentTypeFromProblemUri(uri);
-		Long id = PailContract.ProblemEntry.getProblemIdFromUri(uri);
-		SQLiteQueryBuilder d = new SQLiteQueryBuilder();
+		long problemId = PailContract.ProblemEntry.getProblemIdFromUri(uri);
 		//construct a different query builder based on the uri sent back
-		switch (attachmentType) {
-			case PailContract.NoteAttachmentEntry.PATH: {
-				d.setTables(problemTable + noteJoin);
-				break;
-			}
-			case PailContract.LinkAttachmentEntry.PATH : {
-				d.setTables(problemTable + linkJoin);
-				break;
-			}
-			case PailContract.ImageAttachmentEntry.PATH : {
-				d.setTables(problemTable + imageJoin);
-				break;
-			}
-			case PailContract.VideoAttachmentEntry.PATH : {
-				d.setTables(problemTable + videoJoin);
-				break;
-			}
-			case PailContract.AudioAttachmentEntry.PATH : {
-				d.setTables(problemTable + audioJoin);
-				break;
-			}
-			case PailContract.FileAttachmentEntry.PATH : {
-				d.setTables(problemTable + fileJoin);
-				break;
-			}
-		}
-		return d.query(mOpenHelper.getReadableDatabase(),
+		String table = getTable(attachmentType);
+		return mOpenHelper.getReadableDatabase().query(table,
 				projection,
-				sProblemQuery,
-				new String[] { Long.toString(id) },
+				table +"."+PailContract.Attachment.COLUMN_PROB_KEY + " = ?",
+				new String[] { Long.toString(problemId) },
 				null,
 				null,
 				sortOrder);
@@ -208,8 +182,8 @@ public class ProblemProvider extends ContentProvider {
 	private Cursor getAttachmentByProbIdAndId(Uri uri, String[] projection, String sortOrder) {
 		String attachmentType = PailContract.Attachment.getAttachmentTypeFromUri(uri);
 		//Attachmenttype was specified
-		Long probid = PailContract.ProblemEntry.getProblemIdFromUri(uri);
-		Long attaId = PailContract.ProblemEntry.getAttachmentIdFromProblemUri(uri);
+		long probid = PailContract.ProblemEntry.getProblemIdFromUri(uri);
+		long attaId = PailContract.ProblemEntry.getAttachmentIdFromProblemUri(uri);
 		return
 		mOpenHelper.getReadableDatabase()
 		.query(getTable(attachmentType),
@@ -400,18 +374,6 @@ public class ProblemProvider extends ContentProvider {
 		}
 	}
 
-	public void normalizeData(ContentValues values) {
-		//normalize the data value
-		if (values.containsKey(PailContract.EntryBaseColumns.COLUMN_DATE)) {
-			long dateValue = values.getAsLong(PailContract.ProblemEntry.COLUMN_DATE);
-			values.put(PailContract.EntryBaseColumns.COLUMN_DATE, PailUtilities.normalizeDate(dateValue));
-		}
-		if (values.containsKey(PailContract.EntryBaseColumns.COLUMN_DATE_MODIFIED)) {
-			long dateValue = values.getAsLong(PailContract.ProblemEntry.COLUMN_DATE_MODIFIED);
-			values.put(PailContract.EntryBaseColumns.COLUMN_DATE_MODIFIED, PailUtilities.normalizeDate(dateValue));
-		}
-	}
-
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -420,7 +382,7 @@ public class ProblemProvider extends ContentProvider {
 		switch (match) {
 			//problems - //get all problems
 			case PROBLEMS : {
-				normalizeData(values);
+				values = PailUtilities.normalizeData(values);
 				long _id = db.insert(PailContract.ProblemEntry.TABLE_NAME, null, values);
 				if (_id > 0)
 					returnUri = PailContract.ProblemEntry.buildProblemWithIdUri(_id);
@@ -430,11 +392,11 @@ public class ProblemProvider extends ContentProvider {
 			}
 			//attachments/attachmenttype
 			case ATTACHMENTS_WITH_ATTACHMENTTYPE : {
-				normalizeData(values);
+				values = PailUtilities.normalizeData(values);
 				String type = PailContract.Attachment.getAttachmentTypeFromUri(uri);
 				String table = getTable(type);
-				long _id = db.insert(table, null, values);
-				if (_id > 0)
+				long _id = db.insertOrThrow(table, null, values);
+				if (_id !=  -1)
 					returnUri = PailContract.Attachment.buildAttachmentWithAttachmentTypeWithIdUri(getInstanceofAttachment(type), values.getAsLong(PailContract.Attachment.COLUMN_ATTACH_ID));
 				else
 					throw new SQLException("Failed to insert row into " + uri);
@@ -465,6 +427,12 @@ public class ProblemProvider extends ContentProvider {
 				rowsDeleted = db.delete(PailContract.ProblemEntry.TABLE_NAME, sProblemQuery, new String[] { Long.toString(id) });
 				break;
 			}
+			case ATTACHMENTS_WITH_ATTACHMENTTYPE_AND_ID : {
+				long id = PailContract.Attachment.getAttachmentIdFromAttachmentTypeUri(uri);
+				String type = PailContract.Attachment.getAttachmentTypeFromUri(uri);
+				rowsDeleted = db.delete(getTable(type), sAttachQuery, new String[] { Long.toString(id) });
+				break;
+			}
 			//attachments/attachmenttype
 			case ATTACHMENTS_WITH_ATTACHMENTTYPE : {
 				String type = PailContract.Attachment.getAttachmentTypeFromUri(uri);
@@ -486,15 +454,14 @@ public class ProblemProvider extends ContentProvider {
 		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 		final int match = sUriMatcher.match(uri);
 		int rowsUpdated;
+		values = PailUtilities.normalizeData(values);
 		switch (match) {
 			//problems
 			case PROBLEMS : {
-				normalizeData(values);
 				rowsUpdated = db.update(PailContract.ProblemEntry.TABLE_NAME, values, selection, selectionArgs);
 				break;
 			}
 			case PROBLEMS_WITH_ID : {
-				normalizeData(values);
 				long id = PailContract.ProblemEntry.getProblemIdFromUri(uri);
 				rowsUpdated = db
 						.update(
@@ -504,12 +471,20 @@ public class ProblemProvider extends ContentProvider {
 			}
 			//attachments/attachmenttype
 			case ATTACHMENTS_WITH_ATTACHMENTTYPE : {
-				normalizeData(values);
 				if (!values.containsKey(PailContract.EntryBaseColumns.COLUMN_DATE_MODIFIED)) {
 					values.put(PailContract.EntryBaseColumns.COLUMN_DATE_MODIFIED, PailUtilities.currentDate());
 				}
 				String type = PailContract.Attachment.getAttachmentTypeFromUri(uri);
 				rowsUpdated = db.update(getTable(type), values, selection, selectionArgs);
+				break;
+			}
+			case ATTACHMENTS_WITH_ATTACHMENTTYPE_AND_ID : {
+				if (!values.containsKey(PailContract.EntryBaseColumns.COLUMN_DATE_MODIFIED)) {
+					values.put(PailContract.EntryBaseColumns.COLUMN_DATE_MODIFIED, PailUtilities.currentDate());
+				}
+				String type = PailContract.Attachment.getAttachmentTypeFromUri(uri);
+				long id = PailContract.Attachment.getAttachmentIdFromAttachmentTypeUri(uri);
+				rowsUpdated = db.update(getTable(type), values, sAttachQuery, new String[] { Long.toString(id) });
 				break;
 			}
 			default:
@@ -533,7 +508,7 @@ public class ProblemProvider extends ContentProvider {
 				int returnCount = 0;
 				try {
 					for (ContentValues value : values) {
-						normalizeData(value);
+						value = PailUtilities.normalizeData(value);
 						long _id = db.insert(PailContract.ProblemEntry.TABLE_NAME, null, value);
 						if (_id != -1) {
 							returnCount++;
@@ -552,7 +527,7 @@ public class ProblemProvider extends ContentProvider {
 				int returnCount = 0;
 				try {
 					for (ContentValues value : values) {
-						normalizeData(value);
+						value = PailUtilities.normalizeData(value);
 						String type = PailContract.Attachment.getAttachmentTypeFromUri(uri);
 						String table = getTable(type);
 						long _id = db.insert(table, null, value);

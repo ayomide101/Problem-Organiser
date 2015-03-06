@@ -60,6 +60,7 @@
 	<string name="camera_icon">image icon</string>
 	<string name="link_icon">link icon</string>
 	<string name="card_date">December 19, 2014</string>
-	<string name="privacy_text">Set Privacy</string>
+	<string name="privacy_text">Privacy</string>
+	<string name="note_info_text">Please add a note for the problem you\'re having</string>
 
 </resources>

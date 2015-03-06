@@ -1,81 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-	android:layout_height="match_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:orientation="vertical"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+	android:layout_height="match_parent"
+	android:orientation="vertical">
 
 	<TextView
-		android:background="@drawable/back_border"
-		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/back_border"
 		android:padding="16dp"
 		android:text="@string/ux_support_text"
 		android:textAllCaps="true"
 		android:textColor="@android:color/background_light"/>
 
 	<LinearLayout
-		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
 		android:orientation="vertical"
 		android:padding="16dp"
 		android:paddingTop="22dp"
 		>
 
 		<TextView
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/material_label_text_margin_bottom"
-			android:layout_width="match_parent"
 			android:text="@string/title"
 			android:textSize="@dimen/material_label_text_size"
 			/>
 
 		<EditText
-			android:hint="@string/hint_title"
 			android:id="@+id/etTitle"
-			android:inputType="text"
-			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/hint_title"
+			android:inputType="text"
 			android:textSize="@dimen/material_editText_text_size"
 			/>
 
 		<TextView
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/material_label_text_margin_bottom"
 			android:layout_marginTop="@dimen/material_label_text_margin_top"
-			android:layout_width="match_parent"
 			android:text="@string/description"
 			android:textSize="@dimen/material_label_text_size"/>
 
 		<EditText
+			android:id="@+id/etDescription"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
 			android:ems="10"
 			android:hint="@string/hint_description"
-			android:id="@+id/etDescription"
 			android:inputType="textMultiLine"
-			android:layout_gravity="center_horizontal"
-			android:layout_height="wrap_content"
-			android:layout_width="match_parent"
-			android:textSize="@dimen/material_editText_text_size"
-			/>
+			android:minLines="3"
+			android:textSize="@dimen/material_editText_text_size"/>
 
 		<TextView
-			android:background="@color/background_material_light"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="@dimen/material_label_text_margin_top"
-			android:layout_width="match_parent"
+			android:background="@color/background_material_light"
 			android:padding="8dp"
 			android:text="@string/privacy_statement"
 			android:textSize="@dimen/material_label_text_size"/>
 
-		<Switch
-			android:gravity="center_vertical"
-			android:id="@+id/swPrivacy"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="16dp"
-			android:layout_marginTop="8dp"
+		<LinearLayout
 			android:layout_width="match_parent"
-			android:textOff="Public"
-			android:textOn="Private"
-			android:textSize="@dimen/material_editText_text_size"/>
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:paddingTop="12dp"
+			android:paddingBottom="12dp"
+			android:weightSum="10">
+
+			<TextView
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:gravity="center_vertical"
+				android:layout_weight="4"
+				android:text="@string/privacy_text"
+				android:textSize="16sp"/>
+
+			<Switch
+				android:id="@+id/swPrivacy"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight="6"
+				android:gravity="center_vertical"
+				android:textOff="Public"
+				android:textOn="Private"
+				android:textSize="@dimen/material_editText_text_size"/>
+		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>

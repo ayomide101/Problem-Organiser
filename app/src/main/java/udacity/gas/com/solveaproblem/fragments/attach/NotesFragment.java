@@ -1,5 +1,7 @@
 package udacity.gas.com.solveaproblem.fragments.attach;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,24 +14,25 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
-import me.drakeet.materialdialog.MaterialDialog;
 import udacity.gas.com.solveaproblem.R;
 import udacity.gas.com.solveaproblem.adapters.CursorRecyclerViewAdapter;
 import udacity.gas.com.solveaproblem.data.NoteItem;
 import udacity.gas.com.solveaproblem.data.PailContract;
+import udacity.gas.com.solveaproblem.data.PailUtilities;
 
 /**
  * Created by Fagbohungbe on 02/03/2015.
@@ -45,6 +48,12 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 	private FloatingActionButton btAddNote;
 	private FrameLayout mainNoteContent;
 	private MaterialDialog mMaterialDialog;
+	private int mPrivacy;
+	private LinearLayout etLayout;
+	private EditText etNoteContent;
+	private Switch etPrivacy;
+	private ContentResolver resolver;
+	private Bundle mBundle;
 
 	public static NotesFragment getInstance(long problemId) {
 		NotesFragment myFragment = new NotesFragment();
@@ -78,31 +87,91 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 
 		tempView.setOnClickListener(this);
 		btAddNote.setOnClickListener(this);
-		recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
+		recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL));
 		recyclerView.setAdapter(notesAdapter);
-		mMaterialDialog = new MaterialDialog(getActivity());
-		EditText contentView = new EditText(getActivity());
-		contentView.setHint("Please add a note about/on/for the problem you're having");
-		mMaterialDialog
-				.setTitle("ADD NOTE")
-				.setMessage("")
-				.setNegativeButton("CANCEL", new View.OnClickListener() {
+		mMaterialDialog = new MaterialDialog.Builder(getActivity())
+				.title("ADD NOTE")
+				.autoDismiss(false)
+				.customView(R.layout.note_add_form, true)
+				.positiveText("Add")
+				.positiveColor(R.color.primaryColor)
+				.negativeText("Cancel")
+				.callback(new MaterialDialog.ButtonCallback() {
 					@Override
-					public void onClick(View v) {
-						mMaterialDialog.dismiss();
+					public void onPositive(MaterialDialog dialog) {
+						//Add note to the database
+						createNote(dialog);
+					}
+
+					@Override
+					public void onNegative(MaterialDialog dialog) {
+						dialog.dismiss();
 					}
 				})
-				.setView(contentView)
-				.setPositiveButton("ADD", new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						mMaterialDialog.dismiss();
-					}
-				});
+				.build();
+
+		etLayout = (LinearLayout) mMaterialDialog.getCustomView();
+		etNoteContent = (EditText) etLayout.findViewById(R.id.note_content);
+		etPrivacy = (Switch) etLayout.findViewById(R.id.note_privacy);
+		etPrivacy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					mPrivacy = PailContract.VAL_PRIVACY_PRIVATE;
+				} else {
+					mPrivacy = PailContract.VAL_PRIVACY_PUBLIC;
+				}
+			}
+		});
+	}
+
+	private ContentValues getData() {
+		ContentValues contentValues = new ContentValues();
+		contentValues.put(PailContract.NoteAttachmentEntry.COLUMN_CONTENT, etNoteContent.getText().toString());
+		contentValues.put(PailContract.NoteAttachmentEntry.COLUMN_PROB_KEY, PROB_ID);
+		contentValues.put(PailContract.NoteAttachmentEntry.COLUMN_ATTACH_ID, PailContract.ProblemEntry.generateProblemId());
+		contentValues.put(PailContract.NoteAttachmentEntry.COLUMN_PRIVACY, mPrivacy);
+		contentValues.put(PailContract.NoteAttachmentEntry.COLUMN_RELEVANCE, 0);
+		contentValues.put(PailContract.NoteAttachmentEntry.COLUMN_TITLE, "");
+
+		return contentValues;
+	}
+
+	private void createNote(MaterialDialog dialog) {
+		ContentValues contentValues = getData();
+
+		getActivity().getContentResolver()
+				.insert(
+						PailContract.Attachment.buildAttachmentWithAttachmentTypeUri(new PailContract.NoteAttachmentEntry()),
+						contentValues
+				);
+		etNoteContent.setText("");
+		getLoaderManager().restartLoader(LOADER_ID, getArguments(), this); //Call this the content can reload
+		PailUtilities.hideKeyBoardFromScreen(getActivity(), etNoteContent);
+		dialog.dismiss();
+	}
+
+	private void editNote(MaterialDialog dialog, long id, ContentValues contentValues) {
+		resolver = getActivity().getContentResolver();
+		getActivity().getContentResolver()
+				.update(
+						PailContract.Attachment.buildAttachmentWithAttachmentTypeWithIdUri(new PailContract.NoteAttachmentEntry(), id),
+						contentValues,
+						null,
+						null
+				);
+		etNoteContent.setText("");
+		getLoaderManager().restartLoader(LOADER_ID, getArguments(), this); //Call this the content can reload
+		dialog.dismiss();
+	}
+
+	private void editNote(MaterialDialog dialog, long id) {
+		ContentValues contentValues = getData();
+		editNote(dialog, id, contentValues);
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		mBundle = args;
 		String sortOrder = PailContract.NoteAttachmentEntry.COLUMN_DATE + " DESC";
 		return new CursorLoader(getActivity(),
 				PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(PROB_ID, new PailContract.NoteAttachmentEntry()),
@@ -118,17 +187,15 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 		if (getActivity() == null) {
 			return;
 		}
-		if (null != data) {
-			//Data found
-			if (data.moveToFirst()) {
-				tempView.setVisibility(View.GONE); //hide btAdd Problem
-				mainNoteContent.setVisibility(View.VISIBLE); //show mainNoteContent
-				notesAdapter.swapCursor(data);
-			} else {
-				tempView.setVisibility(View.VISIBLE); //hide btAdd Problem
-				mainNoteContent.setVisibility(View.GONE); //show mainNoteContent
-				notesAdapter.swapCursor(null);
-			}
+		//Data found
+		if (data.moveToFirst()) {
+			tempView.setVisibility(View.GONE); //hide btAdd Problem
+			mainNoteContent.setVisibility(View.VISIBLE); //show mainNoteContent
+			notesAdapter.swapCursor(data);
+		} else {
+			tempView.setVisibility(View.VISIBLE); //hide btAdd Problem
+			mainNoteContent.setVisibility(View.GONE); //show mainNoteContent
+			notesAdapter.swapCursor(null);
 		}
 	}
 
@@ -140,7 +207,7 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case (R.id.tempView) :
+			case (R.id.tempView):
 			case (R.id.btAddNote): {
 				//Show the dialog here
 				mMaterialDialog.show();
@@ -157,14 +224,9 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 
 		@Override
 		public NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			try {
-				CardView view = (CardView) getActivity().getLayoutInflater().inflate(R.layout.note_card_normal, parent, false);
-				NoteViewHolder vh = new NoteViewHolder(view);
-				return vh;
-			} catch (NullPointerException e) {
-				Log.e("HomeFragment", e.getMessage() + "");
-				return null;
-			}
+			CardView view = (CardView) getActivity().getLayoutInflater().inflate(R.layout.note_card_normal, parent, false);
+			NoteViewHolder vh = new NoteViewHolder(view);
+			return vh;
 		}
 
 		@Override
@@ -190,12 +252,10 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 
 		class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-			private final TextView note_content;
-			private final ImageButton shareCard;
-			private final ImageButton deleteCard;
-			private final ImageButton editCard;
-			private final TextView card_date;
-			private final ImageButton lockCard;
+			final TextView note_content;
+			final ImageButton deleteCard;
+			final TextView card_date;
+			final ImageButton lockCard;
 			long _ATTACH_ID;
 			long _ID;
 			long _PROBLEM_ID;
@@ -210,44 +270,27 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 				super(itemView);
 				card_date = (TextView) itemView.findViewById(R.id.carddate);
 				note_content = (TextView) itemView.findViewById(R.id.note_content);
-				shareCard = (ImageButton) itemView.findViewById(R.id.sharecard);
+
 				deleteCard = (ImageButton) itemView.findViewById(R.id.deletecard);
-				editCard = (ImageButton) itemView.findViewById(R.id.editcard);
 				lockCard = (ImageButton) itemView.findViewById(R.id.lockcard);
 
+
 				deleteCard.setOnClickListener(this);
-				shareCard.setOnClickListener(this);
-				editCard.setOnClickListener(this);
 				lockCard.setOnClickListener(this);
-
-				itemView.setOnClickListener(this);
-				itemView.setOnLongClickListener(this);
-
 			}
 
 			@Override
 			public void onClick(View v) {
 				switch (v.getId()) {
-					case (R.id.editcard): {
-						//Show the dialog
-
-						break;
-					}
-					case (R.id.sharecard): {
-						Toast.makeText(v.getContext(), "Share", Toast.LENGTH_SHORT).show();
-						break;
-					}
 					case (R.id.deletecard): {
 						getActivity().getContentResolver()
-								.delete(PailContract.ProblemEntry.buildProblemWithIdUri(_PROBLEM_ID), null, null);
+								.delete(PailContract.Attachment.buildAttachmentWithAttachmentTypeWithIdUri(new PailContract.NoteAttachmentEntry(), _ID), null, null);
+						getLoaderManager().restartLoader(LOADER_ID, mBundle, (LoaderManager.LoaderCallbacks<Object>) getActivity());
 						break;
 					}
 					case (R.id.lockcard): {
-						Toast.makeText(v.getContext(), "Locked", Toast.LENGTH_SHORT).show();
-						break;
-					}
-					case (R.id.card_view): {
-						Toast.makeText(v.getContext(), "Card View", Toast.LENGTH_SHORT).show();
+						_privacy = PailUtilities.switchPrivacy(
+								getActivity(), _privacy, lockCard, PailContract.Attachment.buildAttachmentWithAttachmentTypeWithIdUri(new PailContract.NoteAttachmentEntry(), _ID));
 						break;
 					}
 				}

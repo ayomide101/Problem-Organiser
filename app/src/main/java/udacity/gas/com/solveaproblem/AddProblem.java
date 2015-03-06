@@ -18,8 +18,6 @@ import android.widget.SlidingDrawer;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import java.util.Date;
-
 import udacity.gas.com.solveaproblem.data.PailContract;
 import udacity.gas.com.solveaproblem.data.PailUtilities;
 import udacity.gas.com.solveaproblem.utilities.SetupUI;
@@ -40,6 +38,8 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 	public static final String TAG_NAME = AddProblem.class.getSimpleName();
 	private SetupUI ui;
 	private long PROBLEM_ID = PailContract.ProblemEntry.generateProblemId();
+
+	private boolean mProblemSaved = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,30 +72,103 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 	}
 
 	/*Adds the problem to the database*/
+	//call finish
 	private void createProblem() {
 		//Show loading screen and perform query
-		ContentValues cn = new ContentValues();
-		cn.put(PailContract.ProblemEntry.COLUMN_PROB_ID, PROBLEM_ID);
-		cn.put(PailContract.ProblemEntry.COLUMN_TITLE, etTitle.getText().toString());
-		cn.put(PailContract.ProblemEntry.COLUMN_DESCRIPTION, etDescription.getText().toString());
-		cn.put(PailContract.ProblemEntry.COLUMN_PRIVACY, etPrivacy);
-		cn.put(PailContract.ProblemEntry.COLUMN_PROBLEM_STATUS, etProblemStatus);
-		cn.put(PailContract.ProblemEntry.COLUMN_DATE, new Date().getTime());
-		cn.put(PailContract.ProblemEntry.COLUMN_DATE_MODIFIED, new Date().getTime());
-
-
+		ContentValues cn = getData();
+		if (mProblemSaved) {
+			mProblemSaved = true;
+			updateProblem();
+			return;
+		}
+		//problem saved
 		//Use cursor to insert into data
 		getContentResolver().insert(PailContract.ProblemEntry.buildProblemsUri(), cn);
 		Cursor probCursor = getContentResolver().query(PailContract.ProblemEntry.buildProblemsUri(), null, null, null, null, null);
 		if (probCursor.moveToFirst()) {
-			int id = probCursor.getColumnIndex(PailContract.ProblemEntry.COLUMN_PROB_ID);
-			Log.e(TAG_NAME, "Insert Id : "+ id);
+			Toast.makeText(this, "Problem has been added", Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(this, "Problem could not be added", Toast.LENGTH_SHORT).show();
+		}
+		finish();
+	}
+
+	//call finish
+	private void updateProblem() {
+		//Show loading screen and perform query
+		ContentValues cn = getData();
+		//problem not saved
+		if (!mProblemSaved) {
+			mProblemSaved = false;
+			createProblem();
+			return;
+		}
+		//Use cursor to insert into data
+		int d = getContentResolver().update(PailContract.ProblemEntry.buildProblemWithIdUri(PROBLEM_ID), cn , null, null);
+		if (d != -1) {
+			Toast.makeText(this, "Problem has been updated", Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(this, "Problem could not be updated", Toast.LENGTH_SHORT).show();
+		}
+		finish();
+	}
+
+	private void createProblemWithoutFinish() {
+		//Show loading screen and perform query
+		if (mProblemSaved) { //Problem has previously been saved
+			mProblemSaved = true;
+			updateProblemWithoutFinish();
+			return;
+		}
+		ContentValues cn = getData();
+		//Use cursor to insert into data
+		getContentResolver().insert(PailContract.ProblemEntry.buildProblemsUri(), cn);
+		Cursor probCursor = getContentResolver().query(PailContract.ProblemEntry.buildProblemsUri(), null, null, null, null, null);
+		if (probCursor.moveToFirst()) {
+			mProblemSaved = true;
 			Toast.makeText(this, "Problem has been added", Toast.LENGTH_SHORT).show();
 			//finish the activity
-			finish();
 		} else {
+			mProblemSaved = false;
 			Log.e(TAG_NAME, "Insert using content provider failed");
 		}
+	}
+
+	private void updateProblemWithoutFinish() {
+		//Show loading screen and perform query
+		if (!mProblemSaved) {
+			mProblemSaved = false;
+			createProblemWithoutFinish();
+			return;
+		}
+		ContentValues cn = getData();
+		//Use cursor to insert into data
+		int d = getContentResolver().update(PailContract.ProblemEntry.buildProblemWithIdUri(PROBLEM_ID), cn, null, null);
+		if (d != -1) {
+			mProblemSaved = true;
+			Toast.makeText(this, "Problem has been updated", Toast.LENGTH_SHORT).show();
+		} else {
+			mProblemSaved = false;
+			Toast.makeText(this, "Problem could not be updated", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private ContentValues getData () {
+		ContentValues cn = new ContentValues();
+		cn.put(PailContract.ProblemEntry.COLUMN_PROB_ID, PROBLEM_ID);
+		cn.put(PailContract.ProblemEntry.COLUMN_PRIVACY, etPrivacy);
+		cn.put(PailContract.ProblemEntry.COLUMN_PROBLEM_STATUS, etProblemStatus);
+		if (etTitle.getText().length() <= 0) {
+			cn.put(PailContract.ProblemEntry.COLUMN_TITLE, "p");
+		} else {
+			cn.put(PailContract.ProblemEntry.COLUMN_TITLE, etTitle.getText().toString());
+		}
+		if (etTitle.getText().length() <= 0) {
+			cn.put(PailContract.ProblemEntry.COLUMN_DESCRIPTION, "d");
+		} else {
+			cn.put(PailContract.ProblemEntry.COLUMN_DESCRIPTION, etDescription.getText().toString());
+		}
+		return cn;
 	}
 
 	/*Attaches the attaches to the problem with or the attachment id*/
@@ -147,6 +220,8 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 				handle.setClickable(false);
 				//Hide the keyboard
 				hideKeyboard();
+				//save or create the problem
+				createProblemWithoutFinish();
 			}
 		});
 	}
