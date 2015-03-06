@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="title_activity_main">Problem Organiser</string>
+    <string name="title_activity_main">PROBLEM ORGANISER</string>
     <string name="app_name">Problem Organiser</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -42,6 +42,22 @@
     <string name="add_notes">ADD NOTES</string>
     <string name="menu_share">Share</string>
     <string name="menu_discard">Delete</string>
-    <string name="title_activity_edit_problem">Edit Problem</string>
+    <string name="title_activity_edit_problem">EDIT PROBLEM</string>
+	<string name="plus_sign">+</string>
+	<string name="problem_description">Project Description</string>
+	<string name="edit">edit</string>
+	<string name="share">share</string>
+	<string name="delete">delete</string>
+	<string name="project_title">Project Title</string>
+	<string name="add_videos">ADD VIDEOS</string>
+	<string name="video_icon">Video Icon</string>
+	<string name="add_images">ADD IMAGES</string>
+	<string name="add_audio">ADD AUDIOS</string>
+	<string name="audio_icon">audio icon</string>
+	<string name="add_files">ADD FILES</string>
+	<string name="file_icon">file icon</string>
+	<string name="add_links">ADD LINKS</string>
+	<string name="camera_icon">image icon</string>
+	<string name="link_icon">link icon</string>
 
 </resources>

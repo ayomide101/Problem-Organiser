@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 		@Override
 		public ProblemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 			try {
-				CardView view = (CardView) getActivity().getLayoutInflater().inflate(R.layout.fragment_home_list_view, parent, false);
+				CardView view = (CardView) getActivity().getLayoutInflater().inflate(R.layout.problem_card_normal, parent, false);
 				ProblemViewHolder vh = new ProblemViewHolder(view);
 				return vh;
 			} catch (NullPointerException e) {

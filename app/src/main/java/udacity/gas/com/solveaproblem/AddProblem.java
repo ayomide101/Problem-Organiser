@@ -3,13 +3,8 @@ package udacity.gas.com.solveaproblem;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,37 +18,19 @@ import android.widget.SlidingDrawer;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-import it.neokree.materialtabs.MaterialTab;
-import it.neokree.materialtabs.MaterialTabHost;
-import it.neokree.materialtabs.MaterialTabListener;
 import udacity.gas.com.solveaproblem.data.PailContract;
 import udacity.gas.com.solveaproblem.data.PailUtilities;
-import udacity.gas.com.solveaproblem.fragments.attach.AudiosFragment;
-import udacity.gas.com.solveaproblem.fragments.attach.FilesFragment;
-import udacity.gas.com.solveaproblem.fragments.attach.ImagesFragment;
-import udacity.gas.com.solveaproblem.fragments.attach.LinksFragment;
-import udacity.gas.com.solveaproblem.fragments.attach.NotesFragment;
-import udacity.gas.com.solveaproblem.fragments.attach.RelevantAttachmentFragment;
-import udacity.gas.com.solveaproblem.fragments.attach.VideosFragment;
-import udacity.gas.com.solveaproblem.fragments.home.DefaultFragment;
+import udacity.gas.com.solveaproblem.utilities.SetupUI;
 
 
-public class AddProblem extends ActionBarActivity implements MaterialTabListener, ViewStub.OnClickListener {
-
-	private Toolbar toolbar;
+public class AddProblem extends ActionBarActivity implements ViewStub.OnClickListener {
 
 	private SlidingDrawer slidingDrawer;
 	private ImageButton bt_close_attach_window;
 	private ImageButton bt_confirm_attach_window;
 	private LinearLayout handle;
-
-	private ViewPager mPager;
-	private MaterialTabHost mTabs;
-	private ArrayList<Fragment> mFragments;
-	private TabsAdapter mPagerAdapter;
 
 	private Switch swPrivacy;
 	private int etPrivacy;
@@ -61,17 +38,18 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 	private EditText etTitle;
 	private int etProblemStatus;
 	public static final String TAG_NAME = AddProblem.class.getSimpleName();
+	private SetupUI ui;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_problem);
-		//Toolbar
-		setupToolbar();
-		//Drawer
+		//Setup toolbar
+		ui = new SetupUI(this);
+		ui.setupToolbar();
+		ui.setupTabs();
+		//setup drawer
 		setupDrawer();
-		//SetupUI Tabs
-		setupTabs();
 		//SetupUI Form
 		setupForm();
 	}
@@ -106,17 +84,7 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 
 		//Use cursor to insert into data
 		getContentResolver().insert(PailContract.ProblemEntry.buildProblemsUri(), cn);
-
-		Cursor probCursor = getContentResolver()
-				.query(
-						PailContract.ProblemEntry.buildProblemsUri(),
-						null,
-						null,
-						null,
-						null,
-						null
-						);
-
+		Cursor probCursor = getContentResolver().query(PailContract.ProblemEntry.buildProblemsUri(), null, null, null, null, null);
 		if (probCursor.moveToFirst()) {
 			int id = probCursor.getColumnIndex(PailContract.ProblemEntry._ID);
 			Log.e(TAG_NAME, "Insert Id : "+id);
@@ -131,16 +99,6 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 	/*Attaches the attaches to the problem with or the attachment id*/
 	private void confirmAttach() {
 		//Perform attach here
-	}
-
-	private void setupToolbar() {
-		//Toolbar
-		toolbar = (Toolbar) findViewById(R.id.app_bar);
-		setSupportActionBar(toolbar);
-		getSupportActionBar().setDisplayShowHomeEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setHomeAsUpIndicator(R.drawable.navigation_cancel);
 	}
 
 	private void setupDrawer() {
@@ -196,33 +154,6 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 		PailUtilities.hideKeyBoardFromScreen(this, etTitle);
 	}
 
-	private void setupTabs() {
-		mTabs = (MaterialTabHost) findViewById(R.id.tabs);
-		mPager = (ViewPager) findViewById(R.id.pager);
-		mPagerAdapter = new TabsAdapter(getSupportFragmentManager());
-		mPager.setAdapter(mPagerAdapter);
-		mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-			@Override
-			public void onPageSelected(int position) {
-				mTabs.setSelectedNavigationItem(position);
-			}
-		});
-
-		for (int i = 0; i < mPagerAdapter.getCount(); i++) {
-			mTabs.addTab(mTabs.newTab().setText(mPagerAdapter.getPageTitle(i)).setTabListener(this));
-		}
-
-		//The arraylist of the mFragments
-		mFragments = new ArrayList<Fragment>(7);
-		mFragments.add(RelevantAttachmentFragment.ID, new RelevantAttachmentFragment());
-		mFragments.add(NotesFragment.ID, new NotesFragment());
-		mFragments.add(LinksFragment.ID, new LinksFragment());
-		mFragments.add(ImagesFragment.ID, new ImagesFragment());
-		mFragments.add(VideosFragment.ID, new VideosFragment());
-		mFragments.add(AudiosFragment.ID, new AudiosFragment());
-		mFragments.add(FilesFragment.ID, new FilesFragment());
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -265,72 +196,9 @@ public class AddProblem extends ActionBarActivity implements MaterialTabListener
 	}
 
 	@Override
-	public void onTabSelected(MaterialTab materialTab) {
-		mPager.setCurrentItem(materialTab.getPosition());
-	}
-
-	@Override
-	public void onTabReselected(MaterialTab materialTab) {
-
-	}
-
-	@Override
-	public void onTabUnselected(MaterialTab materialTab) {
-
-	}
-
-	@Override
 	public void onClick(View v) {
 		if (v.getId() == bt_confirm_attach_window.getId()) {
 			confirmAttach();
-		}
-	}
-
-	class TabsAdapter extends FragmentStatePagerAdapter {
-
-		String[] tabs;
-
-		public TabsAdapter(FragmentManager fm) {
-			super(fm);
-			tabs = getResources().getStringArray(R.array.attach_activity_tabs);
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			return tabs[position];
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			//if the user is not on the home page, show the fragment page
-			if (position == RelevantAttachmentFragment.ID) {
-				return mFragments.get(RelevantAttachmentFragment.ID);
-
-			} else if (position == ImagesFragment.ID) {
-				return mFragments.get(ImagesFragment.ID);
-
-			} else if (position == AudiosFragment.ID) {
-				return mFragments.get(AudiosFragment.ID);
-
-			} else if (position == LinksFragment.ID) {
-				return mFragments.get(LinksFragment.ID);
-
-			} else if (position == NotesFragment.ID) {
-				return mFragments.get(NotesFragment.ID);
-
-			} else if (position == VideosFragment.ID) {
-				return mFragments.get(VideosFragment.ID);
-
-			} else if (position == FilesFragment.ID)	{
-				return mFragments.get(FilesFragment.ID);
-			} else {
-				return DefaultFragment.getInstance(position);
-			}
-		}
-
-		@Override
-		public int getCount() {
-			return 7;
 		}
 	}
 }

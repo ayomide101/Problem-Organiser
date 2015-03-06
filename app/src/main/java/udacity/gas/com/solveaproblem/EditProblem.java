@@ -54,10 +54,7 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 		setContentView(R.layout.activity_edit_problem);
 		Intent intent = getIntent();
 		mProbID = intent.getLongExtra(HomeFragment.EXTRA_ID, -0);
-//		savedInstanceState.putLong(PailContract.ProblemEntry._ID, mProbID);
-
 		getSupportLoaderManager().initLoader(PROBLEM_LOADER_ID, savedInstanceState, this);
-		Log.e(TAG_NAME, mProbID+"");
 		//Setup toolbar
 		ui = new SetupUI(this);
 		ui.setupToolbar();

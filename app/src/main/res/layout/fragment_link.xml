@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:fab="http://schemas.android.com/apk/res-auto"
-			  android:orientation="vertical"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent">
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 android:background="#ffd7b4b3"
+			 android:orientation="vertical">
 
-	<TextView
-		android:id="@+id/position"
-		xmlns:android="http://schemas.android.com/apk/res/android"
+	<LinearLayout
+		android:id="@+id/btAddProblem"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:background="?android:selectableItemBackground"
 		android:gravity="center"
-		android:text="LINK"
-		android:textColor="@color/primaryColor" />
+		android:orientation="vertical"
+		android:weightSum="1">
 
-	<com.melnykov.fab.FloatingActionButton
-		android:id="@+id/btAddProblem"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="bottom|right"
-		android:layout_margin="22dp"
-		android:src="@drawable/content_new_white"
-		fab:fab_colorNormal="@color/accentColor"
-		fab:fab_colorPressed="@color/primaryColor"
-		fab:fab_shadow="true"
-		/>
+		<ImageView
+			android:layout_width="150dp"
+			android:layout_height="134dp"
+			android:contentDescription="@string/link_icon"
+			android:src="@drawable/collections_cloud"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/add_links"
+			android:textAlignment="center"
+			android:textColor="#ffb96f86"
+			android:textSize="45sp"
+			android:textStyle="normal"/>
+	</LinearLayout>
 </FrameLayout>

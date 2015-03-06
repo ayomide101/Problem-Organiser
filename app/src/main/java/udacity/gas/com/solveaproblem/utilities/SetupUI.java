@@ -112,22 +112,16 @@ public class SetupUI implements MaterialTabListener {
 			//if the user is not on the home page, show the fragment page
 			if (position == RelevantAttachmentFragment.ID) {
 				return mFragments.get(RelevantAttachmentFragment.ID);
-
 			} else if (position == ImagesFragment.ID) {
 				return mFragments.get(ImagesFragment.ID);
-
 			} else if (position == AudiosFragment.ID) {
 				return mFragments.get(AudiosFragment.ID);
-
 			} else if (position == LinksFragment.ID) {
 				return mFragments.get(LinksFragment.ID);
-
 			} else if (position == NotesFragment.ID) {
 				return mFragments.get(NotesFragment.ID);
-
 			} else if (position == VideosFragment.ID) {
 				return mFragments.get(VideosFragment.ID);
-
 			} else if (position == FilesFragment.ID)	{
 				return mFragments.get(FilesFragment.ID);
 			} else {

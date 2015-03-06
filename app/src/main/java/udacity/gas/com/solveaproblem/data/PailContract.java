@@ -61,6 +61,9 @@ public class PailContract {
 		public static final Uri CONTENT_URI =
 				BASE_CONTENT_URI.buildUpon().appendPath(PATH_PROBLEM).build();
 
+		public static final Uri BUNDLE_KEY =
+				BASE_CONTENT_URI.buildUpon().appendPath(PATH_PROBLEM).build();
+
 		public static final String CONTENT_TYPE =
 				ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PROBLEM;
 

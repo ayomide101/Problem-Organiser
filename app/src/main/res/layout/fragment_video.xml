@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:fab="http://schemas.android.com/apk/res-auto"
-			  android:orientation="vertical"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 android:background="#ffb2c8d7"
+			 android:orientation="vertical">
 
-	<TextView
-		android:id="@+id/position"
-		xmlns:android="http://schemas.android.com/apk/res/android"
+	<LinearLayout
+		android:id="@+id/btAddProblem"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:background="?android:selectableItemBackground"
 		android:gravity="center"
-		android:text="VIDEO"
-		android:textColor="@color/primaryColor"
-		android:textSize="20sp"/>
+		android:orientation="vertical"
+		android:weightSum="1">
 
-	<com.melnykov.fab.FloatingActionButton
-		android:id="@+id/btAddProblem"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="bottom|right"
-		android:layout_margin="22dp"
-		android:src="@drawable/content_new_white"
-		fab:fab_colorNormal="@color/accentColor"
-		fab:fab_colorPressed="@color/primaryColor"
-		fab:fab_shadow="true"
-		/>
-</LinearLayout>
+		<ImageView
+			android:layout_width="170dp"
+			android:layout_height="152dp"
+			android:src="@drawable/ic_av_videocam"
+			android:contentDescription="@string/video_icon"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/add_videos"
+			android:textAlignment="center"
+			android:textColor="#ff5f9bb9"
+			android:textSize="45sp"
+			android:textStyle="normal"/>
+	</LinearLayout>
+</FrameLayout>
