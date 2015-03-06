@@ -9,7 +9,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -165,9 +164,6 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 			if (data.moveToFirst()) {
 				//populate data
 				populateView(data);
-			} else {
-				//data not found
-				Log.e(TAG_NAME, "No item returned");
 			}
 		}
 	}
@@ -254,6 +250,11 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 		etDescription.setText(p.getDescription());
 		etTitle.setText(p.getTitle());
 		etPrivacy = p.getPrivacy();
+		if (etPrivacy == PailContract.VAL_PRIVACY_PRIVATE) {
+			swPrivacy.setChecked(true);
+		} else {
+			swPrivacy.setChecked(false);
+		}
 	}
 
 	/*Attaches the attaches to the problem with or the attachment id*/
