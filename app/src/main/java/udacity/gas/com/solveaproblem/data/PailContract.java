@@ -16,6 +16,12 @@ public class PailContract {
 
 	public static final String PATH_PROBLEM = "problems";
 	public static final String PATH_ATTACHMENT = "attachments";
+	/*int*/
+	public static final int VAL_PRIVACY_PRIVATE = 1;
+	public static final int VAL_PRIVACY_PUBLIC = 0;
+	public static final int VAL_PROBLEM_STATUS_PENDING = 0;
+	public static final int VAL_PROBLEM_STATUS_SOLVED = 1;
+	public static final int VAL_PROBLEM_STATUS_NOT_SOLVED = 2;
 
 	//-------------------------BASE COLUMNS-------------------------\\
 	public static class EntryBaseColumns implements BaseColumns {
@@ -85,12 +91,6 @@ public class PailContract {
 		public static final String COLUMN_PROBLEM_STATUS = "status";
 		/*int*/
 		public static final String COLUMN_PRIVACY = "privacy";
-		/*int*/
-		public static final int VAL_PRIVACY_PRIVATE = 1;
-		public static final int VAL_PRIVACY_PUBLIC = 0;
-		public static final int VAL_PROBLEM_STATUS_PENDING = 0;
-		public static final int VAL_PROBLEM_STATUS_SOLVED = 1;
-		public static final int VAL_PROBLEM_STATUS_NOT_SOLVED = 2;
 
 		public static final String[] PROBLEM_COLUMNS = {
 			ProblemEntry._ID,
@@ -98,7 +98,9 @@ public class PailContract {
 			ProblemEntry.COLUMN_DESCRIPTION,
 			ProblemEntry.COLUMN_PROBLEM_STATUS,
 			ProblemEntry.COLUMN_PRIVACY,
-			ProblemEntry.COLUMN_PROB_ID
+			ProblemEntry.COLUMN_PROB_ID,
+			ProblemEntry.COLUMN_DATE,
+			ProblemEntry.COLUMN_DATE_MODIFIED
 		};
 		//the indexes are tied to the columns, if the columns arrangment changes
 		//these should change too
@@ -108,6 +110,8 @@ public class PailContract {
 		public static final int i_PROBLEM_PROBLEM_STATUS = 3;
 		public static final int i_PROBLEM_PRIVACY = 4;
 		public static final int i_PROBLEM_PROBLEMID = 5;
+		public static final int i_PROBLEM_DATE = 6;
+		public static final int i_PROBLEM_DATE_MODIFIED = 7;
 
 		public static long generateProblemId() {
 			Random r = new Random();
@@ -207,9 +211,35 @@ public class PailContract {
 		/*int*/
 		public static final String COLUMN_CONTENT = "content";
 
+		public static final String[] NOTES_COLUMNS = {
+				TABLE_NAME+'.'+NoteAttachmentEntry._ID,
+				TABLE_NAME+'.'+NoteAttachmentEntry.COLUMN_TITLE,
+				TABLE_NAME+'.'+NoteAttachmentEntry.COLUMN_CONTENT,
+				TABLE_NAME+'.'+NoteAttachmentEntry.COLUMN_ATTACH_ID,
+				TABLE_NAME+'.'+NoteAttachmentEntry.COLUMN_PRIVACY,
+				TABLE_NAME+'.'+NoteAttachmentEntry.COLUMN_PROB_KEY,
+				TABLE_NAME+'.'+NoteAttachmentEntry.COLUMN_DATE,
+				TABLE_NAME+'.'+NoteAttachmentEntry.COLUMN_DATE_MODIFIED,
+				TABLE_NAME+'.'+NoteAttachmentEntry.COLUMN_RELEVANCE
+		};
+		//the indexes are tied to the columns, if the columns arrangment changes
+		//these should change too
+		public static final int i_NOTES_ID = 0;
+		public static final int i_NOTES_TITLE = 1;
+		public static final int i_NOTES_CONTENT = 2;
+		public static final int i_NOTES_ATTACH_ID = 3;
+		public static final int i_NOTES_PRIVACY = 4;
+		public static final int i_NOTES_PROB_KEY = 5;
+		public static final int i_NOTES_DATE = 6;
+		public static final int i_NOTES_DATE_MODIFIED = 7;
+		public static final int i_NOTES_RELEVANCE = 8;
+
+
 		//attachment/attachment_type
 		public static final Uri CONTENT_URI =
 				Attachment.CONTENT_URI.buildUpon().appendPath(PATH).build();
+
+		public static final String BUNDLE_KEY = CONTENT_URI.toString();
 
 		public static final String CONTENT_TYPE =
 				ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_ATTACHMENT + "/" + PATH;

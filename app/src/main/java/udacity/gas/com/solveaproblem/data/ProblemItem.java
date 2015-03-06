@@ -12,6 +12,8 @@ public class ProblemItem {
 	private int status;
 	private int privacy;
 	private long PROB_ID;
+	private long date;
+	private long date_modified;
 
 	public long getPROB_ID() {
 		return PROB_ID;
@@ -69,7 +71,24 @@ public class ProblemItem {
 		pItem.setDescription(cursor.getString(PailContract.ProblemEntry.i_PROBLEM_DESCRIPTION));
 		pItem.setPrivacy(cursor.getInt(PailContract.ProblemEntry.i_PROBLEM_PRIVACY));
 		pItem.setStatus(cursor.getInt(PailContract.ProblemEntry.i_PROBLEM_PROBLEM_STATUS));
-
+		pItem.setDate(cursor.getLong(PailContract.ProblemEntry.i_PROBLEM_DATE));
+		pItem.setDate_modified(cursor.getLong(PailContract.ProblemEntry.i_PROBLEM_DATE_MODIFIED));
 		return pItem;
+	}
+
+	public long getDate_modified() {
+		return date_modified;
+	}
+
+	public void setDate_modified(long date_modified) {
+		this.date_modified = date_modified;
+	}
+
+	public long getDate() {
+		return date;
+	}
+
+	public void setDate(long date) {
+		this.date = date;
 	}
 }

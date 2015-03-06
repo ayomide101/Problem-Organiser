@@ -32,11 +32,11 @@ public class ProblemProvider extends ContentProvider {
 	private static final SQLiteQueryBuilder sQueryProblemAndAttachment;
 	//Joins
 	private static String problemTable = PailContract.ProblemEntry.TABLE_NAME;
-	private static String noteJoin = " INNER JOIN " +PailContract.NoteAttachmentEntry.TABLE_NAME + " ON (" + PailContract.LinkAttachmentEntry.TABLE_NAME + "."+PailContract.LinkAttachmentEntry.COLUMN_PROB_KEY + " = " + PailContract.ProblemEntry.TABLE_NAME +"." + PailContract.ProblemEntry.COLUMN_PROB_ID+")";
-	private static String linkJoin = " INNER JOIN " +PailContract.LinkAttachmentEntry.TABLE_NAME + " ON (" + PailContract.ImageAttachmentEntry.TABLE_NAME + "."+PailContract.ImageAttachmentEntry.COLUMN_PROB_KEY + " = " + PailContract.ProblemEntry.TABLE_NAME +"." + PailContract.ProblemEntry.COLUMN_PROB_ID+")";
-	private static String imageJoin = " INNER JOIN " +PailContract.ImageAttachmentEntry.TABLE_NAME + " ON (" + PailContract.VideoAttachmentEntry.TABLE_NAME + "."+PailContract.VideoAttachmentEntry.COLUMN_PROB_KEY + " = " + PailContract.ProblemEntry.TABLE_NAME +"." + PailContract.ProblemEntry.COLUMN_PROB_ID+")";
-	private static String videoJoin = " INNER JOIN " +PailContract.VideoAttachmentEntry.TABLE_NAME + " ON (" + PailContract.AudioAttachmentEntry.TABLE_NAME + "."+PailContract.AudioAttachmentEntry.COLUMN_PROB_KEY + " = " + PailContract.ProblemEntry.TABLE_NAME +"." + PailContract.ProblemEntry.COLUMN_PROB_ID+")";
-	private static String audioJoin = " INNER JOIN " +PailContract.AudioAttachmentEntry.TABLE_NAME + " ON (" + PailContract.FileAttachmentEntry.TABLE_NAME + "."+PailContract.FileAttachmentEntry.COLUMN_PROB_KEY + " = " + PailContract.ProblemEntry.TABLE_NAME +"." + PailContract.ProblemEntry.COLUMN_PROB_ID+")" ;
+	private static String noteJoin = " INNER JOIN " +PailContract.NoteAttachmentEntry.TABLE_NAME + " ON (" + PailContract.NoteAttachmentEntry.TABLE_NAME + "."+PailContract.NoteAttachmentEntry.COLUMN_PROB_KEY + " = " + PailContract.ProblemEntry.TABLE_NAME +"." + PailContract.ProblemEntry.COLUMN_PROB_ID+")";
+	private static String linkJoin = " INNER JOIN " +PailContract.LinkAttachmentEntry.TABLE_NAME + " ON (" + PailContract.LinkAttachmentEntry.TABLE_NAME + "."+PailContract.LinkAttachmentEntry.COLUMN_PROB_KEY + " = " + PailContract.ProblemEntry.TABLE_NAME +"." + PailContract.ProblemEntry.COLUMN_PROB_ID+")";
+	private static String imageJoin = " INNER JOIN " +PailContract.ImageAttachmentEntry.TABLE_NAME + " ON (" + PailContract.ImageAttachmentEntry.TABLE_NAME + "."+PailContract.ImageAttachmentEntry.COLUMN_PROB_KEY + " = " + PailContract.ProblemEntry.TABLE_NAME +"." + PailContract.ProblemEntry.COLUMN_PROB_ID+")";
+	private static String videoJoin = " INNER JOIN " +PailContract.VideoAttachmentEntry.TABLE_NAME + " ON (" + PailContract.VideoAttachmentEntry.TABLE_NAME + "."+PailContract.VideoAttachmentEntry.COLUMN_PROB_KEY + " = " + PailContract.ProblemEntry.TABLE_NAME +"." + PailContract.ProblemEntry.COLUMN_PROB_ID+")";
+	private static String audioJoin = " INNER JOIN " +PailContract.AudioAttachmentEntry.TABLE_NAME + " ON (" + PailContract.AudioAttachmentEntry.TABLE_NAME + "."+PailContract.AudioAttachmentEntry.COLUMN_PROB_KEY + " = " + PailContract.ProblemEntry.TABLE_NAME +"." + PailContract.ProblemEntry.COLUMN_PROB_ID+")" ;
 	private static String fileJoin = " INNER JOIN " +PailContract.FileAttachmentEntry.TABLE_NAME + " ON (" + PailContract.FileAttachmentEntry.TABLE_NAME + "."+PailContract.FileAttachmentEntry.COLUMN_PROB_KEY + " = " + PailContract.ProblemEntry.TABLE_NAME +"." + PailContract.ProblemEntry.COLUMN_PROB_ID+")";
 
 	static {
@@ -104,7 +104,7 @@ public class ProblemProvider extends ContentProvider {
 				return PailContract.LinkAttachmentEntry.TABLE_NAME;
 			}
 			case PailContract.ImageAttachmentEntry.PATH : {
-				return PailContract.LinkAttachmentEntry.TABLE_NAME;
+				return PailContract.ImageAttachmentEntry.TABLE_NAME;
 			}
 			default:
 				throw new UnsupportedOperationException("Unsupported attachment type specified");
@@ -193,6 +193,7 @@ public class ProblemProvider extends ContentProvider {
 			}
 			case PailContract.FileAttachmentEntry.PATH : {
 				d.setTables(problemTable + fileJoin);
+				break;
 			}
 		}
 		return d.query(mOpenHelper.getReadableDatabase(),

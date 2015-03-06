@@ -147,11 +147,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 				super(itemView);
 				title = (TextView) itemView.findViewById(R.id.problemTitle);
 				description = (TextView) itemView.findViewById(R.id.problemDescription);
-				problemShare = (ImageButton) itemView.findViewById(R.id.problemShare);
+				problemShare = (ImageButton) itemView.findViewById(R.id.sharecard);
 				problemShare.setOnClickListener(this);
-				problemDelete = (ImageButton) itemView.findViewById(R.id.problemDelete);
+				problemDelete = (ImageButton) itemView.findViewById(R.id.deletecard);
 				problemDelete.setOnClickListener(this);
-				problemEdit = (ImageButton) itemView.findViewById(R.id.problemEdit);
+				problemEdit = (ImageButton) itemView.findViewById(R.id.editcard);
 				problemEdit.setOnClickListener(this);
 				itemView.setOnClickListener(this);
 				itemView.setOnLongClickListener(this);
@@ -161,7 +161,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 			@Override
 			public void onClick(View v) {
 				switch (v.getId()) {
-					case(R.id.problemEdit) : {
+					case(R.id.editcard) : {
 						Log.e(ProblemViewHolder.class.getSimpleName(), _PROBLEM_ID +"");
 						//Load the edit activity
 						Intent intent = new Intent(getActivity(), EditProblem.class);
@@ -169,11 +169,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 						startActivity(intent);
 						break;
 					}
-					case(R.id.problemShare) : {
+					case(R.id.sharecard) : {
 						Toast.makeText(v.getContext(), "Share", Toast.LENGTH_SHORT).show();
 						break;
 					}
-					case(R.id.problemDelete) : {
+					case(R.id.deletecard) : {
 						getActivity().getContentResolver()
 								.delete(PailContract.ProblemEntry.buildProblemWithIdUri(_PROBLEM_ID), null, null);
 						break;

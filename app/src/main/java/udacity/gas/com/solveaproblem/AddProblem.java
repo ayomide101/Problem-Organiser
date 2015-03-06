@@ -60,15 +60,15 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 		swPrivacy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					etPrivacy = PailContract.ProblemEntry.VAL_PRIVACY_PRIVATE;
+					etPrivacy = PailContract.VAL_PRIVACY_PRIVATE;
 				} else {
-					etPrivacy = PailContract.ProblemEntry.VAL_PRIVACY_PUBLIC;
+					etPrivacy = PailContract.VAL_PRIVACY_PUBLIC;
 				}
 			}
 		});
 		etDescription = (EditText) findViewById(R.id.etDescription);
 		etTitle = (EditText) findViewById(R.id.etTitle);
-		etProblemStatus = PailContract.ProblemEntry.VAL_PROBLEM_STATUS_PENDING;
+		etProblemStatus = PailContract.VAL_PROBLEM_STATUS_PENDING;
 	}
 
 	/*Adds the problem to the database*/

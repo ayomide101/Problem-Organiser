@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 xmlns:fab="http://schemas.android.com/apk/res-auto"
 			 android:layout_width="match_parent"
 			 android:layout_height="match_parent"
 			 android:background="#ffd7a76d"
 			 android:orientation="vertical">
 
 	<LinearLayout
-		android:id="@+id/btAddProblem"
+		android:id="@+id/tempView"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:background="?android:selectableItemBackground"
 		android:gravity="center"
 		android:orientation="vertical"
+		android:visibility="visible"
 		android:weightSum="1">
 
 		<ImageView
 			android:layout_width="170dp"
 			android:layout_height="152dp"
-			android:src="@drawable/collections_view_as_list"
 			android:contentDescription="@string/video_icon"
-		/>
+			android:src="@drawable/collections_view_as_list"
+			/>
 
 		<TextView
 			android:layout_width="wrap_content"
@@ -30,4 +32,29 @@
 			android:textSize="45sp"
 			android:textStyle="normal"/>
 	</LinearLayout>
+
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/mainNoteContent"
+		android:visibility="gone">
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/notesList"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_gravity="center">
+		</android.support.v7.widget.RecyclerView>
+		<com.melnykov.fab.FloatingActionButton
+			android:id="@+id/btAddNote"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom|right"
+			android:layout_margin="22dp"
+			android:src="@drawable/content_new_white"
+			fab:fab_colorNormal="@color/accentColor"
+			fab:fab_colorPressed="@color/primaryColor"
+			fab:fab_shadow="true"
+			/>
+	</FrameLayout>
 </FrameLayout>

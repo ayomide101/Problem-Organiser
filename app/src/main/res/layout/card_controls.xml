@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:gravity="end"
+	android:orientation="horizontal"
+	android:padding="0dp"
+	android:paddingLeft="@dimen/actions_padding_left"
+	android:paddingRight="@dimen/actions_padding_left"
+	android:weightSum="1"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<TextView
+		android:layout_gravity="center"
+		android:gravity="center"
+		android:text="@string/card_date"
+		android:textSize="14sp"
+		android:textColor="@color/textColorPrimary"
+		android:layout_weight="1"
+		android:textIsSelectable="true"
+		android:textStyle="bold"
+		android:id="@+id/carddate"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"/>
+
+	<ImageButton
+		android:id="@+id/lockcard"
+		style="@style/card.native.actions.button"
+		android:background="?android:selectableItemBackground"
+		android:scaleType="center"
+		android:src="@drawable/device_access_not_secure"
+		android:contentDescription="@string/privacy_text"/>
+	<ImageButton
+		android:id="@+id/editcard"
+		style="@style/card.native.actions.button"
+		android:background="?android:selectableItemBackground"
+		android:scaleType="center"
+		android:src="@drawable/ic_editor_mode_edit"
+		android:contentDescription="@string/edit"/>
+
+	<ImageButton
+		android:id="@+id/sharecard"
+		style="@style/card.native.actions.button"
+		android:background="?android:selectableItemBackground"
+		android:scaleType="center"
+		android:src="@drawable/social_share"
+		android:contentDescription="@string/share"/>
+
+	<ImageButton
+		android:id="@+id/deletecard"
+		style="@style/card.native.actions.button"
+		android:background="?android:selectableItemBackground"
+		android:scaleType="center"
+		android:src="@drawable/ic_action_delete"
+		android:contentDescription="@string/delete"/>
+</LinearLayout>
