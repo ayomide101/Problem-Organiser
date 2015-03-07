@@ -1,5 +1,6 @@
 package udacity.gas.com.solveaproblem.fragments.attach;
 
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -295,8 +296,12 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 						//Open browser
 						String url = link_url.getText().toString();
 						if (url.length() > 1 && Patterns.WEB_URL.matcher(url).matches()) {
-							Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-							startActivity(browserIntent);
+							try {
+								Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+								startActivity(browserIntent);
+							} catch (ActivityNotFoundException e) {
+								Toast.makeText(getActivity(), "Invalid url specified, cannot open browser", Toast.LENGTH_LONG).show();
+							}
 						} else {
 							Toast.makeText(getActivity(), "Invalid url specified, cannot open browser", Toast.LENGTH_LONG).show();
 						}
