@@ -54,7 +54,6 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 	private EditText etNoteContent;
 	private Switch etPrivacy;
 	private ContentResolver resolver;
-	private Bundle mBundle;
 
 	public static NotesFragment getInstance(long problemId) {
 		NotesFragment myFragment = new NotesFragment();
@@ -226,8 +225,7 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 		@Override
 		public NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 			CardView view = (CardView) getActivity().getLayoutInflater().inflate(R.layout.note_card_normal, parent, false);
-			NoteViewHolder vh = new NoteViewHolder(view);
-			return vh;
+			return new NoteViewHolder(view);
 		}
 
 		@Override

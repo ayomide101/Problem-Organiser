@@ -71,5 +71,6 @@
 	<string name="et_url">Pleae enter URL - https://example.org</string>
 	<string name="link_text_description">Link description</string>
 	<string name="link_text_uri">Link Url</string>
+	<string name="image">image</string>
 
 </resources>

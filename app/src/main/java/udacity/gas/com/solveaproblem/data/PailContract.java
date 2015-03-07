@@ -320,6 +320,37 @@ public class PailContract {
 
 		public static final String PATH = TABLE_NAME;
 
+		public static final String[] IMAGE_COLUMNS = {
+				ImageAttachmentEntry._ID,
+				ImageAttachmentEntry.COLUMN_ATTACH_ID,
+				ImageAttachmentEntry.COLUMN_PROB_KEY,
+				ImageAttachmentEntry.COLUMN_PRIVACY,
+				ImageAttachmentEntry.COLUMN_RELEVANCE,
+				ImageAttachmentEntry.COLUMN_DATE,
+				ImageAttachmentEntry.COLUMN_DATE_MODIFIED,
+				ImageAttachmentEntry.COLUMN_MIME_TYPE,
+				ImageAttachmentEntry.COLUMN_FILE_NAME,
+				ImageAttachmentEntry.COLUMN_FILE_URI,
+				ImageAttachmentEntry.COLUMN_FILE_SIZE,
+				ImageAttachmentEntry.COLUMN_FILE_TYPE,
+				ImageAttachmentEntry.COLUMN_FILE_DESCRIPTION
+		};
+		//the indexes are tied to the columns, if the columns arrangment changes
+		//these should change too
+		public static final int i_IMAGE_ID = 0;
+		public static final int i_IMAGE_COLUMN_ATTACH_ID = 1;
+		public static final int i_IMAGE_COLUMN_PROB_KEY = 2;
+		public static final int i_IMAGE_COLUMN_PRIVACY = 3;
+		public static final int i_IMAGE_COLUMN_RELEVANCE = 4;
+		public static final int i_IMAGE_COLUMN_DATE = 5;
+		public static final int i_IMAGE_COLUMN_DATE_MODIFIED = 6;
+		public static final int i_IMAGE_COLUMN_MIME_TYPE = 7;
+		public static final int i_IMAGE_COLUMN_FILE_NAME = 8;
+		public static final int i_IMAGE_COLUMN_FILE_URI = 9;
+		public static final int i_IMAGE_COLUMN_FILE_SIZE = 10;
+		public static final int i_IMAGE_COLUMN_FILE_TYPE = 11;
+		public static final int i_IMAGE_COLUMN_FILE_DESCRIPTION = 12;
+
 		public static final Uri CONTENT_URI =
 				Attachment.CONTENT_URI.buildUpon().appendPath(PATH).build();
 
