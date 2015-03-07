@@ -2,7 +2,9 @@ package udacity.gas.com.solveaproblem.fragments.attach;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +93,12 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 		lMaterialDialog = new MaterialDialog.Builder(getActivity()).title("ADD LINK").autoDismiss(false).customView(R.layout.link_add_form, true).positiveText("Add").positiveColor(R.color.primaryColor).negativeText("Cancel").callback(new MaterialDialog.ButtonCallback() {
 			@Override
 			public void onPositive(MaterialDialog dialog) {
+				//check if url is valid
+				String url = swLinkUrl.getText().toString();
+				if (url.length() >= 1 && !Patterns.WEB_URL.matcher(url).matches()) {
+					Toast.makeText(getActivity(), "Invalid url provided, correct : http://www.example.com or https://www.example.com", Toast.LENGTH_LONG).show();
+					return;
+				}
 				createLink(dialog);
 			}
 
@@ -235,7 +244,7 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 			}
 		}
 
-		class LinkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+		class LinkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 			final ImageButton deleteCard;
 			final TextView card_date;
@@ -265,6 +274,7 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 
 				deleteCard.setOnClickListener(this);
 				lockCard.setOnClickListener(this);
+				link_url.setOnClickListener(this);
 			}
 
 			@Override
@@ -281,12 +291,19 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 								getActivity(), _privacy, lockCard, PailContract.Attachment.buildAttachmentWithAttachmentTypeWithIdUri(new PailContract.LinkAttachmentEntry(), _ID));
 						break;
 					}
-				}
-			}
+					case (R.id.link_url) : {
+						//Open browser
+						String url = link_url.getText().toString();
+						if (url.length() > 1 && Patterns.WEB_URL.matcher(url).matches()) {
+							Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+							startActivity(browserIntent);
+						} else {
+							Toast.makeText(getActivity(), "Invalid url specified, cannot open browser", Toast.LENGTH_LONG).show();
+						}
 
-			@Override
-			public boolean onLongClick(View v) {
-				return false;
+						break;
+					}
+				}
 			}
 		}
 	}
