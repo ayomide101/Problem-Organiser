@@ -24,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
@@ -81,8 +82,8 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 		notesAdapter = new NotesAdapter(getActivity(), null);
 		//show the notes
 		recyclerView = (RecyclerView) getActivity().findViewById(R.id.notesList);
-		mainNoteContent = (FrameLayout) getActivity().findViewById(R.id.mainNoteContent);
-		tempView = (LinearLayout) getActivity().findViewById(R.id.tempView);
+		mainNoteContent = (FrameLayout) getActivity().findViewById(R.id.note_main_content);
+		tempView = (LinearLayout) getActivity().findViewById(R.id.note_tempview);
 		btAddNote = (FloatingActionButton) getActivity().findViewById(R.id.btAddNote);
 
 		tempView.setOnClickListener(this);
@@ -148,6 +149,7 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 		getLoaderManager().restartLoader(LOADER_ID, getArguments(), this); //Call this the content can reload
 		PailUtilities.hideKeyBoardFromScreen(getActivity(), etNoteContent);
 		dialog.dismiss();
+		Toast.makeText(getActivity(), "Note created", Toast.LENGTH_LONG).show();
 	}
 
 	private void editNote(MaterialDialog dialog, long id, ContentValues contentValues) {
@@ -171,7 +173,6 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		mBundle = args;
 		String sortOrder = PailContract.NoteAttachmentEntry.COLUMN_DATE + " DESC";
 		return new CursorLoader(getActivity(),
 				PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(PROB_ID, new PailContract.NoteAttachmentEntry()),
@@ -201,13 +202,13 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-
+		notesAdapter.swapCursor(null);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case (R.id.tempView):
+			case (R.id.note_tempview):
 			case (R.id.btAddNote): {
 				//Show the dialog here
 				mMaterialDialog.show();
@@ -285,7 +286,7 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 					case (R.id.deletecard): {
 						getActivity().getContentResolver()
 								.delete(PailContract.Attachment.buildAttachmentWithAttachmentTypeWithIdUri(new PailContract.NoteAttachmentEntry(), _ID), null, null);
-						getLoaderManager().restartLoader(LOADER_ID, mBundle, (LoaderManager.LoaderCallbacks<Object>) getActivity());
+						getLoaderManager().restartLoader(LOADER_ID, getArguments(), (LoaderManager.LoaderCallbacks<Object>) getActivity());
 						break;
 					}
 					case (R.id.lockcard): {

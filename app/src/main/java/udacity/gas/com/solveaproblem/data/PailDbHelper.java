@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class PailDbHelper extends SQLiteOpenHelper{
 
 	private static final int DATABASE_VERSION = 2;
-	static final String DATABASE_NAME = "pail.db";
+	public static final String DATABASE_NAME = "pail.db";
 
 	public PailDbHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -51,7 +51,8 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.LinkAttachmentEntry.COLUMN_RELEVANCE + " INTEGER NOT NULL, " +
 				PailContract.LinkAttachmentEntry.COLUMN_PRIVACY + " INTEGER NOT NULL, " +
 				PailContract.LinkAttachmentEntry.COLUMN_PROB_KEY + " INTEGER NOT NULL, " +
-				PailContract.NoteAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
+				PailContract.LinkAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
+				PailContract.LinkAttachmentEntry.COLUMN_LINK_DESCRIPTION + " TEXT NOT NULL, "+
 				" FOREIGN KEY (" + PailContract.LinkAttachmentEntry.COLUMN_PROB_KEY + ") REFERENCES " +
 				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry.COLUMN_PROB_ID + ") )";
 
@@ -68,7 +69,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.ImageAttachmentEntry.COLUMN_RELEVANCE + " INTEGER NOT NULL, " +
 				PailContract.ImageAttachmentEntry.COLUMN_PRIVACY + " INTEGER NOT NULL, " +
 				PailContract.ImageAttachmentEntry.COLUMN_PROB_KEY + " INTEGER NOT NULL, " +
-				PailContract.NoteAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
+				PailContract.ImageAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
 				" FOREIGN KEY (" + PailContract.ImageAttachmentEntry.COLUMN_PROB_KEY + ") REFERENCES " +
 				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry.COLUMN_PROB_ID + ") )";
 
@@ -85,7 +86,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.VideoAttachmentEntry.COLUMN_RELEVANCE + " INTEGER NOT NULL, " +
 				PailContract.VideoAttachmentEntry.COLUMN_PRIVACY + " INTEGER NOT NULL, " +
 				PailContract.VideoAttachmentEntry.COLUMN_PROB_KEY + " INTEGER NOT NULL, " +
-				PailContract.NoteAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
+				PailContract.VideoAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
 				" FOREIGN KEY (" + PailContract.VideoAttachmentEntry.COLUMN_PROB_KEY + ") REFERENCES " +
 				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry.COLUMN_PROB_ID + ") )";
 
@@ -102,7 +103,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.AudioAttachmentEntry.COLUMN_RELEVANCE + " INTEGER NOT NULL, " +
 				PailContract.AudioAttachmentEntry.COLUMN_PRIVACY + " INTEGER NOT NULL, " +
 				PailContract.AudioAttachmentEntry.COLUMN_PROB_KEY + " INTEGER NOT NULL, " +
-				PailContract.NoteAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
+				PailContract.AudioAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
 				" FOREIGN KEY (" + PailContract.AudioAttachmentEntry.COLUMN_PROB_KEY + ") REFERENCES " +
 				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry.COLUMN_PROB_ID + ") )";
 
@@ -119,7 +120,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.FileAttachmentEntry.COLUMN_RELEVANCE + " INTEGER NOT NULL, " +
 				PailContract.FileAttachmentEntry.COLUMN_PRIVACY + " INTEGER NOT NULL, " +
 				PailContract.FileAttachmentEntry.COLUMN_PROB_KEY + " INTEGER NOT NULL, " +
-				PailContract.NoteAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
+				PailContract.FileAttachmentEntry.COLUMN_ATTACH_ID + " INTEGER NOT NULL, " +
 				" FOREIGN KEY (" + PailContract.FileAttachmentEntry.COLUMN_PROB_KEY + ") REFERENCES " +
 				PailContract.ProblemEntry.TABLE_NAME + " (" + PailContract.ProblemEntry.COLUMN_PROB_ID + ") )";
 

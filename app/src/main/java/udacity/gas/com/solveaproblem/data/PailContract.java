@@ -266,6 +266,35 @@ public class PailContract {
 		public static final String COLUMN_LINK_URL = "url";
 		/*text*/
 		public static final String COLUMN_LINK_SCREENSHOT = "image_url";
+		/*text*/
+		public static final String COLUMN_LINK_DESCRIPTION = "link_description";
+
+		public static final String[] LINK_COLUMNS = {
+				TABLE_NAME+'.'+LinkAttachmentEntry._ID,
+				TABLE_NAME+'.'+LinkAttachmentEntry.COLUMN_ATTACH_ID,
+				TABLE_NAME+'.'+LinkAttachmentEntry.COLUMN_PRIVACY,
+				TABLE_NAME+'.'+LinkAttachmentEntry.COLUMN_PROB_KEY,
+				TABLE_NAME+'.'+LinkAttachmentEntry.COLUMN_DATE,
+				TABLE_NAME+'.'+LinkAttachmentEntry.COLUMN_DATE_MODIFIED,
+				TABLE_NAME+'.'+LinkAttachmentEntry.COLUMN_RELEVANCE,
+				TABLE_NAME+'.'+LinkAttachmentEntry.COLUMN_LINK_TITLE,
+				TABLE_NAME+'.'+LinkAttachmentEntry.COLUMN_LINK_URL,
+				TABLE_NAME+'.'+LinkAttachmentEntry.COLUMN_LINK_SCREENSHOT,
+				TABLE_NAME+'.'+LinkAttachmentEntry.COLUMN_LINK_DESCRIPTION
+		};
+		//the indexes are tied to the columns, if the columns arrangment changes
+		//these should change too
+		public static final int i_LINKS_ID = 0;
+		public static final int i_LINKS_ATTACH_ID = 1;
+		public static final int i_LINKS_PRIVACY = 2;
+		public static final int i_LINKS_PROB_KEY = 3;
+		public static final int i_LINKS_DATE = 4;
+		public static final int i_LINKS_DATE_MODIFIED = 5;
+		public static final int i_LINKS_RELEVANCE = 6;
+		public static final int i_LINKS_TITLE = 7;
+		public static final int i_LINKS_URL = 8;
+		public static final int i_LINKS_SCREENSHOT = 9;
+		public static final int i_LINKS_DESCRIPTION = 10;
 
 		public static final Uri CONTENT_URI =
 				Attachment.CONTENT_URI.buildUpon().appendPath(PATH).build();

@@ -65,6 +65,11 @@
 	<string name="note_icon_text">note icon</string>
 	<string name="load_page">LOAD URL</string>
 	<string name="link_snap_shot_text">Link snapshot</string>
-	<string name="url_text">Enter valid URL</string>
+	<string name="url_text">https:\/\/example.com</string>
+	<string name="d_text">Short Description about this link</string>
+	<string name="e_text">Short and Descriptive</string>
+	<string name="et_url">Pleae enter URL - https://example.org</string>
+	<string name="link_text_description">Link description</string>
+	<string name="link_text_uri">Link Url</string>
 
 </resources>

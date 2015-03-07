@@ -23,23 +23,33 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="#ffd7a76d"
+		android:background="#ffd7b4b3"
 		android:orientation="vertical"
 		card_view:cardCornerRadius="2dp">
 
 		<TextView
-			android:id="@+id/note_content"
+			android:id="@+id/link_description"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:padding="12dp"
 			android:textIsSelectable="true"
-			android:text="@string/problem_description"
+			android:text="@string/link_text_description"
 			android:textColor="@color/colorHighlight"
 			android:textSize="18sp"/>
+		<TextView
+			android:id="@+id/link_url"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="12dp"
+			android:textIsSelectable="true"
+			android:text="@string/link_text_uri"
+			android:textColor="@color/colorHighlight"
+			android:textSize="16sp"
+			android:textStyle="bold|italic"/>
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="2dp"
-			android:background="#ffc39463"
+			android:background="#ffc6a5a4"
 			/>
 		<include layout="@layout/note_card_controls" />
 	</LinearLayout>
