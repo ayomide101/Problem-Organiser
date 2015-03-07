@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  android:orientation="vertical"
+			  android:weightSum="1">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
+		android:orientation="vertical">
+
+		<EditText
+			android:id="@+id/link_url"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:ems="10"
+			android:hint="@string/url_text"
+			android:includeFontPadding="true"
+			android:inputType="textUri"
+			android:minLines="2"/>
+
+		<Button
+			android:id="@+id/load_url"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="start"
+			android:background="@color/secondaryButtonColor"
+			android:gravity="center"
+			android:paddingLeft="8dp"
+			android:paddingRight="8dp"
+			android:text="@string/load_page"
+			android:textColor="@color/textColorPrimary"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:paddingBottom="8dp"
+		android:paddingTop="8dp"
+		android:weightSum="10">
+
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="4"
+			android:gravity="center_vertical"
+			android:text="@string/privacy_text"
+			android:textSize="16sp"/>
+
+		<Switch
+			android:id="@+id/note_privacy"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="6"
+			android:gravity="center_vertical"
+			android:textOff="Public"
+			android:textOn="Private"
+			android:textSize="@dimen/material_editText_text_size"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:padding="8dp"
+		android:visibility="gone"
+		android:weightSum="10">
+
+		<ImageView
+			android:id="@+id/link_screenshot"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="3"
+			android:background="@color/secondaryButtonColor"
+			android:contentDescription="@string/link_snap_shot_text"
+			android:minHeight="120dp"/>
+
+		<LinearLayout
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="7"
+			android:orientation="vertical"
+			android:padding="8dp">
+
+			<TextView
+				android:id="@+id/linkTitle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="16dp"
+				android:text="@string/hello_world"
+				android:textAllCaps="true"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:textIsSelectable="true"/>
+
+			<TextView
+				android:id="@+id/linkDescription"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="16dp"
+				android:text="@string/hello_world"
+				android:textAllCaps="true"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:textIsSelectable="true"/>
+		</LinearLayout>
+	</LinearLayout>
+
+</LinearLayout>

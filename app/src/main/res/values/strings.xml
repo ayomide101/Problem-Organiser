@@ -62,5 +62,9 @@
 	<string name="card_date">December 19, 2014</string>
 	<string name="privacy_text">Privacy</string>
 	<string name="note_info_text">Please add a note for the problem you\'re having</string>
+	<string name="note_icon_text">note icon</string>
+	<string name="load_page">LOAD URL</string>
+	<string name="link_snap_shot_text">Link snapshot</string>
+	<string name="url_text">Enter valid URL</string>
 
 </resources>

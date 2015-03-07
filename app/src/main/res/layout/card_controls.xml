@@ -11,7 +11,8 @@
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<TextView
 		android:layout_gravity="center"
-		android:gravity="center"
+		android:layout_marginLeft="16dp"
+		android:gravity="left|center_vertical"
 		android:text="@string/card_date"
 		android:textSize="14sp"
 		android:textColor="@color/textColorPrimary"
@@ -36,14 +37,6 @@
 		android:scaleType="center"
 		android:src="@drawable/ic_editor_mode_edit"
 		android:contentDescription="@string/edit"/>
-
-	<ImageButton
-		android:id="@+id/sharecard"
-		style="@style/card.native.actions.button"
-		android:background="?android:selectableItemBackground"
-		android:scaleType="center"
-		android:src="@drawable/social_share"
-		android:contentDescription="@string/share"/>
 
 	<ImageButton
 		android:id="@+id/deletecard"

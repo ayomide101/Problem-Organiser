@@ -18,7 +18,7 @@
 		<ImageView
 			android:layout_width="170dp"
 			android:layout_height="152dp"
-			android:contentDescription="@string/video_icon"
+			android:contentDescription="@string/note_icon_text"
 			android:src="@drawable/collections_view_as_list"
 			/>
 
