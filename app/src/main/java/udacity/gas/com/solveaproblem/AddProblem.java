@@ -47,7 +47,7 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 		setContentView(R.layout.activity_add_problem);
 		//Setup toolbar
 		ui = new SetupUI(this);
-		ui.setupToolbar();
+		ui.setupToolbarModify();
 		ui.setupTabs(PROBLEM_ID);
 		//setup drawer
 		setupDrawer();
@@ -174,6 +174,8 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 	/*Attaches the attaches to the problem with or the attachment id*/
 	private void confirmAttach() {
 		//Perform attach here
+		slidingDrawer.animateClose();
+		Toast.makeText(this, "Files attached", Toast.LENGTH_LONG).show();
 	}
 
 	private void setupDrawer() {

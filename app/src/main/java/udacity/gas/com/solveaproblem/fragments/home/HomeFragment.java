@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.melnykov.fab.FloatingActionButton;
 
 import udacity.gas.com.solveaproblem.AddProblem;
+import udacity.gas.com.solveaproblem.DetailProblem;
 import udacity.gas.com.solveaproblem.EditProblem;
 import udacity.gas.com.solveaproblem.R;
 import udacity.gas.com.solveaproblem.adapters.CursorRecyclerViewAdapter;
@@ -171,6 +172,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 				problemLock.setOnClickListener(this);
 				problemShare.setOnClickListener(this);
 				itemView.setOnClickListener(this);
+				title.setOnClickListener(this);
 			}
 
 			@Override
@@ -192,12 +194,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 						break;
 					}
 					case(R.id.deletecard) : {
-						getActivity().getContentResolver()
-								.delete(PailContract.ProblemEntry.buildProblemWithIdUri(_PROBLEM_ID), null, null);
+						getActivity()
+							.getContentResolver()
+							.delete(PailContract.ProblemEntry.buildProblemWithIdUri(_PROBLEM_ID), null, null);
 						break;
 					}
-					case(R.id.card_view) : {
-						Toast.makeText(v.getContext(), "Card View", Toast.LENGTH_SHORT).show();
+					case(R.id.card_view) :
+					case(R.id.problemTitle) : {
+						/*Toast.makeText(v.getContext(), "Card View", Toast.LENGTH_SHORT).show();*/
+						Intent intent = new Intent(getActivity(), DetailProblem.class);
+						intent.putExtra(EXTRA_ID, _PROBLEM_ID);
+						startActivity(intent);
 						break;
 					}
 				}

@@ -5,8 +5,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
@@ -83,6 +85,36 @@ public class PailUtilities {
 			initialPrivacy = PailContract.VAL_PRIVACY_PUBLIC;
 		} else {
 			view.setImageDrawable(activity.getResources().getDrawable(R.drawable.device_access_secure));
+			initialPrivacy = PailContract.VAL_PRIVACY_PRIVATE;
+		}
+		ContentValues cn = new ContentValues();
+		cn.put(column, Integer.toString(initialPrivacy));
+		activity.getContentResolver().update(uri, cn, null, null);
+		return initialPrivacy;
+	}
+
+	public static int switchPrivacy(Activity activity, int initialPrivacy, ActionMenuItemView view, Uri uri, String column) {
+		//device_access_not_secure|device_access_secure
+		if (initialPrivacy == PailContract.VAL_PRIVACY_PRIVATE) {
+			view.setIcon(activity.getResources().getDrawable(R.drawable.device_access_not_secure));
+			initialPrivacy = PailContract.VAL_PRIVACY_PUBLIC;
+		} else {
+			view.setIcon(activity.getResources().getDrawable(R.drawable.device_access_secure));
+			initialPrivacy = PailContract.VAL_PRIVACY_PRIVATE;
+		}
+		ContentValues cn = new ContentValues();
+		cn.put(column, Integer.toString(initialPrivacy));
+		activity.getContentResolver().update(uri, cn, null, null);
+		return initialPrivacy;
+	}
+
+	public static int switchPrivacy(Activity activity, int initialPrivacy, MenuItem view, Uri uri, String column) {
+		//device_access_not_secure|device_access_secure
+		if (initialPrivacy == PailContract.VAL_PRIVACY_PRIVATE) {
+			view.setIcon(activity.getResources().getDrawable(R.drawable.device_access_not_secure));
+			initialPrivacy = PailContract.VAL_PRIVACY_PUBLIC;
+		} else {
+			view.setIcon(activity.getResources().getDrawable(R.drawable.device_access_secure));
 			initialPrivacy = PailContract.VAL_PRIVACY_PRIVATE;
 		}
 		ContentValues cn = new ContentValues();

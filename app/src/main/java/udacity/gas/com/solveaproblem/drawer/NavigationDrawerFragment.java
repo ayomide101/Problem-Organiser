@@ -29,7 +29,7 @@ public class NavigationDrawerFragment extends Fragment {
     private DrawerLayout mDrawerLayout;
     private DrawerAdapter drawerAdapter;
 
-    private boolean mUserLearnedDrawer;
+    private boolean mUserLearnedDrawer = false;
     private boolean mFromSavedInstanceState;
     private View containerView;
     private boolean isDrawerOpened = false;
@@ -43,7 +43,7 @@ public class NavigationDrawerFragment extends Fragment {
                 super.onDrawerOpened(drawerView);
                 if (!mUserLearnedDrawer) {
                      mUserLearnedDrawer = true;
-                    saveToPreference(getActivity(), KEY_USER_LEARNED_DRAWER, mUserLearnedDrawer+"");
+                    saveToPreference(getActivity(), KEY_USER_LEARNED_DRAWER, Boolean.toString(mUserLearnedDrawer));
                 }
                 getActivity().invalidateOptionsMenu();
             }

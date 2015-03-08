@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="title_activity_main">PROBLEM ORGANISER</string>
-    <string name="app_name">Problem Organiser</string>
+	<string name="app_name">Problem Organiser</string>
+    <string name="title_activity_main">Problem Organiser</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="searchAppBar">Search</string>
@@ -28,8 +27,19 @@
         <item>FILES</item>
     </string-array>
 
+	<string-array name="detail_activity_tabs">
+		<item>PROBLEM DETAIL</item>
+		<item>MOST RELEVANT</item>
+		<item>NOTES</item>
+		<item>LINKS</item>
+		<item>IMAGES</item>
+		<item>VIDEOS</item>
+		<item>AUDIO</item>
+		<item>FILES</item>
+	</string-array>
+
     <string name="title_activity_add_problem">ADD PROJECT</string>
-    <string name="attach_files_text">ATTACH FILES</string>
+    <string name="attach_files_text">ATTACHMENTS</string>
     <string name="icon_description_text">icon</string>
     <string name="save_text">SAVE</string>
     <string name="ux_support_text">Hello there,\ntell me a little bit more about your problem.\n\nYou can attach <b>IMAGES</b>, <b>VIDEOS</b> or <b>FILES</b> to the problem to aid you and others in solving it.</string>
@@ -43,34 +53,55 @@
     <string name="menu_share">Share</string>
     <string name="menu_discard">Delete</string>
     <string name="title_activity_edit_problem">EDIT PROBLEM</string>
-	<string name="plus_sign">+</string>
-	<string name="problem_description">Project Description</string>
-	<string name="edit">edit</string>
-	<string name="share">share</string>
-	<string name="delete">delete</string>
-	<string name="project_title">Project Title</string>
-	<string name="add_videos">ADD VIDEOS</string>
-	<string name="video_icon">Video Icon</string>
-	<string name="add_images">ADD IMAGES</string>
-	<string name="add_audio">ADD AUDIOS</string>
-	<string name="audio_icon">audio icon</string>
-	<string name="add_files">ADD FILES</string>
-	<string name="file_icon">file icon</string>
-	<string name="add_links">ADD LINKS</string>
-	<string name="camera_icon">image icon</string>
-	<string name="link_icon">link icon</string>
-	<string name="card_date">December 19, 2014</string>
-	<string name="privacy_text">Privacy</string>
-	<string name="note_info_text">Please add a note for the problem you\'re having</string>
-	<string name="note_icon_text">note icon</string>
-	<string name="load_page">LOAD URL</string>
-	<string name="link_snap_shot_text">Link snapshot</string>
-	<string name="url_text">https:\/\/example.com</string>
-	<string name="d_text">Short Description about this link</string>
-	<string name="e_text">Short and Descriptive</string>
-	<string name="et_url">Pleae enter URL - https://example.org</string>
-	<string name="link_text_description">Link description</string>
-	<string name="link_text_uri">Link Url</string>
-	<string name="image">image</string>
+    <string name="plus_sign">+</string>
+    <string name="problem_description">Project Description</string>
+    <string name="edit">edit</string>
+    <string name="share">share</string>
+    <string name="delete">delete</string>
+    <string name="project_title">Project Title</string>
+    <string name="add_videos">ADD VIDEOS</string>
+    <string name="video_icon">Video Icon</string>
+    <string name="add_images">ADD IMAGES</string>
+    <string name="add_audio">ADD AUDIOS</string>
+    <string name="audio_icon">audio icon</string>
+    <string name="add_files">ADD FILES</string>
+    <string name="file_icon">file icon</string>
+    <string name="add_links">ADD LINKS</string>
+    <string name="camera_icon">image icon</string>
+    <string name="link_icon">link icon</string>
+    <string name="card_date">December 19, 2014</string>
+    <string name="privacy_text">Privacy</string>
+    <string name="note_info_text">Please add a note for the problem you\'re having</string>
+    <string name="note_icon_text">note icon</string>
+    <string name="load_page">LOAD URL</string>
+    <string name="link_snap_shot_text">Link snapshot</string>
+    <string name="url_text">https:\/\/example.com</string>
+    <string name="d_text">Short Description about this link</string>
+    <string name="e_text">Short and Descriptive</string>
+    <string name="et_url">Pleae enter URL - https:\/\/example.org</string>
+    <string name="link_text_description">Link description</string>
+    <string name="link_text_uri">Link Url</string>
+    <string name="dimage">image</string>
+
+    <!-- <string name="app_name">MediaChooser</string> -->
+    <string name="image"> Image </string>
+    <string name="video"> Video </string>
+    <string name="done"> Done </string>
+    <string name="images_tab"> Images </string>
+    <string name="videos_tab"> Videos </string>
+    <string name="max_limit_reach_error"> Max limit 10 file. </string>
+    <string name="max_limit_file"> Max limit </string>
+    <string name="please_wait_text"> Please wait</string>
+    <string name="refreshing"> Refreshing</string>
+    <string name="file_size_exeeded"> The file size exceeds the maximum limit of </string>
+    <string name="selected_file_size">  Selected media size is : </string>
+    <string name="mb"> MB</string>
+    <string name="plaese_select_file"> Please select a file.</string>
+    <string name="file"> file. </string>
+    <string name="files"> files. </string>
+    <string name="no_media_file_available"> No media file available.</string>
+    <string name="http_prefix">http:\/\/</string>
+    <string name="title_activity_detail_problem">Problem Detail</string>
+	<string name="attachment_count_text">Attachments : %</string>
 
 </resources>

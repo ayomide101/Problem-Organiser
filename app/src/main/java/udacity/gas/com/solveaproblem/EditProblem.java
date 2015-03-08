@@ -54,7 +54,7 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 		getSupportLoaderManager().initLoader(PROBLEM_LOADER_ID, savedInstanceState, this);
 		//Setup toolbar
 		ui = new SetupUI(this);
-		ui.setupToolbar();
+		ui.setupToolbarModify();
 		ui.setupTabs(mProbID);
 		setupDrawer();
 		setupForm();
@@ -133,7 +133,7 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 		// as you specify a parent activity in AndroidManifest.xml
 		switch (item.getItemId()) {
 			// Respond to the action bar's Up/Home button
-			case R.id.home:
+			case R.id.home :
 				NavUtils.navigateUpFromSameTask(this);
 				return true;
 			case R.id.action_settings:
@@ -161,15 +161,26 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		if (null != data) {
-			if (data.moveToFirst()) {
-				//populate data
-				populateView(data);
+			try {
+				if (data.moveToFirst()) {
+					//populate data
+					populateView(data);
+				} else {
+					Toast.makeText(this, "Sorry but problem not found", Toast.LENGTH_LONG).show();
+					finish();
+				}
+			} catch (Exception e) {
+				Toast.makeText(this, "Sorry but something went wrong with the problem", Toast.LENGTH_LONG).show();
+				finish();
 			}
+		} else {
+			Toast.makeText(this, "Sorry but something went wrong with the problem", Toast.LENGTH_LONG).show();
+			finish();
 		}
 	}
 
 	@Override
-	public void onLoaderReset(Loader<Cursor> loader) { }
+	public void onLoaderReset(Loader<Cursor> loader) {}
 
 	@Override
 	public void onBackPressed() {
@@ -260,5 +271,7 @@ public class EditProblem extends ActionBarActivity implements ViewStub.OnClickLi
 	/*Attaches the attaches to the problem with or the attachment id*/
 	private void confirmAttach() {
 		//Perform attach here
+		slidingDrawer.animateClose();
+		Toast.makeText(this, "Files attached", Toast.LENGTH_LONG).show();
 	}
 }

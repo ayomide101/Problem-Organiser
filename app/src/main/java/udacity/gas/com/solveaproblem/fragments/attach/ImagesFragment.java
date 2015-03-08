@@ -1,6 +1,9 @@
 package udacity.gas.com.solveaproblem.fragments.attach;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -28,6 +32,9 @@ import udacity.gas.com.solveaproblem.adapters.CursorRecyclerViewAdapter;
 import udacity.gas.com.solveaproblem.data.ImageItem;
 import udacity.gas.com.solveaproblem.data.PailContract;
 import udacity.gas.com.solveaproblem.data.PailUtilities;
+import udacity.gas.com.solveaproblem.mediachooser.MediaChooser;
+import udacity.gas.com.solveaproblem.mediachooser.MediaChooserConstants;
+import udacity.gas.com.solveaproblem.mediachooser.activity.BucketHomeFragmentActivity;
 
 /**
  * Created by Fagbohungbe on 28/02/2015.
@@ -66,19 +73,31 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		getLoaderManager().initLoader(LOADER_ID, savedInstanceState, this);
+		IntentFilter imageIntentFilter = new IntentFilter(MediaChooser.IMAGE_SELECTED_ACTION_FROM_MEDIA_CHOOSER);
+		getActivity().registerReceiver(imageBroadcastReceiver, imageIntentFilter);
 
 		mImageAdapter = new ImagesAdapter(getActivity(), null);
 
-		recyclerView = (RecyclerView) getActivity().findViewById(R.id.notesList);
-		mainNoteContent = (FrameLayout) getActivity().findViewById(R.id.note_main_content);
-		tempView = (LinearLayout) getActivity().findViewById(R.id.note_tempview);
-		btAddNote = (FloatingActionButton) getActivity().findViewById(R.id.btAddNote);
+		recyclerView = (RecyclerView) getActivity().findViewById(R.id.imageslist);
+		mainNoteContent = (FrameLayout) getActivity().findViewById(R.id.image_main_content);
+		tempView = (LinearLayout) getActivity().findViewById(R.id.image_tempview);
+		btAddNote = (FloatingActionButton) getActivity().findViewById(R.id.btAddImage);
 
 		tempView.setOnClickListener(this);
 		btAddNote.setOnClickListener(this);
-		recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL));
+		recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
 		recyclerView.setAdapter(mImageAdapter);
 	}
+
+	BroadcastReceiver imageBroadcastReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Toast.makeText(getActivity(), "yippiee Image ", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Image SIZE :" + intent.getStringArrayListExtra("list").size(), Toast.LENGTH_SHORT).show();
+//			recyclerView.setAdapter(intent.getStringArrayListExtra("list"));
+		}
+	};
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -126,7 +145,10 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 
 	/**/
 	private void startImageSelector() {
-
+		MediaChooser.setSelectionLimit(20);
+		MediaChooserConstants.showVideo = false;
+		Intent intent = new Intent(getActivity(), BucketHomeFragmentActivity.class);
+		startActivity(intent);
 	}
 
 	public class ImagesAdapter extends CursorRecyclerViewAdapter<ImagesAdapter.ImageViewHolder> {

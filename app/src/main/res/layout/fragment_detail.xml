@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  android:orientation="vertical"
+	>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="#2979FF"
+		android:orientation="vertical">
+
+		<TextView
+			android:id="@+id/detail_problem_title"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="16dp"
+			android:paddingLeft="16dp"
+			android:paddingRight="16dp"
+			android:paddingTop="16dp"
+			android:textAllCaps="true"
+			android:text=""
+			android:textColor="@color/textColorPrimary"
+			android:textSize="20sp"
+			android:textIsSelectable="true"/>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginBottom="8dp"
+			android:orientation="horizontal"
+			android:paddingLeft="16dp"
+			android:paddingRight="16dp"
+			android:weightSum="9">
+
+			<TextView
+				android:id="@+id/detail_problem_privacy"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="8dp"
+				android:layout_marginRight="8dp"
+				android:layout_weight="2"
+				android:gravity="start|center"
+				android:text="@string/privacy_text"
+				android:textAllCaps="true"
+				android:textColor="#daffffff"
+				android:textSize="12sp"/>
+			<TextView
+				android:id="@+id/detail_problem_attachment_counts"
+				android:layout_width="0dp"
+				android:layout_weight="4"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="8dp"
+				android:layout_marginRight="8dp"
+				android:gravity="center"
+				android:text="@string/attachment_count_text"
+				android:textAllCaps="true"
+				android:textColor="@color/textColorPrimary"
+				android:textSize="12sp"/>
+			<TextView
+				android:id="@+id/detail_problem_date"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight="4"
+				android:gravity="end|center"
+				android:text=""
+				android:textColor="@color/textColorPrimary"
+				android:textSize="12sp"/>
+		</LinearLayout>
+	</LinearLayout>
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/background_floating_material_light">
+
+		<TextView
+			android:id="@+id/detail_problem_description"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="16dp"
+			android:padding="16dp"
+			android:text=""
+			android:textSize="14sp"
+			android:textIsSelectable="true"/>
+	</ScrollView>
+</LinearLayout>

@@ -3,8 +3,7 @@
 	package="udacity.gas.com.solveaproblem"
 	xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<uses-permission android:name="android.permission.INTERNET"/>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 	<application
 		android:allowBackup="true"
@@ -16,13 +15,28 @@
 			android:label="@string/title_activity_main">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
-
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
 		<activity
 			android:name=".AddProblem"
 			android:label="@string/title_activity_add_problem"
+			android:parentActivityName=".MainActivity">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="udacity.gas.com.solveaproblem.MainActivity"/>
+		</activity>
+		<activity
+			android:name=".EditProblem"
+			android:label="@string/title_activity_edit_problem"
+			android:parentActivityName=".MainActivity">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="udacity.gas.com.solveaproblem.MainActivity"/>
+		</activity>
+		<activity
+			android:name=".DetailProblem"
+			android:label="@string/title_activity_detail_problem"
 			android:parentActivityName=".MainActivity">
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
@@ -35,12 +49,14 @@
 			android:exported="false"/>
 
 		<activity
-			android:name=".EditProblem"
-			android:label="@string/title_activity_edit_problem"
-			android:parentActivityName=".MainActivity">
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value="udacity.gas.com.solveaproblem.MainActivity"/>
+			android:name=".mediachooser.activity.HomeFragmentActivity"
+			android:configChanges="orientation|screenSize">
+		</activity>
+		<activity
+			android:name=".mediachooser.activity.BucketHomeFragmentActivity"
+			android:configChanges="orientation|screenSize"
+			android:screenOrientation="portrait">
 		</activity>
 	</application>
+
 </manifest>

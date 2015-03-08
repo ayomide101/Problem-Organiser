@@ -41,7 +41,7 @@ public class SetupUI implements MaterialTabListener {
 		mActionBarActivity = (ActionBarActivity) mAcivity;
 	}
 
-	public void setupToolbar() {
+	public void setupToolbarModify() {
 		//Toolbar
 		toolbar = (Toolbar) mActionBarActivity.findViewById(R.id.app_bar);
 		mActionBarActivity.setSupportActionBar(toolbar);
@@ -49,6 +49,13 @@ public class SetupUI implements MaterialTabListener {
 		mActionBarActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mActionBarActivity.getSupportActionBar().setHomeButtonEnabled(true);
 		mActionBarActivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.navigation_cancel);
+	}
+
+	public void setupToolbar() {
+		//Toolbar
+		toolbar = (Toolbar) mActionBarActivity.findViewById(R.id.app_bar);
+		mActionBarActivity.setSupportActionBar(toolbar);
+		mActionBarActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	public void setupTabs() {
@@ -99,10 +106,10 @@ public class SetupUI implements MaterialTabListener {
 		mFragments.add(RelevantAttachmentFragment.ID, RelevantAttachmentFragment.getInstance(problemid));
 		mFragments.add(NotesFragment.ID, NotesFragment.getInstance(problemid));
 		mFragments.add(LinksFragment.ID, LinksFragment.getInstance(problemid));
-		mFragments.add(ImagesFragment.ID, ImagesFragment.getInstance(problemid));
-		mFragments.add(VideosFragment.ID, VideosFragment.getInstance(problemid));
-		mFragments.add(AudiosFragment.ID, AudiosFragment.getInstance(problemid));
-		mFragments.add(FilesFragment.ID, FilesFragment.getInstance(problemid));
+//		mFragments.add(ImagesFragment.ID, ImagesFragment.getInstance(problemid));
+//		mFragments.add(VideosFragment.ID, VideosFragment.getInstance(problemid));
+//		mFragments.add(AudiosFragment.ID, AudiosFragment.getInstance(problemid));
+//		mFragments.add(FilesFragment.ID, FilesFragment.getInstance(problemid));
 	}
 
 
@@ -140,18 +147,18 @@ public class SetupUI implements MaterialTabListener {
 			//if the user is not on the home page, show the fragment page
 			if (position == RelevantAttachmentFragment.ID) {
 				return mFragments.get(RelevantAttachmentFragment.ID);
-			} else if (position == ImagesFragment.ID) {
-				return mFragments.get(ImagesFragment.ID);
-			} else if (position == AudiosFragment.ID) {
-				return mFragments.get(AudiosFragment.ID);
+//			} else if (position == ImagesFragment.ID) {
+//				return mFragments.get(ImagesFragment.ID);
+//			} else if (position == AudiosFragment.ID) {
+//				return mFragments.get(AudiosFragment.ID);
 			} else if (position == LinksFragment.ID) {
 				return mFragments.get(LinksFragment.ID);
 			} else if (position == NotesFragment.ID) {
 				return mFragments.get(NotesFragment.ID);
-			} else if (position == VideosFragment.ID) {
-				return mFragments.get(VideosFragment.ID);
-			} else if (position == FilesFragment.ID)	{
-				return mFragments.get(FilesFragment.ID);
+//			} else if (position == VideosFragment.ID) {
+//				return mFragments.get(VideosFragment.ID);
+//			} else if (position == FilesFragment.ID)	{
+//				return mFragments.get(FilesFragment.ID);
 			} else {
 				return DefaultFragment.getInstance(position);
 			}
@@ -159,7 +166,7 @@ public class SetupUI implements MaterialTabListener {
 
 		@Override
 		public int getCount() {
-			return 7;
+			return 3;
 		}
 	}
 
