@@ -66,6 +66,7 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 				}
 			}
 		});
+
 		etDescription = (EditText) findViewById(R.id.etDescription);
 		etTitle = (EditText) findViewById(R.id.etTitle);
 		etProblemStatus = PailContract.VAL_PROBLEM_STATUS_PENDING;
@@ -158,13 +159,19 @@ public class AddProblem extends ActionBarActivity implements ViewStub.OnClickLis
 		cn.put(PailContract.ProblemEntry.COLUMN_PROB_ID, PROBLEM_ID);
 		cn.put(PailContract.ProblemEntry.COLUMN_PRIVACY, etPrivacy);
 		cn.put(PailContract.ProblemEntry.COLUMN_PROBLEM_STATUS, etProblemStatus);
-		if (etTitle.getText().length() <= 0) {
-			cn.put(PailContract.ProblemEntry.COLUMN_TITLE, "p");
+		if (etDescription.getText().length() > 0 && etTitle.getText().length() <= 0) {
+			//Replace etTitle with contents of description
+			int end = (etDescription.getText().length() >= 25) ? 25: etDescription.getText().length();
+			cn.put(PailContract.ProblemEntry.COLUMN_TITLE, etDescription.getText().subSequence(0, end).toString());
 		} else {
-			cn.put(PailContract.ProblemEntry.COLUMN_TITLE, etTitle.getText().toString());
+			if (etTitle.getText().length() <= 0) {
+				cn.put(PailContract.ProblemEntry.COLUMN_TITLE, "p");
+			} else {
+				cn.put(PailContract.ProblemEntry.COLUMN_TITLE, etTitle.getText().toString());
+			}
 		}
-		if (etTitle.getText().length() <= 0) {
-			cn.put(PailContract.ProblemEntry.COLUMN_DESCRIPTION, "d");
+		if (etDescription.getText().length() <= 0) {
+			cn.put(PailContract.ProblemEntry.COLUMN_DESCRIPTION, "");
 		} else {
 			cn.put(PailContract.ProblemEntry.COLUMN_DESCRIPTION, etDescription.getText().toString());
 		}

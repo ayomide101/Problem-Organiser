@@ -30,9 +30,6 @@
 			android:name=".EditProblem"
 			android:label="@string/title_activity_edit_problem"
 			android:parentActivityName=".MainActivity">
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value="udacity.gas.com.solveaproblem.MainActivity"/>
 		</activity>
 		<activity
 			android:name=".DetailProblem"

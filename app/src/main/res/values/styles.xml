@@ -10,12 +10,16 @@
 		<item name="colorPrimaryDark">@color/primaryColorDark</item>
 		<item name="colorAccent">@color/accentColor</item>
 		<item name="android:windowBackground">@android:color/white</item>
+		<item name="android:actionModeStyle">@style/LStyled.ActionMode</item>
 	</style>
 
-	<style name="MyCustomToolBarTheme" parent="ThemeOverlay.AppCompat.Light">
+	<style name="MyCustomToolBarTheme" parent="AppTheme.Base">
 		<item name="android:textColorPrimary">@color/textColorPrimary</item>
 		<item name="android:textColorSecondary">@color/textColorPrimary</item>
 		<item name="android:background">@color/primaryColor</item>
-		<item name="android:actionModeBackground">@color/primaryColor</item>
+		<item name="android:actionModeStyle">@style/LStyled.ActionMode</item>
+	</style>
+	<style name="LStyled.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
+		<item name="android:background">@color/primaryColor</item>
 	</style>
 </resources>

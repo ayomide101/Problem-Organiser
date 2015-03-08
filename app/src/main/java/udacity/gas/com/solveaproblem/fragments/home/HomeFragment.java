@@ -126,19 +126,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 		public void onBindViewHolder(ProblemViewHolder viewHolder, Cursor cursor) {
 			ProblemItem problemItem = ProblemItem.fromCursor(cursor);
 			viewHolder.title.setText(problemItem.getTitle());
-			viewHolder.description.setText(problemItem.getDescription());
 			viewHolder._PROBLEM_ID = problemItem.getPROB_ID();
 			viewHolder._ID = problemItem.get_ID();
 			viewHolder.privacy = problemItem.getPrivacy();
 			viewHolder.date = problemItem.getDate();
 			viewHolder.date_modified = problemItem.getDate_modified();
+			viewHolder.status = problemItem.getStatus();
 			viewHolder.carddate.setText(Long.toString(viewHolder.date));
+			if (problemItem.getDescription().length() <= 0) {
+				viewHolder.description.setVisibility(View.GONE);
+			} else {
+				viewHolder.description.setVisibility(View.VISIBLE);
+				viewHolder.description.setText(problemItem.getDescription());
+			}
 			if (problemItem.getPrivacy() == PailContract.VAL_PRIVACY_PRIVATE) {
 				viewHolder.problemLock.setImageDrawable(getResources().getDrawable(R.drawable.device_access_secure));
 			} else {
 				viewHolder.problemLock.setImageDrawable(getResources().getDrawable(R.drawable.device_access_not_secure));
 			}
-			viewHolder.status = problemItem.getStatus();
 		}
 
 		class ProblemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
