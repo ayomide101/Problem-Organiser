@@ -22,7 +22,7 @@
 			android:textAllCaps="true"
 			android:text=""
 			android:textColor="@color/textColorPrimary"
-			android:textSize="16sp"
+			android:textSize="18sp"
 			android:textIsSelectable="false"/>
 
 		<LinearLayout
@@ -78,7 +78,8 @@
 			android:layout_marginBottom="16dp"
 			android:padding="16dp"
 			android:text=""
-			android:textSize="14sp"
-			android:textIsSelectable="true"/>
+			android:textSize="16sp"
+			android:textIsSelectable="true"
+			android:hint="@string/detail_description_hint"/>
 	</ScrollView>
 </LinearLayout>
