@@ -119,7 +119,7 @@ public class NavigationDrawerFragment extends Fragment {
     public static List<DrawerList> getData() {
         List<DrawerList> data = new ArrayList<>();
         //Add the icons and their various titles to the drawer list
-        int[] icons = {R.drawable.social_person, R.drawable.action_settings, R.drawable.content_picture};
+        int[] icons = {R.drawable.social_person, R.drawable.action_settings, R.drawable.ic_videocam_white};
         String[] titles = {"Account", "Settings", "Gallery"};
         for (int i=0; i < titles.length && i < icons.length; i++) {
             DrawerList drawerList = new DrawerList();

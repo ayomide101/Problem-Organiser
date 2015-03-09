@@ -17,7 +17,7 @@
 		<ImageView
 			android:layout_width="170dp"
 			android:layout_height="152dp"
-			android:src="@drawable/ic_av_videocam"
+			android:src="@drawable/ic_videocam_white"
 			android:contentDescription="@string/video_icon"/>
 
 		<TextView

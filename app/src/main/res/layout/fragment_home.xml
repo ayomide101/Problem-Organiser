@@ -20,7 +20,7 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|right"
 		android:layout_margin="22dp"
-		android:src="@drawable/content_new_white"
+		android:src="@drawable/ic_add_white"
 		fab:fab_colorNormal="@color/accentColor"
 		fab:fab_colorPressed="#ffa52b27"
 		fab:fab_shadow="true"

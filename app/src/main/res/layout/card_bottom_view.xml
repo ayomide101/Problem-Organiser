@@ -42,7 +42,7 @@
 			android:layout_marginRight="8dp"
 			android:background="?android:selectableItemBackground"
 			android:scaleType="fitCenter"
-			android:src="@drawable/ic_action_discard"
+			android:src="@drawable/ic_action_delete"
 			/>
 	</LinearLayout>
 </LinearLayout>

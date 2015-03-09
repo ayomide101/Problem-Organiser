@@ -17,7 +17,7 @@
 		<ImageView
 			android:layout_width="170dp"
 			android:layout_height="152dp"
-			android:src="@drawable/device_access_mic"
+			android:src="@drawable/ic_keyboard_voice_white"
 			android:contentDescription="@string/audio_icon"/>
 
 		<TextView

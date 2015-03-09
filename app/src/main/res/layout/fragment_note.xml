@@ -19,7 +19,7 @@
 			android:layout_width="170dp"
 			android:layout_height="152dp"
 			android:contentDescription="@string/note_icon_text"
-			android:src="@drawable/collections_view_as_list"
+			android:src="@drawable/ic_note_add_white"
 			/>
 
 		<TextView
@@ -50,7 +50,7 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="bottom|right"
 			android:layout_margin="22dp"
-			android:src="@drawable/content_new_white"
+			android:src="@drawable/ic_add_white"
 			fab:fab_colorNormal="@color/accentColor"
 			fab:fab_colorPressed="@color/primaryColor"
 			fab:fab_shadow="true"

@@ -17,7 +17,7 @@
 		<ImageView
 			android:layout_width="170dp"
 			android:layout_height="152dp"
-			android:src="@drawable/device_access_sd_storage"
+			android:src="@drawable/ic_sd_storage_white"
 			android:contentDescription="@string/file_icon"/>
 
 		<TextView

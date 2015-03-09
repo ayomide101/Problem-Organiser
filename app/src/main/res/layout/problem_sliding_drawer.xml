@@ -72,13 +72,13 @@
 				android:text="@string/attach_files_text"
 				android:textColor="@android:color/white"/>
 
-			<ImageView
+			<!--<ImageView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:background="@drawable/content_new_attachment"
 				android:contentDescription="@string/icon_description_text"
 				android:gravity="center"
-				/>
+				/>-->
 		</LinearLayout>
 
 		<ImageButton
@@ -91,7 +91,7 @@
 			android:clickable="false"
 			android:contentDescription="@string/icon_description_text"
 			android:gravity="end"
-			android:src="@drawable/navigation_accept"
+			android:src="@drawable/ic_check_white"
 			android:visibility="gone"
 			/>
 		<!--Making the confirm button on clickable for the confirm button-->

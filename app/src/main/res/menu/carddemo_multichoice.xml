@@ -28,7 +28,7 @@
         android:title="@string/menu_share"/>
     <item
         android:id="@+id/menu_discard"
-        android:icon="@drawable/ic_action_discard"
+        android:icon="@drawable/ic_action_delete"
         app:showAsAction="always"
         android:title="@string/menu_discard"/>
 
