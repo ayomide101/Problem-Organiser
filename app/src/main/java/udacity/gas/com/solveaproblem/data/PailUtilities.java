@@ -60,8 +60,8 @@ public class PailUtilities {
 
 	public static Bitmap setPic(String mCurrentPhotoPath, ImageView mImageView) {
 		// Get the dimensions of the View
-		int targetW = mImageView.getWidth();
-		int targetH = mImageView.getHeight();
+//		int targetW = mImageView.getMeasuredWidth();
+//		int targetH = mImageView.getMeasuredHeight();
 
 		// Get the dimensions of the bitmap
 //		BitmapFactory.Options bmOptions = new BitmapFactory.Options();

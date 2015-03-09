@@ -1,9 +1,12 @@
 package udacity.gas.com.solveaproblem.fragments.attach;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +36,7 @@ import com.melnykov.fab.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -63,6 +67,7 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 	private AlbumStorageDirFactory mAlbumStorageDirFactory;
 	static final int REQUEST_IMAGE_CAPTURE = 1;
 	static final int REQUEST_IMAGE_GET = 2;
+	private ContentResolver cr;
 
 	abstract class AlbumStorageDirFactory {
 		public abstract File getAlbumStorageDir(String albumName);
@@ -125,6 +130,7 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		getLoaderManager().initLoader(LOADER_ID, savedInstanceState, this);
+		cr = getActivity().getContentResolver();
 
 		mImageAdapter = new ImagesAdapter(getActivity(), null);
 
@@ -171,6 +177,59 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 			tempView.setVisibility(View.VISIBLE); //hide btAdd Problem
 			mainNoteContent.setVisibility(View.GONE); //show mainNoteContent
 			mImageAdapter.swapCursor(null);
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
+			if (mCurrentPhotoPath != null) {
+				//
+				File f = new File(mCurrentPhotoPath);
+				imageFileSize = PailUtilities.humanReadableByteCount(f.length(), false);
+				ContentValues cn = compileData();
+				//Add picture to db here
+				insertImage(cn);
+				// Reload loader
+				reloadManager();
+			}
+		} else if (requestCode == REQUEST_IMAGE_GET && resultCode == getActivity().RESULT_OK) {
+			if (data != null) {
+				Uri fullPhotoUri = Uri.parse(data.getDataString());
+				dumpImageMetaData(fullPhotoUri);
+				if (imageFileName.length() >= 0) {
+					ContentValues cn = compileData();
+					if (insertImage(cn) != null) {
+						reloadManager();
+					} else {
+						Toast.makeText(getActivity(), "Failed to attach image to problem", Toast.LENGTH_LONG).show();
+						Log.e("ImagesFragment", "Failed ot attach image to problem");
+					}
+				} else {
+					Toast.makeText(getActivity(), "Could not load image", Toast.LENGTH_LONG).show();
+					Log.e("ImagesFragment", "Failed ot attach image to problem");
+				}
+			}
+
+			//Get the file information and dump into the variables
+		} else {
+			Log.e("ImagesFragment", "Nothing was returned from camera.");
+		}
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+		mImageAdapter.swapCursor(null);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case (R.id.image_tempview):
+			case (R.id.btAddImage): {
+				selectImage();
+			}
 		}
 	}
 
@@ -235,40 +294,6 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 		}
 	}
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
-			if (mCurrentPhotoPath != null) {
-				//
-				File f = new File(mCurrentPhotoPath);
-				imageFileSize = PailUtilities.humanReadableByteCount(f.length(), false);
-				ContentValues cn = compileData();
-				//Add picture to db here
-				insertImage(cn);
-				// Reload loader
-				reloadManager();
-			}
-		} else if (requestCode == REQUEST_IMAGE_GET && resultCode == getActivity().RESULT_OK) {
-			Uri fullPhotoUri = data.getData();
-			//Get the file information and dump into the variables
-			dumpImageMetaData(fullPhotoUri);
-			if (imageFileName.toString().length() >= 0) {
-				ContentValues cn = compileData();
-				if (insertImage(cn) != null) {
-					reloadManager();
-				} else {
-					Toast.makeText(getActivity(), "Failed to attach image to problem", Toast.LENGTH_LONG).show();
-					Log.e("ImagesFragment", "Failed ot attach image to problem");
-				}
-			} else {
-				Toast.makeText(getActivity(), "Could not load image", Toast.LENGTH_LONG).show();
-				Log.e("ImagesFragment", "Failed ot attach image to problem");
-			}
-		} else {
-			Log.e("ImagesFragment", "Nothing was returned from camera.");
-		}
-	}
-
 	private Loader<Cursor> reloadManager() {
 		return getLoaderManager().restartLoader(LOADER_ID, getArguments(), this);
 	}
@@ -323,28 +348,14 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 	}
 
 	public void selectImage() {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		intent.setType("image/*");
-		intent.putExtra(Intent.CATEGORY_OPENABLE, true);
+//		intent.putExtra(Intent.CATEGORY_OPENABLE, true);
 		if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
 			startActivityForResult(intent, REQUEST_IMAGE_GET);
 		}
 	}
 
-	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
-		mImageAdapter.swapCursor(null);
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case (R.id.image_tempview):
-			case (R.id.btAddImage): {
-				selectImage();
-			}
-		}
-	}
 
 	public class ImagesAdapter extends CursorRecyclerViewAdapter<ImagesAdapter.ImageViewHolder> {
 
@@ -368,12 +379,16 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 			viewHolder._date = imageItem.getDate();
 			viewHolder._date_modified = imageItem.getDate_modified();
 
-//			try {
-//				viewHolder.swImageHolder.setImageBitmap(PailUtilities.getBitmapFromUri(getActivity(), Uri.parse(imageItem.getFile_uri())));
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-			viewHolder.swImageHolder.setImageBitmap(PailUtilities.setPic(imageItem.getFile_uri(), viewHolder.swImageHolder));
+			try {
+				InputStream in = cr.openInputStream(Uri.parse(imageItem.getFile_uri()));
+				BitmapFactory.Options options = new BitmapFactory.Options();
+				options.inSampleSize = 1;
+				Bitmap decodeStream = BitmapFactory.decodeStream(in, null, options);
+				viewHolder.swImageHolder.setImageBitmap(decodeStream);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			viewHolder.swCardDate.setText(Long.toString(viewHolder._date));
 
 			viewHolder.swImageFileName.setText(viewHolder._file_name);
@@ -449,6 +464,7 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 					case (R.id.lockcard): {
 						_privacy = PailUtilities.switchPrivacy(
 								getActivity(), _privacy, swLockCard, PailContract.Attachment.buildAttachmentWithAttachmentTypeWithIdUri(new PailContract.ImageAttachmentEntry(), _id));
+						getLoaderManager().restartLoader(LOADER_ID, getArguments(), (LoaderManager.LoaderCallbacks<Object>) getActivity());
 						break;
 					}
 					case (R.id.image_holder): {
