@@ -1,21 +1,22 @@
-package udacity.gas.com.solveaproblem;
+package udacity.gas.com.solveaproblem.fragments.main;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
+import udacity.gas.com.solveaproblem.R;
 import udacity.gas.com.solveaproblem.data.PailContract;
 import udacity.gas.com.solveaproblem.fragments.attach.AudiosFragment;
 import udacity.gas.com.solveaproblem.fragments.attach.FilesFragment;
@@ -26,15 +27,17 @@ import udacity.gas.com.solveaproblem.fragments.attach.RelevantAttachmentFragment
 import udacity.gas.com.solveaproblem.fragments.attach.VideosFragment;
 import udacity.gas.com.solveaproblem.fragments.detail.DetailFragment;
 import udacity.gas.com.solveaproblem.fragments.home.DefaultFragment;
-import udacity.gas.com.solveaproblem.fragments.home.HomeFragment;
-import udacity.gas.com.solveaproblem.utilities.SetupUI;
 
-public class DetailProblem extends ActionBarActivity implements MaterialTabListener {
+/**
+ * Created by Fagbohungbe on 09/03/2015.
+ */
+public class MainDetailFragment extends Fragment implements MaterialTabListener {
 
+	private String[] tabs;
 	private MaterialTabHost mTabs;
 	private ViewPager mPager;
 	private TabsAdapter mPagerAdapter;
-	private ArrayList<Fragment> mFragments = new ArrayList<Fragment>(8);
+	private ArrayList<Fragment> mFragments = new ArrayList<Fragment>(7);
 	private int _id_detail_fragment = 0;
 	private int _id_relevant_fragment = 1;
 	private int _id_notes_fragment = 2;
@@ -45,65 +48,54 @@ public class DetailProblem extends ActionBarActivity implements MaterialTabListe
 	private int _id_files_fragment = 7;
 	private long mProblemid;
 
+	public static MainDetailFragment getInstance(long problemId) {
+		MainDetailFragment myFragment = new MainDetailFragment();
+		Bundle args = new Bundle();
+		args.putLong(PailContract.ProblemEntry.BUNDLE_KEY, problemId);
+		myFragment.setArguments(args);
+
+		return myFragment;
+	}
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_detail_problem);
-		Intent intent = getIntent();
-		mProblemid = intent.getLongExtra(HomeFragment.EXTRA_ID, 0);
-		SetupUI setupUI = new SetupUI(this);
-		setupUI.setupToolbar();
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		tabs = getResources().getStringArray(R.array.detail_activity_tabs);
+		Log.e("MainDetailFragment", tabs.toString());
 		setupTabs();
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_detail_problem, menu);
-		return true;
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			mProblemid = bundle.getLong(PailContract.ProblemEntry.BUNDLE_KEY);
+		}
+		setRetainInstance(true);
+		return inflater.inflate(R.layout.fragment_main_detail, container, false);
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-
-		//noinspection SimplifiableIfStatement
-		if (id == R.id.home) {
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
-		if (id == R.id.action_edit) {
-			Intent intent = new Intent(this, EditProblem.class);
-			intent.putExtra(HomeFragment.EXTRA_ID, mProblemid);
-			startActivity(intent);
-			return true;
-		}
-		if (id == R.id.action_delete) {
-			getContentResolver()
-				.delete(PailContract.ProblemEntry.buildProblemWithIdUri(mProblemid), null, null);
-			finish();
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
+	public void onTabSelected(MaterialTab materialTab) {
+		mPager.setCurrentItem(materialTab.getPosition());
 	}
 
 	@Override
-	public void onTabSelected(MaterialTab materialTab) { mPager.setCurrentItem(materialTab.getPosition()); }
+	public void onTabReselected(MaterialTab materialTab) {
+
+	}
 
 	@Override
-	public void onTabReselected(MaterialTab materialTab) {}
+	public void onTabUnselected(MaterialTab materialTab) {
 
-	@Override
-	public void onTabUnselected(MaterialTab materialTab) {}
+	}
 
 	private void setupTabs() {
-		mTabs = (MaterialTabHost) findViewById(R.id.tabs);
-		mPager = (ViewPager) findViewById(R.id.pager);
-		mPagerAdapter = new TabsAdapter(getSupportFragmentManager());
+		mTabs = (MaterialTabHost) getActivity().findViewById(R.id.tabs);
+		mPager = (ViewPager) getActivity().findViewById(R.id.pager);
+		mPagerAdapter = new TabsAdapter(getActivity().getSupportFragmentManager());
+		//The arraylist of the mFragments
+		setupArrayTabs();
 		mPager.setAdapter(mPagerAdapter);
 		mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 			@Override
@@ -115,9 +107,6 @@ public class DetailProblem extends ActionBarActivity implements MaterialTabListe
 		for (int i = 0; i < mPagerAdapter.getCount(); i++) {
 			mTabs.addTab(mTabs.newTab().setText(mPagerAdapter.getPageTitle(i)).setTabListener(this));
 		}
-
-		//The arraylist of the mFragments
-		setupArrayTabs();
 	}
 
 	private void setupArrayTabs() {
@@ -133,11 +122,8 @@ public class DetailProblem extends ActionBarActivity implements MaterialTabListe
 
 	class TabsAdapter extends FragmentStatePagerAdapter {
 
-		String[] tabs;
-
 		public TabsAdapter(FragmentManager fm) {
 			super(fm);
-			tabs = getResources().getStringArray(R.array.detail_activity_tabs);
 		}
 
 		@Override

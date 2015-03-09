@@ -27,7 +27,7 @@ public class DefaultFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_home, container, false);
+        View layout = inflater.inflate(R.layout.fragment_default, container, false);
         textView = (TextView) layout.findViewById(R.id.position);
         Bundle bundle = getArguments();
         if (bundle != null) {
