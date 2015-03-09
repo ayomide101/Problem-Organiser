@@ -11,7 +11,7 @@
 		android:layout_height="match_parent"
 		android:gravity="center"
 		android:orientation="vertical"
-		android:background="#ffd7b4b3"
+		android:background="#00BCD4"
 		android:weightSum="1">
 
 		<ImageView
@@ -25,7 +25,7 @@
 			android:layout_height="wrap_content"
 			android:text="@string/add_links"
 			android:textAlignment="center"
-			android:textColor="#ffb96f86"
+			android:textColor="#80DEEA"
 			android:textSize="45sp"
 			android:textStyle="normal"/>
 	</LinearLayout>

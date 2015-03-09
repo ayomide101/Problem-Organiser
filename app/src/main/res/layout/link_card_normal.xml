@@ -8,7 +8,7 @@
 	android:layout_gravity="center"
 	android:layout_margin="8dp"
 	card_view:cardBackgroundColor="@android:color/white"
-	card_view:cardCornerRadius="2dp"
+	card_view:cardCornerRadius="4dp"
 	card_view:cardElevation="3dp"
 	card_view:cardPreventCornerOverlap="true"
 	card_view:cardUseCompatPadding="false"
@@ -18,14 +18,15 @@
 	card_view:contentPaddingRight="0dp"
 	card_view:contentPaddingTop="0dp"
 	card_view:paddingEnd="0dp"
-	card_view:paddingStart="0dp">
+	card_view:paddingStart="0dp"
+	>
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="#ffd7b4b3"
 		android:orientation="vertical"
-		card_view:cardCornerRadius="2dp">
+		card_view:cardCornerRadius="2dp"
+		android:background="#00BCD4">
 
 		<TextView
 			android:id="@+id/link_description"
@@ -43,13 +44,13 @@
 			android:padding="12dp"
 			android:textIsSelectable="true"
 			android:text="@string/link_text_uri"
-			android:textColor="@android:color/holo_blue_dark"
 			android:textSize="16sp"
-			android:textStyle="bold|italic"/>
+			android:textStyle="bold|italic"
+			android:textColor="#B2EBF2"/>
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="2dp"
-			android:background="#ffc6a5a4"
+			android:background="#00ACC1"
 			/>
 		<include layout="@layout/note_card_controls" />
 	</LinearLayout>

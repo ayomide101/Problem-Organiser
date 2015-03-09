@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			 android:layout_width="match_parent"
 			 android:layout_height="match_parent"
-			 android:background="#ffb2c8d7"
+			 android:background="#9C27B0"
 			 android:orientation="vertical">
 
 	<LinearLayout
@@ -25,7 +25,7 @@
 			android:layout_height="wrap_content"
 			android:text="@string/add_videos"
 			android:textAlignment="center"
-			android:textColor="#ff5f9bb9"
+			android:textColor="#CE93D8"
 			android:textSize="45sp"
 			android:textStyle="normal"/>
 	</LinearLayout>

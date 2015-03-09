@@ -31,7 +31,6 @@ public class DetailProblem extends ActionBarActivity implements MaterialTabListe
 	private ViewPager mPager;
 	private TabsAdapter mPagerAdapter;
 	private ArrayList<Fragment> mFragments = new ArrayList<Fragment>(7);
-	private int LOADER_ID = 1;
 	private int _id_detail_fragment = 0;
 	private int _id_relevant_fragment = 1;
 	private int _id_notes_fragment = 2;
@@ -41,7 +40,6 @@ public class DetailProblem extends ActionBarActivity implements MaterialTabListe
 	private int _id_audios_fragment = 6;
 	private int _id_files_fragment = 7;
 	private long mProblemid;
-	private int mPrivacy;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

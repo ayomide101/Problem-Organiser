@@ -12,7 +12,7 @@
 		android:gravity="center"
 		android:orientation="vertical"
 		android:visibility="visible"
-		android:background="#ffd7a76d"
+		android:background="#E91E63"
 		android:weightSum="1">
 
 		<ImageView
@@ -27,7 +27,7 @@
 			android:layout_height="wrap_content"
 			android:text="@string/add_notes"
 			android:textAlignment="center"
-			android:textColor="#ffb97c2b"
+			android:textColor="#F48FB1"
 			android:textSize="45sp"
 			android:textStyle="normal"/>
 	</LinearLayout>
