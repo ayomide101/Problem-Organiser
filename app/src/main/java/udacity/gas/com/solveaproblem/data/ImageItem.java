@@ -11,7 +11,7 @@ public class ImageItem {
 	private String file_mime_type;
 	private String file_name;
 	private String file_uri;
-	private long file_size;
+	private String file_size;
 	private String file_type;
 	private String file_description;
 	private long prod_id;
@@ -34,7 +34,7 @@ public class ImageItem {
 		imageitem.setFile_mime_type(cursor.getString(PailContract.ImageAttachmentEntry.i_IMAGE_COLUMN_MIME_TYPE));
 		imageitem.setFile_name(cursor.getString(PailContract.ImageAttachmentEntry.i_IMAGE_COLUMN_FILE_NAME));
 		imageitem.setFile_uri(cursor.getString(PailContract.ImageAttachmentEntry.i_IMAGE_COLUMN_FILE_URI));
-		imageitem.setFile_size(cursor.getLong(PailContract.ImageAttachmentEntry.i_IMAGE_COLUMN_FILE_SIZE));
+		imageitem.setFile_size(cursor.getString(PailContract.ImageAttachmentEntry.i_IMAGE_COLUMN_FILE_SIZE));
 		imageitem.setFile_type(cursor.getString(PailContract.ImageAttachmentEntry.i_IMAGE_COLUMN_FILE_TYPE));
 		imageitem.setFile_description(cursor.getString(PailContract.ImageAttachmentEntry.i_IMAGE_COLUMN_FILE_DESCRIPTION));
 		return imageitem;
@@ -64,11 +64,11 @@ public class ImageItem {
 		this.file_uri = file_uri;
 	}
 
-	public long getFile_size() {
+	public String getFile_size() {
 		return file_size;
 	}
 
-	public void setFile_size(long file_size) {
+	public void setFile_size(String file_size) {
 		this.file_size = file_size;
 	}
 

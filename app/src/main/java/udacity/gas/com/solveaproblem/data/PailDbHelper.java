@@ -80,7 +80,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.VideoAttachmentEntry.COLUMN_MIME_TYPE + " TEXT NOT NULL, " +
 				PailContract.VideoAttachmentEntry.COLUMN_FILE_NAME + " TEXT NOT NULL, "+
 				PailContract.VideoAttachmentEntry.COLUMN_FILE_URI + " TEXT NOT NULL, " +
-				PailContract.VideoAttachmentEntry.COLUMN_FILE_SIZE + " REAL NOT NULL, "+
+				PailContract.VideoAttachmentEntry.COLUMN_FILE_SIZE + " TEXT NOT NULL, "+
 				PailContract.VideoAttachmentEntry.COLUMN_FILE_TYPE + " INTEGER NOT NULL, " +
 				PailContract.VideoAttachmentEntry.COLUMN_FILE_DESCRIPTION + " TEXT NOT NULL, " +
 				PailContract.VideoAttachmentEntry.COLUMN_RELEVANCE + " INTEGER NOT NULL, " +
@@ -97,7 +97,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.AudioAttachmentEntry.COLUMN_MIME_TYPE + " TEXT NOT NULL, " +
 				PailContract.AudioAttachmentEntry.COLUMN_FILE_NAME + " TEXT NOT NULL, "+
 				PailContract.AudioAttachmentEntry.COLUMN_FILE_URI + " TEXT NOT NULL, " +
-				PailContract.AudioAttachmentEntry.COLUMN_FILE_SIZE + " REAL NOT NULL, "+
+				PailContract.AudioAttachmentEntry.COLUMN_FILE_SIZE + " TEXT NOT NULL, "+
 				PailContract.AudioAttachmentEntry.COLUMN_FILE_TYPE + " INTEGER NOT NULL, " +
 				PailContract.AudioAttachmentEntry.COLUMN_FILE_DESCRIPTION + " TEXT NOT NULL, " +
 				PailContract.AudioAttachmentEntry.COLUMN_RELEVANCE + " INTEGER NOT NULL, " +
@@ -114,7 +114,7 @@ public class PailDbHelper extends SQLiteOpenHelper{
 				PailContract.FileAttachmentEntry.COLUMN_MIME_TYPE + " TEXT NOT NULL, " +
 				PailContract.FileAttachmentEntry.COLUMN_FILE_NAME + " TEXT NOT NULL, "+
 				PailContract.FileAttachmentEntry.COLUMN_FILE_URI + " TEXT NOT NULL, " +
-				PailContract.FileAttachmentEntry.COLUMN_FILE_SIZE + " REAL NOT NULL, "+
+				PailContract.FileAttachmentEntry.COLUMN_FILE_SIZE + " TEXT NOT NULL, "+
 				PailContract.FileAttachmentEntry.COLUMN_FILE_TYPE + " INTEGER NOT NULL, " +
 				PailContract.FileAttachmentEntry.COLUMN_FILE_DESCRIPTION + " TEXT NOT NULL, " +
 				PailContract.FileAttachmentEntry.COLUMN_RELEVANCE + " INTEGER NOT NULL, " +

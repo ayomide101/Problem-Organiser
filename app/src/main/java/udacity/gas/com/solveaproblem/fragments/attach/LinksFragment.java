@@ -298,7 +298,11 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 						if (url.length() > 1 && Patterns.WEB_URL.matcher(url).matches()) {
 							try {
 								Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-								startActivity(browserIntent);
+								if (browserIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+									startActivity(browserIntent);
+								} else {
+									Toast.makeText(getActivity(), "Either the url you provided is invalid or you do not have any app for displaying websites", Toast.LENGTH_LONG).show();
+								}
 							} catch (ActivityNotFoundException e) {
 								Toast.makeText(getActivity(), "Invalid url specified, cannot open browser", Toast.LENGTH_LONG).show();
 							}

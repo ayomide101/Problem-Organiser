@@ -12,6 +12,7 @@
     <string name="search_hint">Search</string>
     <string name="account_settings_icon_text">account_settings</string>
     <string name="btTextAddProblem">ADD PROBLEM</string>
+	<string name="album_name">CameraSample</string>
 
     <string-array name="tabs">
         <item>PROBLEMS</item>

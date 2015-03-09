@@ -3,7 +3,15 @@
 	package="udacity.gas.com.solveaproblem"
 	xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission
+		android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+		android:maxSdkVersion="18"/>
+	<uses-permission android:name="android.permission.CAMERA"/>
+	<uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
+
+	<uses-feature
+		android:name="android.hardware.camera"
+		android:required="true"/>
 
 	<application
 		android:allowBackup="true"
@@ -44,16 +52,6 @@
 			android:name=".data.ProblemProvider"
 			android:authorities="udacity.gas.com.solveaproblem"
 			android:exported="false"/>
-
-		<activity
-			android:name=".mediachooser.activity.HomeFragmentActivity"
-			android:configChanges="orientation|screenSize">
-		</activity>
-		<activity
-			android:name=".mediachooser.activity.BucketHomeFragmentActivity"
-			android:configChanges="orientation|screenSize"
-			android:screenOrientation="portrait">
-		</activity>
 	</application>
 
 </manifest>

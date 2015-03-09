@@ -31,9 +31,9 @@
 	</LinearLayout>
 
 	<FrameLayout
+		android:id="@+id/image_main_content"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:id="@+id/image_main_content"
 		android:visibility="gone">
 
 		<android.support.v7.widget.RecyclerView
@@ -42,6 +42,7 @@
 			android:layout_height="match_parent"
 			android:layout_gravity="center">
 		</android.support.v7.widget.RecyclerView>
+
 		<com.melnykov.fab.FloatingActionButton
 			android:id="@+id/btAddImage"
 			android:layout_width="wrap_content"
