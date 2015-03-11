@@ -10,6 +10,7 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import udacity.gas.com.solveaproblem.R;
@@ -25,6 +26,8 @@ public class AttachmentFragment extends Fragment implements LoaderManager.Loader
 	private int LOADER_ID = 0;
 	private TextView mLinkCount;
 	private TextView mNotesCount;
+	private LinearLayout bTOpenLinks;
+	private LinearLayout bTOpenNotes;
 
 	public static AttachmentFragment getInstance(int position) {
 		AttachmentFragment myFragment = new AttachmentFragment();
@@ -53,6 +56,20 @@ public class AttachmentFragment extends Fragment implements LoaderManager.Loader
 
 		mLinkCount = (TextView) getActivity().findViewById(R.id.links_count);
 		mNotesCount = (TextView) getActivity().findViewById(R.id.notes_count);
+		bTOpenLinks = (LinearLayout) getActivity().findViewById(R.id.open_links);
+		bTOpenNotes = (LinearLayout) getActivity().findViewById(R.id.open_notes);
+		bTOpenLinks.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+		bTOpenLinks.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
 	}
 
 	@Override

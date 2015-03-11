@@ -54,6 +54,7 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 	private int stPrivacy;
 	private LinkAdapter linkAdapter;
 	private LinksFragment mObject;
+	private TextView add_links_text;
 
 	public static LinksFragment getInstance(long position) {
 		LinksFragment myFragment = new LinksFragment();
@@ -70,6 +71,8 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 		Bundle bundle = getArguments();
 		if (bundle != null) {
 			PROB_ID = bundle.getLong(PailContract.ProblemEntry.BUNDLE_KEY);
+		} else {
+			PROB_ID = PailContract.ProblemEntry.PROD_ID_NOT_SET;
 		}
 		return layout;
 	}
@@ -86,9 +89,18 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 		lMainNoteContent = (FrameLayout) getActivity().findViewById(R.id.mainLinkContent);
 		lTempView = (LinearLayout) getActivity().findViewById(R.id.link_tempview);
 		FloatingActionButton lBtAddNote = (FloatingActionButton) getActivity().findViewById(R.id.btAddLink);
+		add_links_text = (TextView) getActivity().findViewById(R.id.add_links_text);
 
-		lTempView.setOnClickListener(this);
-		lBtAddNote.setOnClickListener(this);
+		if (PROB_ID == PailContract.ProblemEntry.PROD_ID_NOT_SET) {
+			lBtAddNote.setVisibility(View.GONE);
+			add_links_text.setText(R.string.not_found);
+		} else {
+			lTempView.setOnClickListener(this);
+			lBtAddNote.setOnClickListener(this);
+			lBtAddNote.setVisibility(View.VISIBLE);
+			add_links_text.setText(R.string.add_links);
+		}
+
 		lRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL));
 		lRecyclerView.setAdapter(linkAdapter);
 
@@ -171,8 +183,10 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String sortOrder = PailContract.LinkAttachmentEntry.COLUMN_DATE + " DESC";
+		//check if the probid is valid, call the get all if otherwise
+		Uri uri = (PROB_ID != PailContract.ProblemEntry.PROD_ID_NOT_SET) ? PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(PROB_ID, new PailContract.LinkAttachmentEntry()): PailContract.Attachment.buildAttachmentsUri();
 		return new CursorLoader(getActivity(),
-				PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(PROB_ID, new PailContract.LinkAttachmentEntry()),
+				uri,
 				PailContract.LinkAttachmentEntry.LINK_COLUMNS,
 				null,
 				null,

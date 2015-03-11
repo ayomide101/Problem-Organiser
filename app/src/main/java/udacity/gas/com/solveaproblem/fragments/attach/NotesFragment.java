@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -55,6 +56,7 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 	private Switch etPrivacy;
 	private ContentResolver resolver;
 	private NotesFragment mObject;
+	private TextView add_notes_text;
 
 	public static NotesFragment getInstance(long problemId) {
 		NotesFragment myFragment = new NotesFragment();
@@ -71,6 +73,8 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 		Bundle bundle = getArguments();
 		if (bundle != null) {
 			PROB_ID = bundle.getLong(PailContract.ProblemEntry.BUNDLE_KEY);
+		} else {
+			PROB_ID = PailContract.ProblemEntry.PROD_ID_NOT_SET;
 		}
 		return layout;
 	}
@@ -85,11 +89,19 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 		mainNoteContent = (FrameLayout) getActivity().findViewById(R.id.note_main_content);
 		tempView = (LinearLayout) getActivity().findViewById(R.id.note_tempview);
 		btAddNote = (FloatingActionButton) getActivity().findViewById(R.id.btAddNote);
+		add_notes_text = (TextView) getActivity().findViewById(R.id.add_notes_text);
 
 		mObject = this;
 
-		tempView.setOnClickListener(this);
-		btAddNote.setOnClickListener(this);
+		if (PROB_ID == PailContract.ProblemEntry.PROD_ID_NOT_SET) {
+			btAddNote.setVisibility(View.GONE);
+			add_notes_text.setText(R.string.not_found);
+		} else {
+			tempView.setOnClickListener(this);
+			btAddNote.setOnClickListener(this);
+			btAddNote.setVisibility(View.VISIBLE);
+			add_notes_text.setText(R.string.not_found);
+		}
 		recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL));
 		recyclerView.setAdapter(notesAdapter);
 		mMaterialDialog = new MaterialDialog.Builder(getActivity())
@@ -176,8 +188,9 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String sortOrder = PailContract.NoteAttachmentEntry.COLUMN_DATE + " DESC";
+		Uri uri = (PROB_ID != PailContract.ProblemEntry.PROD_ID_NOT_SET) ? PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(PROB_ID, new PailContract.NoteAttachmentEntry()): PailContract.Attachment.buildAttachmentsUri();
 		return new CursorLoader(getActivity(),
-				PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(PROB_ID, new PailContract.NoteAttachmentEntry()),
+				uri,
 				PailContract.NoteAttachmentEntry.NOTES_COLUMNS,
 				null,
 				null,

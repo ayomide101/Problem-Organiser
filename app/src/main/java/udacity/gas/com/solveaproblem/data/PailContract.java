@@ -90,6 +90,8 @@ public class PailContract {
 		/*int*/
 		public static final String COLUMN_PROBLEM_STATUS = "status";
 
+		public static final int PROD_ID_NOT_SET = -2;
+
 		public static final String[] PROBLEM_COLUMNS = {
 			ProblemEntry._ID,
 			ProblemEntry.COLUMN_TITLE,

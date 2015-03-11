@@ -85,6 +85,7 @@
     <string name="link_text_description">Link description</string>
     <string name="link_text_uri">Link Url</string>
     <string name="dimage">image</string>
+	<string name="not_found">Not found - You have not attached this attachment type.</string>
 
     <!-- <string name="app_name">MediaChooser</string> -->
     <string name="image"> Image </string>
