@@ -6,14 +6,49 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical">
 
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/problemsList"
+	<LinearLayout
+		android:id="@+id/homeTempView"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_gravity="center">
-	</android.support.v7.widget.RecyclerView>
+		android:background="#00BCD4"
+		android:gravity="center"
+		android:orientation="vertical"
+		android:visibility="visible"
+		android:weightSum="1">
 
+		<ImageView
+			android:layout_width="150dp"
+			android:layout_height="134dp"
+			android:contentDescription="@string/link_icon"
+			android:src="@drawable/ic_cloud_white"/>
 
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="YOU HAVE NOT ADDED ANY PROBLEM\nCLICK THE PLUS ICON BELOW TO START ORGANISING YOUR PROBLEMS"
+			android:textColor="#80DEEA"
+			android:textSize="24sp"
+			android:textStyle="normal"
+			android:paddingLeft="22dp"
+			android:paddingRight="22dp"
+			android:textAlignment="center"
+			android:editable="false"/>
+
+	</LinearLayout>
+
+	<FrameLayout
+		android:id="@+id/mainHomeContent"
+		android:visibility="gone"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/problemsList"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_gravity="center">
+		</android.support.v7.widget.RecyclerView>
+	</FrameLayout>
 	<com.melnykov.fab.FloatingActionButton
 		android:id="@+id/btAddProblem"
 		android:layout_width="wrap_content"

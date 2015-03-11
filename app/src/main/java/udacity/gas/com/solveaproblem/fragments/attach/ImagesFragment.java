@@ -68,6 +68,7 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 	static final int REQUEST_IMAGE_CAPTURE = 1;
 	static final int REQUEST_IMAGE_GET = 2;
 	private ContentResolver cr;
+	private ImagesFragment mImagesFragment;
 
 	abstract class AlbumStorageDirFactory {
 		public abstract File getAlbumStorageDir(String albumName);
@@ -147,8 +148,9 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 			btCaptureImage.setOnClickListener(this);
 		}*/
 		btAddImage.setOnClickListener(this);
-		recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL));
+		recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
 		recyclerView.setAdapter(mImageAdapter);
+		mImagesFragment = this;
 	}
 
 	@Override
@@ -196,7 +198,7 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 			}
 		} else if (requestCode == REQUEST_IMAGE_GET && resultCode == getActivity().RESULT_OK) {
 			if (data != null) {
-				Uri fullPhotoUri = Uri.parse(data.getDataString());
+				Uri fullPhotoUri = data.getData();
 				dumpImageMetaData(fullPhotoUri);
 				if (imageFileName.length() >= 0) {
 					ContentValues cn = compileData();
@@ -277,7 +279,7 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 	}
 
 	private void dispatchTakePictureIntent() {
-		takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
 			File f = null;
 			try {
@@ -331,7 +333,7 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 				imageFileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
 				int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
 				if (!cursor.isNull(sizeIndex)) {
-					imageFileSize = PailUtilities.humanReadableByteCount(cursor.getInt(sizeIndex), false);
+					imageFileSize = PailUtilities.humanReadableByteCount(cursor.getInt(sizeIndex), true);
 				} else {
 					imageFileSize = "Unknown";
 				}
@@ -348,7 +350,7 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 	}
 
 	public void selectImage() {
-		Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		intent.setType("image/*");
 //		intent.putExtra(Intent.CATEGORY_OPENABLE, true);
 		if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -382,14 +384,16 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 			try {
 				InputStream in = cr.openInputStream(Uri.parse(imageItem.getFile_uri()));
 				BitmapFactory.Options options = new BitmapFactory.Options();
-				options.inSampleSize = 1;
+				options.inSampleSize = 8;
+				options.inJustDecodeBounds = false;
+				options.inPurgeable = true;
 				Bitmap decodeStream = BitmapFactory.decodeStream(in, null, options);
-				viewHolder.swImageHolder.setImageBitmap(decodeStream);
+				in.close();
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.e("ImagesFragment", e.getMessage());
 			}
 
-			viewHolder.swCardDate.setText(Long.toString(viewHolder._date));
+			viewHolder.swCardDate.setText(viewHolder._date);
 
 			viewHolder.swImageFileName.setText(viewHolder._file_name);
 			viewHolder.swImageFileSize.setText(viewHolder._file_size);
@@ -430,8 +434,8 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 			public long _prod_id;
 			public long _attach_id;
 			public long _relevance;
-			public long _date;
-			public long _date_modified;
+			public String _date;
+			public String _date_modified;
 			public int _privacy;
 			public ImageView swImageHolder;
 
@@ -458,13 +462,13 @@ public class ImagesFragment extends Fragment implements LoaderManager.LoaderCall
 					case (R.id.deletecard): {
 						getActivity().getContentResolver()
 								.delete(PailContract.Attachment.buildAttachmentWithAttachmentTypeWithIdUri(new PailContract.ImageAttachmentEntry(), _id), null, null);
-						getLoaderManager().restartLoader(LOADER_ID, getArguments(), (LoaderManager.LoaderCallbacks<Object>) getActivity());
+						getLoaderManager().restartLoader(LOADER_ID, getArguments(), mImagesFragment);
 						break;
 					}
 					case (R.id.lockcard): {
 						_privacy = PailUtilities.switchPrivacy(
 								getActivity(), _privacy, swLockCard, PailContract.Attachment.buildAttachmentWithAttachmentTypeWithIdUri(new PailContract.ImageAttachmentEntry(), _id));
-						getLoaderManager().restartLoader(LOADER_ID, getArguments(), (LoaderManager.LoaderCallbacks<Object>) getActivity());
+						getLoaderManager().restartLoader(LOADER_ID, getArguments(), mImagesFragment);
 						break;
 					}
 					case (R.id.image_holder): {

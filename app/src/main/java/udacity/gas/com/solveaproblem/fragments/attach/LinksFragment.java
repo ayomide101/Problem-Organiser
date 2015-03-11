@@ -227,7 +227,7 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 			viewHolder._url = linkItem.getUrl();
 			viewHolder._screenshot = linkItem.getScreenshot();
 
-			viewHolder.card_date.setText((Long.toString(viewHolder._date_modified)));
+			viewHolder.card_date.setText(viewHolder._date_modified);
 			viewHolder.link_description.setText(viewHolder._description);
 			viewHolder.link_url.setText(viewHolder._url);
 
@@ -257,8 +257,8 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 			long _PROBLEM_ID;
 			int _privacy;
 			long _relevance;
-			long _date;
-			long _date_modified;
+			String _date;
+			String _date_modified;
 			String _title;
 			public String _description;
 			public String _url;

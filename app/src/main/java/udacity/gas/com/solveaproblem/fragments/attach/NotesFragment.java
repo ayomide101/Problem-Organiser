@@ -241,7 +241,7 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 			viewHolder._content = noteItem.getContent();
 			viewHolder._title = noteItem.getTitle();
 			viewHolder.note_content.setText(viewHolder._content);
-			viewHolder.card_date.setText((Long.toString(viewHolder._date_modified)));
+			viewHolder.card_date.setText(viewHolder._date);
 			if (noteItem.getPrivacy() == PailContract.VAL_PRIVACY_PRIVATE) {
 				viewHolder.lockCard.setImageDrawable(getResources().getDrawable(R.drawable.device_access_secure));
 			} else {
@@ -260,8 +260,8 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 			long _PROBLEM_ID;
 			int _privacy;
 			long _relevance;
-			long _date;
-			long _date_modified;
+			String _date;
+			String _date_modified;
 			String _content;
 			String _title;
 

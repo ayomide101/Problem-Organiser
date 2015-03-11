@@ -16,7 +16,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +43,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 	public final static String EXTRA_ID = "udacity.gas.com.solveaproblem.PROBLEMID";
 	private ProblemsAdapter problemsAdapter;
 	private RecyclerView recyclerView;
+	private FrameLayout lMainNoteContent;
+	private LinearLayout lTempView;
 
 	public static HomeFragment getInstance(int position) {
 		return new HomeFragment();
@@ -60,6 +64,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 		recyclerView = (RecyclerView) getActivity().findViewById(R.id.problemsList);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 		recyclerView.setAdapter(problemsAdapter);
+
+		lMainNoteContent = (FrameLayout) getActivity().findViewById(R.id.mainHomeContent);
+		lTempView = (LinearLayout) getActivity().findViewById(R.id.homeTempView);
 
 		FloatingActionButton btAddProblem = (FloatingActionButton) getActivity().findViewById(R.id.btAddProblem);
 		btAddProblem.setOnClickListener(this);
@@ -93,8 +100,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 		}
 		//Data found
 		if (data.moveToFirst()) {
+			lMainNoteContent.setVisibility(View.VISIBLE);
+			lTempView.setVisibility(View.GONE);
 			problemsAdapter.swapCursor(data);
 		} else {
+			lMainNoteContent.setVisibility(View.GONE);
+			lTempView.setVisibility(View.VISIBLE);
 			problemsAdapter.swapCursor(null);
 		}
 	}
@@ -132,7 +143,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 			viewHolder.date = problemItem.getDate();
 			viewHolder.date_modified = problemItem.getDate_modified();
 			viewHolder.status = problemItem.getStatus();
-			viewHolder.carddate.setText(Long.toString(viewHolder.date));
+			viewHolder.carddate.setText(viewHolder.date);
 			if (problemItem.getDescription().length() <= 0) {
 				viewHolder.description.setVisibility(View.GONE);
 			} else {
@@ -159,8 +170,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 			long _ID;
 			int privacy;
 			int status;
-			public long date;
-			public long date_modified;
+			public String date;
+			public String date_modified;
 
 			public ProblemViewHolder(View itemView) {
 				super(itemView);

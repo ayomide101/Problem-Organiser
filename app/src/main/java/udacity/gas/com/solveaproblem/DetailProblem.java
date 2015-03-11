@@ -171,7 +171,7 @@ public class DetailProblem extends ActionBarActivity implements MaterialTabListe
 
 		@Override
 		public int getCount() {
-			return 8;
+			return 4;
 		}
 	}
 }

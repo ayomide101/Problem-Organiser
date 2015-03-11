@@ -112,16 +112,16 @@ public class ImageItem {
 		this.relevance = relevance;
 	}
 
-	public long getDate() {
-		return date;
+	public String getDate() {
+		return PailUtilities.getReadableDateString(date);
 	}
 
 	public void setDate(long date) {
 		this.date = date;
 	}
 
-	public long getDate_modified() {
-		return date_modified;
+	public String getDate_modified() {
+		return PailUtilities.getReadableDateString(date_modified);
 	}
 
 	public void setDate_modified(long date_modified) {

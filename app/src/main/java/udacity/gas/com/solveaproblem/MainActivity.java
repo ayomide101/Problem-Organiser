@@ -20,7 +20,7 @@ import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 import udacity.gas.com.solveaproblem.data.PailDbHelper;
 import udacity.gas.com.solveaproblem.drawer.NavigationDrawerFragment;
-import udacity.gas.com.solveaproblem.fragments.home.BrowseFragment;
+import udacity.gas.com.solveaproblem.fragments.home.AttachmentFragment;
 import udacity.gas.com.solveaproblem.fragments.home.DefaultFragment;
 import udacity.gas.com.solveaproblem.fragments.home.HomeFragment;
 
@@ -187,13 +187,13 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         @Override
         public Fragment getItem(int position) {
             //if the user is not on the home page, show the fragment page
-            if (position == BrowseFragment.ID) {
-				if (mFragments.contains(new BrowseFragment())) {
-					return mFragments.get(BrowseFragment.ID);
+            if (position == AttachmentFragment.ID) {
+				if (mFragments.contains(new AttachmentFragment())) {
+					return mFragments.get(AttachmentFragment.ID);
 				} else {
-					BrowseFragment browseFragment = BrowseFragment.getInstance(position);
-					mFragments.add(BrowseFragment.ID, browseFragment);
-					return browseFragment;
+					AttachmentFragment attachmentFragment = AttachmentFragment.getInstance(position);
+					mFragments.add(AttachmentFragment.ID, attachmentFragment);
+					return attachmentFragment;
 				}
             } else if (position == HomeFragment.ID) {
 				if (mFragments.contains(new HomeFragment())) {

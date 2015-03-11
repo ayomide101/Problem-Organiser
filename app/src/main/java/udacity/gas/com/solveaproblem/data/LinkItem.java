@@ -91,16 +91,16 @@ public class LinkItem {
 		this.title = title;
 	}
 
-	public long getDate_modified() {
-		return date_modified;
+	public String getDate_modified() {
+		return PailUtilities.getReadableDateString(date_modified);
 	}
 
 	public void setDate_modified(long date_modified) {
 		this.date_modified = date_modified;
 	}
 
-	public long getDate() {
-		return date;
+	public String getDate() {
+		return PailUtilities.getReadableDateString(date);
 	}
 
 	public void setDate(long date) {

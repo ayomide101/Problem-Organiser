@@ -1,6 +1,7 @@
 package udacity.gas.com.solveaproblem.data;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -18,7 +19,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -52,33 +56,33 @@ public class PailUtilities {
 
 	public static String humanReadableByteCount(long bytes, boolean si) {
 		int unit = si ? 1000 : 1024;
-		if (bytes < unit) return bytes + " B";
+		if (bytes < unit) return bytes+"B";
 		int exp = (int) (Math.log(bytes) / Math.log(unit));
 		String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "":"1");
 		return String.format("%.1f%sB", bytes / Math.pow(unit, exp), pre);
 	}
 
-	public static Bitmap setPic(String mCurrentPhotoPath, ImageView mImageView) {
+	public static Bitmap setPic(ContentResolver cr, Uri mCurrentPhotoPath, ImageView mImageView) throws FileNotFoundException {
+		InputStream in = cr.openInputStream(mCurrentPhotoPath);
 		// Get the dimensions of the View
-//		int targetW = mImageView.getMeasuredWidth();
-//		int targetH = mImageView.getMeasuredHeight();
-
+		int targetW = mImageView.getMeasuredWidth();
+		int targetH = mImageView.getMeasuredHeight();
+//
 		// Get the dimensions of the bitmap
-//		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-//		bmOptions.inJustDecodeBounds = true;
-//		BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-//		int photoW = bmOptions.outWidth;
-//		int photoH = bmOptions.outHeight;
+		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+		bmOptions.inJustDecodeBounds = true;
+		int photoW = bmOptions.outWidth;
+		int photoH = bmOptions.outHeight;
 //
 //		Determine how much to scale down the image
-//		int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+		int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
 //
 		// Decode the image file into a Bitmap sized to fill the View
-//		bmOptions.inJustDecodeBounds = false;
-//		bmOptions.inSampleSize = scaleFactor;
-//		bmOptions.inPurgeable = true;
-
-		Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath);
+		bmOptions.inJustDecodeBounds = false;
+		bmOptions.inSampleSize = scaleFactor;
+		bmOptions.inPurgeable = true;
+//
+		Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath.toString());
 //		mImageView.setImageBitmap(bitmap);
 		return bitmap;
 	}
@@ -101,6 +105,13 @@ public class PailUtilities {
 		time.setToNow();
 		int julianDay = Time.getJulianDay(date, time.gmtoff);
 		return time.setJulianDay(julianDay);
+	}
+	public static String getReadableDateString(long time) {
+		// Because the API returns a unix timestamp (measured in seconds),
+		// it must be converted to milliseconds in order to be converted to valid date.
+		Date date = new Date(time * 1000);
+		SimpleDateFormat format = new SimpleDateFormat("E, MMM d");
+		return format.format(date).toString();
 	}
 
 	public static ContentValues normalizeData(ContentValues values) {

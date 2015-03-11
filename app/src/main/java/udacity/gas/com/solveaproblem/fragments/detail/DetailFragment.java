@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import udacity.gas.com.solveaproblem.R;
 import udacity.gas.com.solveaproblem.data.PailContract;
+import udacity.gas.com.solveaproblem.data.ProblemItem;
 
 /**
  * Created by Fagbohungbe on 07/03/2015.
@@ -89,9 +90,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 	}
 
 	private void populateView(Cursor cursor) {
-		swProblemTitle.setText(cursor.getString(PailContract.ProblemEntry.i_PROBLEM_TITLE));
-		swProblemDate.setText(cursor.getString(PailContract.ProblemEntry.i_PROBLEM_DATE));
-		swProblemDescription.setText(cursor.getString(PailContract.ProblemEntry.i_PROBLEM_DESCRIPTION));
+		ProblemItem item = ProblemItem.fromCursor(cursor);
+		swProblemTitle.setText(item.getTitle());
+		swProblemDate.setText(item.getDate());
+		swProblemDescription.setText(item.getDescription());
 		swProblemAttachmentCount.setText("Attachment : 50");
 		mPrivacy = cursor.getInt(PailContract.ProblemEntry.i_PROBLEM_PRIVACY);
 		if (mPrivacy == PailContract.VAL_PRIVACY_PRIVATE) {
