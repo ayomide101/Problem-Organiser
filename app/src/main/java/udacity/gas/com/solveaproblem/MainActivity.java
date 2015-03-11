@@ -1,6 +1,5 @@
 package udacity.gas.com.solveaproblem;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -91,34 +89,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 //		testInsertRead();
 		PailDbHelper mSqLiteDatabase = new PailDbHelper(this);
 		mSqLiteDatabase.getReadableDatabase();
-	}
-
-	private void testInsertRead() {
-//		Cursor location = getContentResolver()
-//				.query();
-	}
-	private void tester(Uri uri, String string) {
-//		tester(PailContract.ProblemEntry.buildProblemsUri(), PailContract.ProblemEntry.CONTENT_TYPE);
-//		tester(PailContract.ProblemEntry.buildProblemWithIdUri(1210), PailContract.ProblemEntry.CONTENT_ITEM_TYPE);
-//		tester(PailContract.ProblemEntry.buildProblemWithAttachmentUri(1212), PailContract.ProblemEntry.CONTENT_TYPE);
-//		tester(PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(1201, new PailContract.NoteAttachmentEntry()), PailContract.ProblemEntry.CONTENT_TYPE);
-//		tester(PailContract.ProblemEntry.buildProblemWithAttachmentTypeAndAttachmentIDUri(1201, new PailContract.NoteAttachmentEntry(), 12012), PailContract.ProblemEntry.CONTENT_ITEM_TYPE);
-//
-//		tester(PailContract.Attachment.buildAttachmentsUri(), PailContract.Attachment.CONTENT_TYPE);
-//		tester(PailContract.Attachment.buildAttachmentWithIdUri(1212), PailContract.Attachment.CONTENT_ITEM_TYPE);
-//		tester(PailContract.Attachment.buildAttachmentWithAttachmentTypeUri(new PailContract.NoteAttachmentEntry()), PailContract.Attachment.CONTENT_TYPE);
-//		tester(PailContract.Attachment.buildAttachmentWithAttachmentTypeWithIdUri(new PailContract.AudioAttachmentEntry(), 12012), PailContract.Attachment.CONTENT_ITEM_TYPE);
-
-		try {
-			String type = getContentResolver().getType(uri);
-			if (type.equals(string)) {
-				Log.e(TAG_NAME, "The content resolver works " + string + " : " + type);
-			} else {
-				Log.e(TAG_NAME, "Content resolver does not work " + string + " : "+type);
-			}
-		} catch (NullPointerException e) {
-			Log.e(TAG_NAME, e.getMessage()+"");
-		}
 	}
 
 	private void setupTabs() {

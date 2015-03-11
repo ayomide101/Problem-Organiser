@@ -51,6 +51,7 @@
     <string name="privacy">PRIVACY</string>
     <string name="privacy_statement">Do you want me to share your problems with others so that they can help?</string>
     <string name="add_notes">ADD NOTES</string>
+	<string name="notes_count">(0)</string>
     <string name="menu_share">Share</string>
     <string name="menu_discard">Delete</string>
     <string name="title_activity_edit_problem">EDIT PROBLEM</string>
@@ -68,6 +69,7 @@
     <string name="add_files">ADD FILES</string>
     <string name="file_icon">file icon</string>
     <string name="add_links">ADD LINKS</string>
+	<string name="links_count">(40)</string>
     <string name="camera_icon">image icon</string>
     <string name="link_icon">link icon</string>
     <string name="card_date">December 19, 2014</string>
@@ -105,5 +107,6 @@
     <string name="title_activity_detail_problem">Problem Detail</string>
 	<string name="attachment_count_text">Attachments : %</string>
 	<string name="detail_description_hint">You have not described this problem, Please click on the pencil(edit) button to edit this problem.</string>
+	<string name="most_relevant">MOST RELEVANT</string>
 
 </resources>

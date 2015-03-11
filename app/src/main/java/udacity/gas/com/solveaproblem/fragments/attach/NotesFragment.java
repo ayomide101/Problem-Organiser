@@ -54,6 +54,7 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 	private EditText etNoteContent;
 	private Switch etPrivacy;
 	private ContentResolver resolver;
+	private NotesFragment mObject;
 
 	public static NotesFragment getInstance(long problemId) {
 		NotesFragment myFragment = new NotesFragment();
@@ -84,6 +85,8 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 		mainNoteContent = (FrameLayout) getActivity().findViewById(R.id.note_main_content);
 		tempView = (LinearLayout) getActivity().findViewById(R.id.note_tempview);
 		btAddNote = (FloatingActionButton) getActivity().findViewById(R.id.btAddNote);
+
+		mObject = this;
 
 		tempView.setOnClickListener(this);
 		btAddNote.setOnClickListener(this);
@@ -284,7 +287,7 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 					case (R.id.deletecard): {
 						getActivity().getContentResolver()
 								.delete(PailContract.Attachment.buildAttachmentWithAttachmentTypeWithIdUri(new PailContract.NoteAttachmentEntry(), _ID), null, null);
-						getLoaderManager().restartLoader(LOADER_ID, getArguments(), (LoaderManager.LoaderCallbacks<Object>) getActivity());
+						getLoaderManager().restartLoader(LOADER_ID, getArguments(), mObject);
 						break;
 					}
 					case (R.id.lockcard): {

@@ -156,6 +156,8 @@ public class PailContract {
 
 	public static final class Attachment extends AttachmentEntry {
 
+		public static final String ATTACHMENT_COUNTER = "count";
+
 		//attachments
 		private static final Uri CONTENT_URI =
 				BASE_CONTENT_URI.buildUpon().appendPath(PATH_ATTACHMENT).build();
@@ -165,6 +167,14 @@ public class PailContract {
 
 		public static final String CONTENT_ITEM_TYPE =
 				ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_ATTACHMENT;
+
+		public static final int NOTE_COUNT_INDEX = 0;
+		public static int LINK_COUNT_INDEX = 1;
+
+		public static String[] COUNT_COLUMNS = {
+			NoteAttachmentEntry.TABLE_NAME,
+			LinkAttachmentEntry.TABLE_NAME
+		};
 
 		//attachments
 		public static Uri buildAttachmentsUri() {

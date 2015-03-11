@@ -4,11 +4,14 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * Created by Fagbohungbe on 03/03/2015.
@@ -321,7 +324,11 @@ public class ProblemProvider extends ContentProvider {
 			}
 			//attachments
 			case ATTACHMENTS : {
-				retCursor = getAttachments(projection, selection, selectionArgs, sortOrder);
+				if (selection.equals(PailContract.Attachment.ATTACHMENT_COUNTER)) {
+					retCursor = getAttachmentCount();
+				} else {
+					retCursor = getAttachments(projection, selection, selectionArgs, sortOrder);
+				}
 				break;
 			}
 			//attachments/id
@@ -344,6 +351,20 @@ public class ProblemProvider extends ContentProvider {
 			retCursor.setNotificationUri(getContext().getContentResolver(), uri);
 		}
 		return retCursor;
+	}
+
+	private Cursor getAttachmentCount() {
+		String countNotes = "SELECT * FROM "+ PailContract.NoteAttachmentEntry.TABLE_NAME+"";
+		String countLinks = "SELECT * FROM "+ PailContract.LinkAttachmentEntry.TABLE_NAME+"";
+		ArrayList<Long> theCount = new ArrayList<>(10);
+		//Add note count
+		theCount.add(PailContract.Attachment.NOTE_COUNT_INDEX, (long) mOpenHelper.getReadableDatabase().rawQuery(countNotes, null).getCount());
+		//Add link count
+		theCount.add(PailContract.Attachment.LINK_COUNT_INDEX, (long) mOpenHelper.getReadableDatabase().rawQuery(countLinks, null).getCount());
+
+		MatrixCursor cursor = new MatrixCursor(PailContract.Attachment.COUNT_COLUMNS);
+		cursor.addRow(theCount);
+		return (Cursor) cursor;
 	}
 
 	@Override

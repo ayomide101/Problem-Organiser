@@ -53,6 +53,7 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 	private EditText swLinkDescription;
 	private int stPrivacy;
 	private LinkAdapter linkAdapter;
+	private LinksFragment mObject;
 
 	public static LinksFragment getInstance(long position) {
 		LinksFragment myFragment = new LinksFragment();
@@ -121,6 +122,7 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 			}
 		}
 		);
+		mObject = this;
 	}
 
 	private ContentValues getData() {
@@ -284,7 +286,7 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 					case (R.id.deletecard): {
 						getActivity().getContentResolver()
 								.delete(PailContract.Attachment.buildAttachmentWithAttachmentTypeWithIdUri(new PailContract.LinkAttachmentEntry(), _ID), null, null);
-						getLoaderManager().restartLoader(LOADER_ID, getArguments(), (LoaderManager.LoaderCallbacks<Object>) getActivity());
+						getLoaderManager().restartLoader(LOADER_ID, getArguments(), mObject);
 						break;
 					}
 					case (R.id.lockcard): {
