@@ -38,9 +38,11 @@ public class AttachmentActivity extends ActionBarActivity {
 
 		mFragmentTitle = (TextView) findViewById(R.id.fragment_title);
 
-		transaction = getSupportFragmentManager().beginTransaction();
-		transaction.add(R.id.main_attachment_container, getInstance(), FRAGMENT_MANAGER);
-		transaction.commit();
+		if (savedInstanceState == null) {
+			transaction = getSupportFragmentManager().beginTransaction();
+			transaction.replace(R.id.main_attachment_container, getInstance(), FRAGMENT_MANAGER);
+			transaction.commit();
+		}
 	}
 
 	private Fragment getInstance() {

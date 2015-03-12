@@ -1,13 +1,19 @@
 package udacity.gas.com.solveaproblem.fragments.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,8 +22,10 @@ import java.util.ArrayList;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
+import udacity.gas.com.solveaproblem.EditProblem;
 import udacity.gas.com.solveaproblem.R;
 import udacity.gas.com.solveaproblem.data.PailContract;
+import udacity.gas.com.solveaproblem.data.PailUtilities;
 import udacity.gas.com.solveaproblem.fragments.attach.AudiosFragment;
 import udacity.gas.com.solveaproblem.fragments.attach.FilesFragment;
 import udacity.gas.com.solveaproblem.fragments.attach.ImagesFragment;
@@ -27,6 +35,7 @@ import udacity.gas.com.solveaproblem.fragments.attach.RelevantAttachmentFragment
 import udacity.gas.com.solveaproblem.fragments.attach.VideosFragment;
 import udacity.gas.com.solveaproblem.fragments.detail.DetailFragment;
 import udacity.gas.com.solveaproblem.fragments.home.DefaultFragment;
+import udacity.gas.com.solveaproblem.fragments.home.HomeFragment;
 
 /**
  * Created by Fagbohungbe on 09/03/2015.
@@ -47,6 +56,9 @@ public class MainDetailFragment extends Fragment implements MaterialTabListener 
 	private int _id_audios_fragment = 6;
 	private int _id_files_fragment = 7;
 	private long mProblemid;
+	private ShareActionProvider mShareActionProvider;
+	private String mTitle;
+	private String mDescription;
 
 	public static MainDetailFragment getInstance(long problemId) {
 		MainDetailFragment myFragment = new MainDetailFragment();
@@ -58,21 +70,67 @@ public class MainDetailFragment extends Fragment implements MaterialTabListener 
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
+	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		tabs = getResources().getStringArray(R.array.detail_activity_tabs);
-		Log.e("MainDetailFragment", tabs.toString());
 		setupTabs();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		Bundle bundle = getArguments();
+		View layout = inflater.inflate(R.layout.fragment_main_detail, container, false);
 		if (bundle != null) {
 			mProblemid = bundle.getLong(PailContract.ProblemEntry.BUNDLE_KEY);
 		}
-		setRetainInstance(true);
-		return inflater.inflate(R.layout.fragment_main_detail, container, false);
+		return layout;
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.menu_detail_problem, menu);
+		MenuItem item = menu.findItem(R.id.action_share);
+		mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+		String string = "Hello there, am having this problem: "+mTitle+" - "+mDescription+". Would you like to help?";
+		setShareIntent(PailUtilities.getShareTextIntent(string));
+	}
+
+	private void setShareIntent(Intent shareIntent) {
+		if (mShareActionProvider != null) {
+			mShareActionProvider.setShareIntent(shareIntent);
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+
+		//noinspection SimplifiableIfStatement
+		if (id == R.id.home) {
+			NavUtils.navigateUpFromSameTask(getActivity());
+			return true;
+		}
+		if (id == R.id.action_edit) {
+			Intent intent = new Intent(getActivity(), EditProblem.class);
+			intent.putExtra(HomeFragment.EXTRA_ID, mProblemid);
+			startActivity(intent);
+			return true;
+		}
+		if (id == R.id.action_delete) {
+			getActivity().getContentResolver()
+					.delete(PailContract.ProblemEntry.buildProblemWithIdUri(mProblemid), null, null);
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -95,7 +153,6 @@ public class MainDetailFragment extends Fragment implements MaterialTabListener 
 		mPager = (ViewPager) getActivity().findViewById(R.id.pager);
 		mPagerAdapter = new TabsAdapter(getActivity().getSupportFragmentManager());
 		//The arraylist of the mFragments
-		setupArrayTabs();
 		mPager.setAdapter(mPagerAdapter);
 		mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 			@Override
@@ -107,6 +164,7 @@ public class MainDetailFragment extends Fragment implements MaterialTabListener 
 		for (int i = 0; i < mPagerAdapter.getCount(); i++) {
 			mTabs.addTab(mTabs.newTab().setText(mPagerAdapter.getPageTitle(i)).setTabListener(this));
 		}
+		setupArrayTabs();
 	}
 
 	private void setupArrayTabs() {
@@ -124,6 +182,7 @@ public class MainDetailFragment extends Fragment implements MaterialTabListener 
 
 		public TabsAdapter(FragmentManager fm) {
 			super(fm);
+			tabs = getResources().getStringArray(R.array.detail_activity_tabs);
 		}
 
 		@Override
@@ -157,7 +216,7 @@ public class MainDetailFragment extends Fragment implements MaterialTabListener 
 
 		@Override
 		public int getCount() {
-			return 8;
+			return 4;
 		}
 	}
 }

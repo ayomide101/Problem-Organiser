@@ -1,5 +1,6 @@
 package udacity.gas.com.solveaproblem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,36 +22,22 @@ import udacity.gas.com.solveaproblem.drawer.NavigationDrawerFragment;
 import udacity.gas.com.solveaproblem.fragments.home.AttachmentFragment;
 import udacity.gas.com.solveaproblem.fragments.home.DefaultFragment;
 import udacity.gas.com.solveaproblem.fragments.home.HomeFragment;
+import udacity.gas.com.solveaproblem.fragments.main.MainDetailFragment;
 
-public class MainActivity extends ActionBarActivity implements MaterialTabListener {
+public class MainActivity extends ActionBarActivity implements MaterialTabListener, HomeFragment.Callback {
 
 	private final static String TAG_NAME = "MainActivity";
 
     private Toolbar toolbar;
     private ViewPager mPager;
-
-	public ArrayList<Fragment> getmFragments() {
-		return mFragments;
-	}
-
-	public MaterialTabHost getmTabs() {
-		return mTabs;
-	}
-
-	public ViewPager getmPager() {
-		return mPager;
-	}
+	private boolean mTowPane = false;
 
 	public Toolbar getToolbar() {
 		return toolbar;
 	}
-
-	public static String getTagName() {
-		return TAG_NAME;
-	}
-
 	private MaterialTabHost mTabs;
 	private ArrayList<Fragment> mFragments;
+	private static String DETAIL_FRAGMENT_TAG = "1";
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +47,15 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         setupToolbar();
 		setupDrawer();
 		setupTabs();
+		if (findViewById(R.id.main_detail_fragment) != null) {
+			mTowPane = true;
+			if (savedInstanceState == null) {
+				getSupportFragmentManager().beginTransaction()
+						.replace(R.id.main_detail_fragment, new MainDetailFragment(), DETAIL_FRAGMENT_TAG).commit();
+			}
+		} else {
+			mTowPane = false;
+		}
     }
 
 
@@ -79,6 +75,8 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+			Intent intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
             return true;
         }
 
@@ -86,7 +84,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     }
 
 	private void setupDb() {
-//		testInsertRead();
 		PailDbHelper mSqLiteDatabase = new PailDbHelper(this);
 		mSqLiteDatabase.getReadableDatabase();
 	}
@@ -106,8 +103,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 		for (int i = 0; i < mPagerAdapter.getCount(); i++) {
 			mTabs.addTab(mTabs.newTab().setText(mPagerAdapter.getPageTitle(i)).setTabListener(this));
 		}
-
-
 		mFragments = new ArrayList<>(2);
 	}
 
@@ -138,6 +133,21 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 	@Override
 	public void onTabUnselected(MaterialTab materialTab) {
 
+	}
+
+	@Override
+	public void onItemClicked(long probid) {
+		if (mTowPane) {
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.main_detail_fragment, MainDetailFragment.getInstance(probid), DETAIL_FRAGMENT_TAG)
+					.commit();
+			;
+		} else {
+			Intent intent = new Intent(this, DetailProblem.class);
+			intent.putExtra(HomeFragment.EXTRA_ID, probid);
+			startActivity(intent);
+		}
 	}
 
 	class HomeTabsAdapter extends FragmentStatePagerAdapter {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Problem Organiser</string>
+
+    <string name="app_name">Problem Organiser</string>
     <string name="title_activity_main">Problem Organiser</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -11,7 +12,7 @@
     <string name="search_hint">Search</string>
     <string name="account_settings_icon_text">account_settings</string>
     <string name="btTextAddProblem">ADD PROBLEM</string>
-	<string name="album_name">CameraSample</string>
+    <string name="album_name">CameraSample</string>
 
     <string-array name="tabs">
         <item>PROBLEMS</item>
@@ -26,17 +27,16 @@
         <item>AUDIO</item>
         <item>FILES</item>
     </string-array>
-
-	<string-array name="detail_activity_tabs">
-		<item>PROBLEM DETAIL</item>
-		<item>MOST RELEVANT</item>
-		<item>NOTES</item>
-		<item>LINKS</item>
-		<item>IMAGES</item>
-		<item>VIDEOS</item>
-		<item>AUDIO</item>
-		<item>FILES</item>
-	</string-array>
+    <string-array name="detail_activity_tabs">
+        <item>PROBLEM DETAIL</item>
+        <item>MOST RELEVANT</item>
+        <item>NOTES</item>
+        <item>LINKS</item>
+        <item>IMAGES</item>
+        <item>VIDEOS</item>
+        <item>AUDIO</item>
+        <item>FILES</item>
+    </string-array>
 
     <string name="title_activity_add_problem">ADD PROJECT</string>
     <string name="attach_files_text">ATTACHMENTS</string>
@@ -50,7 +50,7 @@
     <string name="privacy">PRIVACY</string>
     <string name="privacy_statement">Do you want me to share your problems with others so that they can help?</string>
     <string name="add_notes">ADD NOTES</string>
-	<string name="notes_count">(0)</string>
+    <string name="notes_count">(0)</string>
     <string name="menu_share">Share</string>
     <string name="menu_discard">Delete</string>
     <string name="title_activity_edit_problem">EDIT PROBLEM</string>
@@ -68,7 +68,7 @@
     <string name="add_files">ADD FILES</string>
     <string name="file_icon">file icon</string>
     <string name="add_links">ADD LINKS</string>
-	<string name="links_count">(40)</string>
+    <string name="links_count">(40)</string>
     <string name="camera_icon">image icon</string>
     <string name="link_icon">link icon</string>
     <string name="card_date">December 19, 2014</string>
@@ -84,7 +84,7 @@
     <string name="link_text_description">Link description</string>
     <string name="link_text_uri">Link Url</string>
     <string name="dimage">image</string>
-	<string name="not_found">No attachment found yet</string>
+    <string name="not_found">No attachment found yet</string>
 
     <!-- <string name="app_name">MediaChooser</string> -->
     <string name="image"> Image </string>
@@ -105,9 +105,9 @@
     <string name="no_media_file_available"> No media file available.</string>
     <string name="http_prefix">http://</string>
     <string name="title_activity_detail_problem">Problem Detail</string>
-	<string name="title_activity_attachment">Attachments</string>
-	<string name="attachment_count_text">Attachments : %</string>
-	<string name="detail_description_hint">You have not described this problem, Please click on the pencil(edit) button to edit this problem.</string>
-	<string name="most_relevant">MOST RELEVANT</string>
+    <string name="title_activity_attachment">Attachments</string>
+    <string name="attachment_count_text">Attachments : %</string>
+    <string name="detail_description_hint">You have not described this problem, Please click on the pencil(edit) button to edit this problem.</string>
+    <string name="most_relevant">MOST RELEVANT</string>
 
 </resources>

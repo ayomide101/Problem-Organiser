@@ -24,7 +24,6 @@ import android.widget.TextView;
 import com.melnykov.fab.FloatingActionButton;
 
 import udacity.gas.com.solveaproblem.AddProblem;
-import udacity.gas.com.solveaproblem.DetailProblem;
 import udacity.gas.com.solveaproblem.EditProblem;
 import udacity.gas.com.solveaproblem.R;
 import udacity.gas.com.solveaproblem.adapters.CursorRecyclerViewAdapter;
@@ -217,9 +216,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 					}
 					case(R.id.card_view) :
 					case(R.id.problemTitle) : {
-						Intent intent = new Intent(getActivity(), DetailProblem.class);
-						intent.putExtra(EXTRA_ID, _PROBLEM_ID);
-						startActivity(intent);
+						((Callback) getActivity()).onItemClicked(_PROBLEM_ID);
 						break;
 					}
 				}
@@ -230,5 +227,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 				return false;
 			}
 		}
+	}
+
+	public interface Callback {
+		public void onItemClicked(long probid);
 	}
 }

@@ -123,10 +123,6 @@ public class DetailProblem extends ActionBarActivity implements MaterialTabListe
 			finish();
 			return true;
 		}
-		if (id == R.id.action_share) {
-			return true;
-		}
-
 		return super.onOptionsItemSelected(item);
 	}
 

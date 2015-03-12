@@ -45,7 +45,7 @@ public class SettingsActivity extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setupActionBar();
+//		setupActionBar();
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class SettingsActivity extends PreferenceActivity {
 	private void setupActionBar() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			// Show the Up button in the action bar.
-			getActionBar().setDisplayHomeAsUpEnabled(true);
+//			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 	}
 

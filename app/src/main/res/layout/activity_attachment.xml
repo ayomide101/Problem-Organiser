@@ -27,6 +27,5 @@
 		android:layout_height="match_parent"
 		android:layout_below="@id/fragment_title"
 		android:orientation="horizontal">
-
 	</LinearLayout>
 </RelativeLayout>
