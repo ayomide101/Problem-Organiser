@@ -2,12 +2,17 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 	<item android:state_pressed="true">
 		<shape>
-			<solid android:color="@color/secondaryButtonColor"/>
+			<solid android:color="#ff00bbac"/>
+		</shape>
+	</item>
+	<item android:state_activated="true">
+		<shape>
+			<solid android:color="#ff00ae9f"/>
 		</shape>
 	</item>
 	<item>
 		<shape>
-			<solid android:color="@color/primaryButtonColor"/>
+			<solid android:color="#009688" />
 		</shape>
 	</item>
 </selector>

@@ -50,7 +50,6 @@
 				android:layout_weight="5"
 				android:layout_height="match_parent"
 				android:gravity="center"
-				android:text="@string/attachment_count_text"
 				android:textAllCaps="true"
 				android:textColor="@color/textColorPrimary"
 				android:textSize="12sp"/>

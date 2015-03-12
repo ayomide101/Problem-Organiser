@@ -13,6 +13,9 @@
 	<color name="secondaryButtonColor">#ff1c73bd</color>
 	<color name="tertiaryButtonColor">#ff2587e1</color>
 	<color name="shadownColor">#63000000</color>
+	<color name="problemHeaderColor">#009688</color>
+	<color name="problemHeaderActivated">#ff00ae9f</color>
+	<color name="problemHeaderPressed">#ff00bbac</color>
 
 	<color name="headerbar_color">#81D4FA</color>
 	<color name="tabs_color">#81D4FA</color>
