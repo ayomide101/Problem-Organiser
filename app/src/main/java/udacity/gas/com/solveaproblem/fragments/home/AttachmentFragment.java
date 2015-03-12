@@ -83,8 +83,10 @@ public class AttachmentFragment extends Fragment implements LoaderManager.Loader
 		if (data != null) {
 			if (data.moveToFirst()) {
 				populateView(data);
+				data.close();
 			} else {
 				populateView(data);
+				data.close();
 			}
 		} else {
 			mLinkCount.setText("");

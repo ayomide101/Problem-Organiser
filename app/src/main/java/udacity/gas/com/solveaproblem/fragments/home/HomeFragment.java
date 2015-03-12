@@ -20,7 +20,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -206,7 +205,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 						break;
 					}
 					case(R.id.sharecard) : {
-						Toast.makeText(v.getContext(), "Share", Toast.LENGTH_SHORT).show();
+						String string = "Hello there, am having this problem: "+description.getText().toString()+". Would you like to help?";
+						PailUtilities.shareText(getActivity(), "Share Your Problem", string);
 						break;
 					}
 					case(R.id.deletecard) : {

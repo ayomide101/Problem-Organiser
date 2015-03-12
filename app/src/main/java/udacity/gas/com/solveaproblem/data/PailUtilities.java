@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
@@ -112,6 +114,17 @@ public class PailUtilities {
 		Date date = new Date(time * 1000);
 		SimpleDateFormat format = new SimpleDateFormat("E, MMM d");
 		return format.format(date).toString();
+	}
+
+	public static void shareText(Activity activity, String shareTitle, String shareText) {
+		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+		sharingIntent.setType("text/plain");
+		sharingIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+		if (sharingIntent.resolveActivity(activity.getPackageManager()) != null) {
+			activity.startActivity(Intent.createChooser(sharingIntent, shareTitle));
+		} else {
+			Toast.makeText(activity, "Cannot share content", Toast.LENGTH_LONG).show();
+		}
 	}
 
 	public static ContentValues normalizeData(ContentValues values) {

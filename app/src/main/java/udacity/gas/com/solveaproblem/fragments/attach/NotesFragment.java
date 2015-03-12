@@ -100,7 +100,7 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 			tempView.setOnClickListener(this);
 			btAddNote.setOnClickListener(this);
 			btAddNote.setVisibility(View.VISIBLE);
-			add_notes_text.setText(R.string.not_found);
+			add_notes_text.setText(R.string.add_notes);
 		}
 		recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL));
 		recyclerView.setAdapter(notesAdapter);

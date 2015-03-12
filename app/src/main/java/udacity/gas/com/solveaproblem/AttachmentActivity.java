@@ -8,6 +8,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import udacity.gas.com.solveaproblem.data.PailContract;
@@ -24,6 +25,7 @@ public class AttachmentActivity extends ActionBarActivity {
 	private int mAttachmentType;
 	private FragmentTransaction transaction;
 	private String FRAGMENT_MANAGER = "0";
+	private TextView mFragmentTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,9 @@ public class AttachmentActivity extends ActionBarActivity {
 		mAttachmentType = intent.getIntExtra(ATTACHMENT_TYPE_KEY, -1);
 		SetupUI setupUI = new SetupUI(this);
 		setupUI.setupToolbar();
+
+		mFragmentTitle = (TextView) findViewById(R.id.fragment_title);
+
 		transaction = getSupportFragmentManager().beginTransaction();
 		transaction.add(R.id.main_attachment_container, getInstance(), FRAGMENT_MANAGER);
 		transaction.commit();
@@ -41,14 +46,15 @@ public class AttachmentActivity extends ActionBarActivity {
 	private Fragment getInstance() {
 		//setting an invalid prod_id so that the fragments can load all their contents
 		//instead of the loading the content for the prodid
-		int invalid_prod_id = PailContract.ProblemEntry.PROD_ID_NOT_SET;
 		if (mAttachmentType == LinksFragment.ID) {
+			mFragmentTitle.setText(PailContract.LinkAttachmentEntry.TABLE_NAME);
 			return new LinksFragment();
 		} else if (mAttachmentType == NotesFragment.ID) {
+			mFragmentTitle.setText(PailContract.NoteAttachmentEntry.TABLE_NAME);
 			return new NotesFragment();
 		} else {
 			Toast.makeText(this, "Could not load contents", Toast.LENGTH_LONG).show();
-			finish();
+//			finish();
 			return null;
 		}
 	}
@@ -71,10 +77,5 @@ public class AttachmentActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return true;
-	}
-
-	@Override
-	public void onBackPressed() {
-		finish();
 	}
 }
