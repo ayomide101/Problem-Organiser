@@ -94,6 +94,7 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 		if (PROB_ID == PailContract.ProblemEntry.PROD_ID_NOT_SET) {
 			lBtAddNote.setVisibility(View.GONE);
 			add_links_text.setText(R.string.not_found);
+			add_links_text.setTextSize(32);
 		} else {
 			lTempView.setOnClickListener(this);
 			lBtAddNote.setOnClickListener(this);
@@ -184,7 +185,9 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String sortOrder = PailContract.LinkAttachmentEntry.COLUMN_DATE + " DESC";
 		//check if the probid is valid, call the get all if otherwise
-		Uri uri = (PROB_ID != PailContract.ProblemEntry.PROD_ID_NOT_SET) ? PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(PROB_ID, new PailContract.LinkAttachmentEntry()): PailContract.Attachment.buildAttachmentsUri();
+		Uri uri = (PROB_ID != PailContract.ProblemEntry.PROD_ID_NOT_SET) ?
+				PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(PROB_ID, new PailContract.LinkAttachmentEntry())
+				: PailContract.Attachment.buildAttachmentWithAttachmentTypeUri(new PailContract.LinkAttachmentEntry());
 		return new CursorLoader(getActivity(),
 				uri,
 				PailContract.LinkAttachmentEntry.LINK_COLUMNS,

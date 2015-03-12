@@ -5,7 +5,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="searchAppBar">Search</string>
-    <string name="title_activity_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
@@ -85,7 +84,7 @@
     <string name="link_text_description">Link description</string>
     <string name="link_text_uri">Link Url</string>
     <string name="dimage">image</string>
-	<string name="not_found">Not found - You have not attached this attachment type.</string>
+	<string name="not_found">No attachment found yet</string>
 
     <!-- <string name="app_name">MediaChooser</string> -->
     <string name="image"> Image </string>
@@ -106,6 +105,7 @@
     <string name="no_media_file_available"> No media file available.</string>
     <string name="http_prefix">http://</string>
     <string name="title_activity_detail_problem">Problem Detail</string>
+	<string name="title_activity_attachment">Attachments</string>
 	<string name="attachment_count_text">Attachments : %</string>
 	<string name="detail_description_hint">You have not described this problem, Please click on the pencil(edit) button to edit this problem.</string>
 	<string name="most_relevant">MOST RELEVANT</string>

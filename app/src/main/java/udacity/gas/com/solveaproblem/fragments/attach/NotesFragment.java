@@ -188,7 +188,9 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String sortOrder = PailContract.NoteAttachmentEntry.COLUMN_DATE + " DESC";
-		Uri uri = (PROB_ID != PailContract.ProblemEntry.PROD_ID_NOT_SET) ? PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(PROB_ID, new PailContract.NoteAttachmentEntry()): PailContract.Attachment.buildAttachmentsUri();
+		Uri uri = (PROB_ID != PailContract.ProblemEntry.PROD_ID_NOT_SET) ?
+				PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(PROB_ID, new PailContract.NoteAttachmentEntry())
+				: PailContract.Attachment.buildAttachmentWithAttachmentTypeUri(new PailContract.NoteAttachmentEntry());
 		return new CursorLoader(getActivity(),
 				uri,
 				PailContract.NoteAttachmentEntry.NOTES_COLUMNS,

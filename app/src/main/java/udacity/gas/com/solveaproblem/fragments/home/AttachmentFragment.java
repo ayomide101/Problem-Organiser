@@ -1,5 +1,6 @@
 package udacity.gas.com.solveaproblem.fragments.home;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,16 +14,17 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import udacity.gas.com.solveaproblem.AttachmentActivity;
 import udacity.gas.com.solveaproblem.R;
 import udacity.gas.com.solveaproblem.data.PailContract;
+import udacity.gas.com.solveaproblem.fragments.attach.LinksFragment;
+import udacity.gas.com.solveaproblem.fragments.attach.NotesFragment;
 
 /**
  * Created by Fagbohungbe on 27/02/2015.
  */
 public class AttachmentFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 	public static int ID = 1;
-	private TextView textView;
-	private long mProdID;
 	private int LOADER_ID = 0;
 	private TextView mLinkCount;
 	private TextView mNotesCount;
@@ -30,23 +32,12 @@ public class AttachmentFragment extends Fragment implements LoaderManager.Loader
 	private LinearLayout bTOpenNotes;
 
 	public static AttachmentFragment getInstance(int position) {
-		AttachmentFragment myFragment = new AttachmentFragment();
-		Bundle args = new Bundle();
-		args.putInt(HomeFragment.EXTRA_ID, position);
-		myFragment.setArguments(args);
-
-		return myFragment;
+		return new AttachmentFragment();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View layout = inflater.inflate(R.layout.fragment_attachments, container, false);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            mProdID = bundle.getLong(HomeFragment.EXTRA_ID);
-        }
-
-		return layout;
+		return inflater.inflate(R.layout.fragment_attachments, container, false);
 	}
 
 	@Override
@@ -61,13 +52,17 @@ public class AttachmentFragment extends Fragment implements LoaderManager.Loader
 		bTOpenLinks.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				Intent intent = new Intent(getActivity(), AttachmentActivity.class);
+				intent.putExtra(AttachmentActivity.ATTACHMENT_TYPE_KEY, LinksFragment.ID);
+				startActivity(intent);
 			}
 		});
-		bTOpenLinks.setOnClickListener(new View.OnClickListener() {
+		bTOpenNotes.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				Intent intent = new Intent(getActivity(), AttachmentActivity.class);
+				intent.putExtra(AttachmentActivity.ATTACHMENT_TYPE_KEY, NotesFragment.ID);
+				startActivity(intent);
 			}
 		});
 	}
@@ -98,8 +93,8 @@ public class AttachmentFragment extends Fragment implements LoaderManager.Loader
 	}
 
 	private void populateView(Cursor data) {
-		mLinkCount.setText("("+ data.getLong(data.getColumnIndex(PailContract.NoteAttachmentEntry.TABLE_NAME))+")");
-		mNotesCount.setText("("+ data.getLong(data.getColumnIndex(PailContract.LinkAttachmentEntry.TABLE_NAME))+")");
+		mNotesCount.setText("("+ data.getLong(data.getColumnIndex(PailContract.NoteAttachmentEntry.TABLE_NAME))+")");
+		mLinkCount.setText("("+ data.getLong(data.getColumnIndex(PailContract.LinkAttachmentEntry.TABLE_NAME))+")");
 	}
 
 	@Override
