@@ -127,6 +127,15 @@ public class PailUtilities {
 		}
 	}
 
+	public static Intent getShareTextIntent(String shareText) {
+		Intent shareIntent = new Intent(Intent.ACTION_SEND);
+		//Prevent the activity we're sharing to from being placed on the activity stack
+		shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+				.setType("text/plain")
+				.putExtra(Intent.EXTRA_TEXT, shareText);
+		return shareIntent;
+	}
+
 	public static ContentValues normalizeData(ContentValues values) {
 		//normalize the data value
 		if (values.containsKey(PailContract.EntryBaseColumns.COLUMN_DATE)) {

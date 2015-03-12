@@ -1,13 +1,16 @@
 package udacity.gas.com.solveaproblem;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -17,6 +20,8 @@ import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 import udacity.gas.com.solveaproblem.data.PailContract;
+import udacity.gas.com.solveaproblem.data.PailUtilities;
+import udacity.gas.com.solveaproblem.data.ProblemItem;
 import udacity.gas.com.solveaproblem.fragments.attach.AudiosFragment;
 import udacity.gas.com.solveaproblem.fragments.attach.FilesFragment;
 import udacity.gas.com.solveaproblem.fragments.attach.ImagesFragment;
@@ -28,6 +33,8 @@ import udacity.gas.com.solveaproblem.fragments.detail.DetailFragment;
 import udacity.gas.com.solveaproblem.fragments.home.DefaultFragment;
 import udacity.gas.com.solveaproblem.fragments.home.HomeFragment;
 import udacity.gas.com.solveaproblem.utilities.SetupUI;
+
+;
 
 public class DetailProblem extends ActionBarActivity implements MaterialTabListener {
 
@@ -44,6 +51,10 @@ public class DetailProblem extends ActionBarActivity implements MaterialTabListe
 	private int _id_audios_fragment = 6;
 	private int _id_files_fragment = 7;
 	private long mProblemid;
+	private ShareActionProvider mShareActionProvider;
+	private ProblemItem mProblemItem;
+	private String mDescription;
+	private String mTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +65,38 @@ public class DetailProblem extends ActionBarActivity implements MaterialTabListe
 		SetupUI setupUI = new SetupUI(this);
 		setupUI.setupToolbar();
 		setupTabs();
+		Cursor cursor = getContentResolver().query(
+				PailContract.ProblemEntry.buildProblemWithIdUri(mProblemid),
+				PailContract.ProblemEntry.PROBLEM_COLUMNS,
+				null,
+				null,
+				null);
+		if (cursor.moveToFirst()) {
+			mProblemItem = ProblemItem.fromCursor(cursor);
+			mDescription = mProblemItem.getDescription();
+			mTitle = mProblemItem.getTitle();
+			cursor.close();
+		} else {
+			mTitle = "Problem title not loaded";
+			mDescription = "Problem  description not loaded";
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu_detail_problem, menu);
+		MenuItem item = menu.findItem(R.id.action_share);
+		mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+		String string = "Hello there, am having this problem: "+mTitle+" - "+mDescription+". Would you like to help?";
+		setShareIntent(PailUtilities.getShareTextIntent(string));
 		return true;
+	}
+
+	private void setShareIntent(Intent shareIntent) {
+		if (mShareActionProvider != null) {
+			mShareActionProvider.setShareIntent(shareIntent);
+		}
 	}
 
 	@Override
@@ -83,8 +119,11 @@ public class DetailProblem extends ActionBarActivity implements MaterialTabListe
 		}
 		if (id == R.id.action_delete) {
 			getContentResolver()
-				.delete(PailContract.ProblemEntry.buildProblemWithIdUri(mProblemid), null, null);
+					.delete(PailContract.ProblemEntry.buildProblemWithIdUri(mProblemid), null, null);
 			finish();
+			return true;
+		}
+		if (id == R.id.action_share) {
 			return true;
 		}
 
@@ -92,13 +131,17 @@ public class DetailProblem extends ActionBarActivity implements MaterialTabListe
 	}
 
 	@Override
-	public void onTabSelected(MaterialTab materialTab) { mPager.setCurrentItem(materialTab.getPosition()); }
+	public void onTabSelected(MaterialTab materialTab) {
+		mPager.setCurrentItem(materialTab.getPosition());
+	}
 
 	@Override
-	public void onTabReselected(MaterialTab materialTab) {}
+	public void onTabReselected(MaterialTab materialTab) {
+	}
 
 	@Override
-	public void onTabUnselected(MaterialTab materialTab) {}
+	public void onTabUnselected(MaterialTab materialTab) {
+	}
 
 	private void setupTabs() {
 		mTabs = (MaterialTabHost) findViewById(R.id.tabs);
@@ -162,7 +205,7 @@ public class DetailProblem extends ActionBarActivity implements MaterialTabListe
 				return mFragments.get(_id_notes_fragment);
 			} else if (position == _id_videos_fragment) {
 				return mFragments.get(_id_videos_fragment);
-			} else if (position == _id_files_fragment)	{
+			} else if (position == _id_files_fragment) {
 				return mFragments.get(_id_files_fragment);
 			} else {
 				return DefaultFragment.getInstance(position);

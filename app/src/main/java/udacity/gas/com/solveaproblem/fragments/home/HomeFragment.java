@@ -205,8 +205,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 						break;
 					}
 					case(R.id.sharecard) : {
-						String string = "Hello there, am having this problem: "+description.getText().toString()+". Would you like to help?";
-						PailUtilities.shareText(getActivity(), "Share Your Problem", string);
+						String string = "Hello there, am having this problem: "+title.getText().toString()+" - "+description.getText().toString()+". Would you like to help?";
+						PailUtilities.shareText(getActivity(), "Talk to others about this", string);
 						break;
 					}
 					case(R.id.deletecard) : {
@@ -217,7 +217,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 					}
 					case(R.id.card_view) :
 					case(R.id.problemTitle) : {
-						/*Toast.makeText(v.getContext(), "Card View", Toast.LENGTH_SHORT).show();*/
 						Intent intent = new Intent(getActivity(), DetailProblem.class);
 						intent.putExtra(EXTRA_ID, _PROBLEM_ID);
 						startActivity(intent);
