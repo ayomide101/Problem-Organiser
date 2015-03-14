@@ -28,16 +28,14 @@ import udacity.gas.com.solveaproblem.data.PailUtilities;
 public class RelevantAttachmentFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener {
 
 	public static int ID = 0;
-	private TextView textView;
 	private static long PROB_ID;
 	private View mLayout;
 	private ViewGroup mContainer;
-	private int LOAD_LINKS = 0;
-	private int LOAD_NOTES = 0;
+	private int LOAD_LINKS = 1;
+	private int LOAD_NOTES = 2;
 	private LinearLayout mNoteHolder;
 	private LinearLayout mLinkHolder;
 	private LayoutInflater mInflater;
-	private CardView mCardView;
 	private CardView mNoteCardView;
 	private TextView mNoteCardDate;
 	private TextView mNoteCardContent;
@@ -53,6 +51,8 @@ public class RelevantAttachmentFragment extends Fragment implements LoaderManage
 	private LinkItem mLinkItem;
 	private NoteItem mNoteItem;
 	private int mNotePrivacy;
+	private TextView mNoneFound;
+	private TextView mNoneFound2;
 
 	public static RelevantAttachmentFragment getInstance(long problemId) {
 		RelevantAttachmentFragment myFragment = new RelevantAttachmentFragment();
@@ -86,6 +86,8 @@ public class RelevantAttachmentFragment extends Fragment implements LoaderManage
 
 		mNoteHolder = (LinearLayout) getActivity().findViewById(R.id.hold_note);
 		mLinkHolder = (LinearLayout) getActivity().findViewById(R.id.hold_link);
+		mNoneFound = (TextView) mInflater.inflate(R.layout.none_found, mContainer, false);
+		mNoneFound2 = (TextView) mInflater.inflate(R.layout.none_found, mContainer, false);
 
 		mNoteCardView = (CardView) mInflater.inflate(R.layout.note_card_normal, mContainer, false);
 		mNoteCardDate = (TextView) mNoteCardView.findViewById(R.id.carddate);
@@ -144,7 +146,8 @@ public class RelevantAttachmentFragment extends Fragment implements LoaderManage
 				populateNoteCard(data);
 				data.close();
 			} else {
-
+				mNoteHolder.removeAllViews();
+				mNoteHolder.addView(mNoneFound);
 			}
 		}
 		if (loader.getId() == LOAD_LINKS) {
@@ -152,7 +155,8 @@ public class RelevantAttachmentFragment extends Fragment implements LoaderManage
 				populateLinkCard(data);
 				data.close();
 			} else {
-
+				mLinkHolder.removeAllViews();
+				mLinkHolder.addView(mNoneFound2);
 			}
 		}
 	}
@@ -177,7 +181,7 @@ public class RelevantAttachmentFragment extends Fragment implements LoaderManage
 		}
 
 		//Attach Card
-		mLinkHolder.addView(mNoteCardView);
+		mLinkHolder.addView(mLinkCardView);
 	}
 
 	private void populateNoteCard(Cursor data) {

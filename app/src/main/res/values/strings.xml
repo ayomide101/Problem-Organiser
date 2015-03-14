@@ -109,5 +109,6 @@
     <string name="attachment_count_text">Attachments : %</string>
     <string name="detail_description_hint">You have not described this problem, Please click on the pencil(edit) button to edit this problem.</string>
     <string name="most_relevant">MOST RELEVANT</string>
+	<string name="no_relevant">NO RELEVANT DOCUMENT ATTACHED</string>
 
 </resources>
