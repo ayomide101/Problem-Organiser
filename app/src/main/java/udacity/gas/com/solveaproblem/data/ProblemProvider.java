@@ -13,6 +13,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import udacity.gas.com.solveaproblem.SettingsActivity;
+
 /**
  * Created by Fagbohungbe on 03/03/2015.
  */
@@ -58,6 +60,9 @@ public class ProblemProvider extends ContentProvider {
 
 	private static final String sProblemAttachQuery =
 			PailContract.Attachment.COLUMN_PROB_KEY + " = ? AND " + PailContract.Attachment._ID + " = ? ";
+
+	private static final String sProdAttach =
+			PailContract.Attachment.COLUMN_PROB_KEY+" = ? ";
 
 
 	private String getQuery (String table) {
@@ -436,7 +441,6 @@ public class ProblemProvider extends ContentProvider {
 		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 		final int match = sUriMatcher.match(uri);
 		int rowsDeleted;
-		if (null == selection) selection = "1";
 		switch (match) {
 			//problems
 			case PROBLEMS : {
@@ -446,18 +450,33 @@ public class ProblemProvider extends ContentProvider {
 			case PROBLEMS_WITH_ID : {
 				long id = PailContract.ProblemEntry.getProblemIdFromUri(uri);
 				rowsDeleted = db.delete(PailContract.ProblemEntry.TABLE_NAME, sProblemQuery, new String[] { Long.toString(id) });
+				String res = PailUtilities.readFromPreference(getContext(), SettingsActivity.PREF_FILE_NAME, SettingsActivity.DELETE_ATTACHMENTS, Boolean.toString(false));
+				Boolean resBool = Boolean.parseBoolean(res);
+				if (resBool) {
+					//Delete Attachments
+					Uri url;
+					url = PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(id, new PailContract.NoteAttachmentEntry());
+					deleteAttachmentWithProbId(db, url);
+					url = PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(id, new PailContract.LinkAttachmentEntry());
+					deleteAttachmentWithProbId(db, url);
+					url = PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(id, new PailContract.ImageAttachmentEntry());
+					deleteAttachmentWithProbId(db, url);
+					url = PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(id, new PailContract.AudioAttachmentEntry());
+					deleteAttachmentWithProbId(db, url);
+					url = PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(id, new PailContract.FileAttachmentEntry());
+					deleteAttachmentWithProbId(db, url);
+					url = PailContract.ProblemEntry.buildProblemWithAttachmentTypeUri(id, new PailContract.VideoAttachmentEntry());
+					deleteAttachmentWithProbId(db, url);
+				}
 				break;
 			}
 			case ATTACHMENTS_WITH_ATTACHMENTTYPE_AND_ID : {
-				long id = PailContract.Attachment.getAttachmentIdFromAttachmentTypeUri(uri);
-				String type = PailContract.Attachment.getAttachmentTypeFromUri(uri);
-				rowsDeleted = db.delete(getTable(type), sAttachQuery, new String[] { Long.toString(id) });
+				rowsDeleted = deleteAttachmentsWithId(db, uri);
 				break;
 			}
 			//attachments/attachmenttype
 			case ATTACHMENTS_WITH_ATTACHMENTTYPE : {
-				String type = PailContract.Attachment.getAttachmentTypeFromUri(uri);
-				rowsDeleted = db.delete(getTable(type), selection, selectionArgs);
+				rowsDeleted = deleteAttachments(db, uri, selection, selectionArgs);
 				break;
 			}
 			default:
@@ -468,6 +487,23 @@ public class ProblemProvider extends ContentProvider {
 			getContext().getContentResolver().notifyChange(uri, null);
 		}
 		return rowsDeleted;
+	}
+
+	private int deleteAttachments(SQLiteDatabase db, Uri uri, String selection, String[] selectionArgs) {
+		String type = PailContract.Attachment.getAttachmentTypeFromUri(uri);
+		return db.delete(getTable(type), selection, selectionArgs);
+	}
+
+	private int deleteAttachmentsWithId(SQLiteDatabase db, Uri uri) {
+		long id = PailContract.Attachment.getAttachmentIdFromAttachmentTypeUri(uri);
+		String type = PailContract.Attachment.getAttachmentTypeFromUri(uri);
+		return db.delete(getTable(type), sAttachQuery, new String[] { Long.toString(id) });
+	}
+
+	private int deleteAttachmentWithProbId(SQLiteDatabase db, Uri uri) {
+		long id = PailContract.ProblemEntry.getProblemIdFromUri(uri);
+		String type = PailContract.ProblemEntry.getAttachmentTypeFromProblemUri(uri);
+		return db.delete(getTable(type), sProdAttach, new String[] { Long.toString(id) });
 	}
 
 	@Override

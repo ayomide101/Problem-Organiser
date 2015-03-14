@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	tools:context="udacity.gas.com.solveaproblem.AddProblem">
+
+	<include
+		android:id="@+id/app_bar"
+		layout="@layout/app_bar"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/app_bar">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			android:padding="16dp">
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="8dp"
+				android:paddingRight="8dp"
+				android:text="Delete Attachments"
+				android:textAllCaps="true"
+				android:textSize="16sp"
+				android:textStyle="bold"/>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_marginBottom="8dp"
+				android:layout_marginTop="8dp"
+				android:background="@color/material_blue_grey_800"
+				/>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:weightSum="4">
+
+				<TextView
+					android:layout_weight="3"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:paddingLeft="8dp"
+					android:paddingRight="8dp"
+					android:text="Delete all attachments when problem entries are deleted"
+					android:textAllCaps="false"
+					android:textSize="14sp"
+					android:gravity="center_vertical"
+					android:textStyle="bold"/>
+
+				<Switch
+					android:layout_weight="1"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:textOn="Yes"
+					android:textOff="No"
+					android:id="@+id/delete_attachments"/>
+
+			</LinearLayout>
+
+
+		</LinearLayout>
+
+
+	</LinearLayout>
+
+
+</RelativeLayout>

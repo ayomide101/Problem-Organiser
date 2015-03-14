@@ -9,16 +9,24 @@
 		<item name="colorPrimary">@color/primaryColor</item>
 		<item name="colorPrimaryDark">@color/primaryColorDark</item>
 		<item name="colorAccent">@color/accentColor</item>
-		<item name="android:windowBackground">@android:color/white</item>
-		<item name="android:actionModeStyle">@style/LStyled.ActionMode</item>
+		<!--<item name="windowBackground">@android:color/white</item>-->
+		<item name="actionModeStyle">@style/LStyled.ActionMode</item>
 	</style>
-
-	<style name="MyCustomToolBarTheme" parent="AppTheme.Base">
+	<style name="MainTheme" parent="AppTheme">
+		<item name="actionBarStyle">@style/ActionBar.Solid.Sunshine.NoTitle</item>
+	</style>
+	<style name="ActionBar.Solid.Sunshine.NoTitle" parent="Widget.AppCompat.Light.ActionBar.Solid">
+		<item name="displayOptions">useLogo|showHome</item>
+		<item name="logo">@drawable/ic_logo</item>
+	</style>
+	<style name="MyCustomToolBarTheme" parent="MainTheme">
 		<item name="android:textColorPrimary">@color/textColorPrimary</item>
 		<item name="android:textColorSecondary">@color/textColorPrimary</item>
 		<item name="android:background">@color/primaryColor</item>
 		<item name="android:actionModeStyle">@style/LStyled.ActionMode</item>
 	</style>
+
+
 	<style name="LStyled.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
 		<item name="android:background">@color/primaryColor</item>
 	</style>

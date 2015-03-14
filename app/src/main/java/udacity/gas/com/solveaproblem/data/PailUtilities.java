@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -63,6 +64,20 @@ public class PailUtilities {
 		boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
 		boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
 		return (xlarge || large);
+	}
+
+	//Read from sharedPreference
+	public static void saveToPreference(Context context, String PREF_FILE_NAME, String preferenceName, String preferenceValue) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putString(preferenceName, preferenceValue);
+		editor.apply();
+	}
+
+	//Write to shared preference
+	public static String readFromPreference(Context context, String PREF_FILE_NAME, String prefName, String defaultvalue) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
+		return sharedPreferences.getString(prefName, defaultvalue);
 	}
 
 	public static void openLink(Activity activity, String url) {

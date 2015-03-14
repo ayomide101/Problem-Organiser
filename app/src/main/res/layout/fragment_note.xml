@@ -19,7 +19,7 @@
 			android:layout_width="170dp"
 			android:layout_height="152dp"
 			android:contentDescription="@string/note_icon_text"
-			android:src="@drawable/ic_note_add_white"
+			android:src="@drawable/ic_note_add"
 			/>
 
 		<TextView
