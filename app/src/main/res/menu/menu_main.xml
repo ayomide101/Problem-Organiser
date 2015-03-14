@@ -5,15 +5,7 @@
 	<item
 		android:id="@+id/action_settings"
 		android:orderInCategory="100"
+		android:icon="@drawable/ic_settings_white"
 		android:title="@string/action_settings"
-		app:showAsAction="never" />
-	<item
-		android:id="@+id/searchAppBar"
-		android:orderInCategory="1"
-		android:title="@string/searchAppBar"
-		app:showAsAction="collapseActionView|ifRoom"
-		android:actionViewClass="android.widget.SearchView"
-		android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
-		/>
-	<!--android:icon="@android:drawable/ic_menu_search"-->
+		app:showAsAction="ifRoom" />
 </menu>

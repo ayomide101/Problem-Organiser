@@ -33,7 +33,6 @@
 			android:layout_height="match_parent"
 			android:background="@drawable/problem_card_bg"
 			android:orientation="horizontal"
-			android:paddingLeft="16dp"
 			android:weightSum="50">
 
 			<TextView
@@ -45,6 +44,10 @@
 				android:text="@string/project_title"
 				android:textAlignment="center"
 				android:textAllCaps="true"
+				android:textStyle="bold"
+				android:paddingLeft="16dp"
+				android:paddingRight="16dp"
+				android:background="@drawable/problem_card_bg"
 				android:textColor="@color/colorHighlight"
 				android:textSize="16sp"/>
 

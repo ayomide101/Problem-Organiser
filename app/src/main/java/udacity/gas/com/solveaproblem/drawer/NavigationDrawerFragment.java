@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import udacity.gas.com.solveaproblem.R;
 import udacity.gas.com.solveaproblem.SettingsActivity;
@@ -32,7 +32,7 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState = false;
     private View containerView;
     private boolean isDrawerOpened = false;
-	private LinearLayout mNavSettings;
+	private RelativeLayout mNavSettings;
 
 	public void setUp(int fragmentid, final DrawerLayout drawerLayout, final Toolbar toolbar) {
         containerView = getActivity().findViewById(fragmentid);
@@ -111,7 +111,7 @@ public class NavigationDrawerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-		mNavSettings = (LinearLayout) layout.findViewById(R.id.nav_settings);
+		mNavSettings = (RelativeLayout) layout.findViewById(R.id.nav_settings);
 		mNavSettings.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
