@@ -60,7 +60,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 		swProblemTitle = (TextView) getActivity().findViewById(R.id.detail_problem_title);
 		swProblemDate = (TextView) getActivity().findViewById(R.id.detail_problem_date);
 		swProblemPrivacyText = (TextView) getActivity().findViewById(R.id.detail_problem_privacy);
-		swProblemAttachmentCount = (TextView) getActivity().findViewById(R.id.detail_problem_attachment_counts);
 		swProblemDescription = (TextView) getActivity().findViewById(R.id.detail_problem_description);
 	}
 
@@ -81,6 +80,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 		if (data.moveToFirst()) {
 			//populate data
 			populateView(data);
+			data.close();
 		}
 	}
 
@@ -94,7 +94,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 		swProblemTitle.setText(item.getTitle());
 		swProblemDate.setText(item.getDate());
 		swProblemDescription.setText(item.getDescription());
-		swProblemAttachmentCount.setText("Attachment : 50");
 		mPrivacy = cursor.getInt(PailContract.ProblemEntry.i_PROBLEM_PRIVACY);
 		if (mPrivacy == PailContract.VAL_PRIVACY_PRIVATE) {
 			swProblemPrivacyText.setText("Private");
