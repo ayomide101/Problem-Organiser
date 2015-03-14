@@ -1,6 +1,7 @@
 package udacity.gas.com.solveaproblem.data;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.os.ParcelFileDescriptor;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.text.format.Time;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -53,6 +55,23 @@ public class PailUtilities {
 			} else {
 				Log.e(tag_name, "Value '" + entry.getValue().toString() + "' did not match the expected value '" + expectedValue + "'");
 			}
+		}
+	}
+
+	public static void openLink(Activity activity, String url) {
+		if (url.length() > 1 && Patterns.WEB_URL.matcher(url).matches()) {
+			try {
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+				if (browserIntent.resolveActivity(activity.getPackageManager()) != null) {
+					activity.startActivity(browserIntent);
+				} else {
+					Toast.makeText(activity, "Either the url you provided is invalid or you do not have any app for displaying websites", Toast.LENGTH_LONG).show();
+				}
+			} catch (ActivityNotFoundException e) {
+				Toast.makeText(activity, "Invalid url specified, cannot open browser", Toast.LENGTH_LONG).show();
+			}
+		} else {
+			Toast.makeText(activity, "Invalid url specified, cannot open browser", Toast.LENGTH_LONG).show();
 		}
 	}
 

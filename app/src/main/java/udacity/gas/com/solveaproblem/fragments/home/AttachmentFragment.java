@@ -19,6 +19,7 @@ import udacity.gas.com.solveaproblem.R;
 import udacity.gas.com.solveaproblem.data.PailContract;
 import udacity.gas.com.solveaproblem.fragments.attach.LinksFragment;
 import udacity.gas.com.solveaproblem.fragments.attach.NotesFragment;
+import udacity.gas.com.solveaproblem.fragments.attach.RelevantAttachmentFragment;
 
 /**
  * Created by Fagbohungbe on 27/02/2015.
@@ -30,6 +31,7 @@ public class AttachmentFragment extends Fragment implements LoaderManager.Loader
 	private TextView mNotesCount;
 	private LinearLayout bTOpenLinks;
 	private LinearLayout bTOpenNotes;
+	private LinearLayout btOpenMostRelevant;
 
 	public static AttachmentFragment getInstance(int position) {
 		return new AttachmentFragment();
@@ -49,6 +51,7 @@ public class AttachmentFragment extends Fragment implements LoaderManager.Loader
 		mNotesCount = (TextView) getActivity().findViewById(R.id.notes_count);
 		bTOpenLinks = (LinearLayout) getActivity().findViewById(R.id.open_links);
 		bTOpenNotes = (LinearLayout) getActivity().findViewById(R.id.open_notes);
+		btOpenMostRelevant = (LinearLayout) getActivity().findViewById(R.id.open_most_relevant);
 		bTOpenLinks.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -62,6 +65,14 @@ public class AttachmentFragment extends Fragment implements LoaderManager.Loader
 			public void onClick(View v) {
 				Intent intent = new Intent(getActivity(), AttachmentActivity.class);
 				intent.putExtra(AttachmentActivity.ATTACHMENT_TYPE_KEY, NotesFragment.ID);
+				startActivity(intent);
+			}
+		});
+		btOpenMostRelevant.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(), AttachmentActivity.class);
+				intent.putExtra(AttachmentActivity.ATTACHMENT_TYPE_KEY, RelevantAttachmentFragment.ID);
 				startActivity(intent);
 			}
 		});

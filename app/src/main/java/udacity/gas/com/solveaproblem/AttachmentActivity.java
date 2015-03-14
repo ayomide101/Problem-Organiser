@@ -14,6 +14,7 @@ import android.widget.Toast;
 import udacity.gas.com.solveaproblem.data.PailContract;
 import udacity.gas.com.solveaproblem.fragments.attach.LinksFragment;
 import udacity.gas.com.solveaproblem.fragments.attach.NotesFragment;
+import udacity.gas.com.solveaproblem.fragments.attach.RelevantAttachmentFragment;
 import udacity.gas.com.solveaproblem.utilities.SetupUI;
 
 /**
@@ -54,6 +55,9 @@ public class AttachmentActivity extends ActionBarActivity {
 		} else if (mAttachmentType == NotesFragment.ID) {
 			mFragmentTitle.setText(PailContract.NoteAttachmentEntry.TABLE_NAME);
 			return new NotesFragment();
+		} else if (mAttachmentType == RelevantAttachmentFragment.ID) {
+			mFragmentTitle.setText("MOST RELEVANT");
+			return new RelevantAttachmentFragment();
 		} else {
 			Toast.makeText(this, "Could not load contents", Toast.LENGTH_LONG).show();
 //			finish();

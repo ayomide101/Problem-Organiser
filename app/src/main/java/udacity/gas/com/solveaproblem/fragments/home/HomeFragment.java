@@ -10,6 +10,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -60,6 +61,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 
 		problemsAdapter = new ProblemsAdapter(getActivity(), null);
 		recyclerView = (RecyclerView) getActivity().findViewById(R.id.problemsList);
+		DefaultItemAnimator animator = new DefaultItemAnimator();
+		animator.setAddDuration(1000);
+		animator.setRemoveDuration(1000);
+		recyclerView.setItemAnimator(animator);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 		recyclerView.setAdapter(problemsAdapter);
 
