@@ -106,6 +106,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 			lMainNoteContent.setVisibility(View.VISIBLE);
 			lTempView.setVisibility(View.GONE);
 			problemsAdapter.swapCursor(data);
+			((Callback) getActivity()).onItemLoaded(data.getLong(PailContract.ProblemEntry.i_PROBLEM_PROBLEMID));
 		} else {
 			lMainNoteContent.setVisibility(View.GONE);
 			lTempView.setVisibility(View.VISIBLE);
@@ -128,8 +129,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 		public ProblemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 			try {
 				CardView view = (CardView) getActivity().getLayoutInflater().inflate(R.layout.problem_card_normal, parent, false);
-				ProblemViewHolder vh = new ProblemViewHolder(view);
-				return vh;
+				return new ProblemViewHolder(view);
 			} catch (NullPointerException e) {
 				Log.e("HomeFragment", e.getMessage() + "");
 				return null;
@@ -236,5 +236,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Load
 
 	public interface Callback {
 		public void onItemClicked(long probid);
+		public void onItemLoaded(long probid);
 	}
 }

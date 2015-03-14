@@ -2,6 +2,7 @@ package udacity.gas.com.solveaproblem;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
@@ -83,5 +84,16 @@ public class AttachmentActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return true;
+	}
+
+	@Override
+	public Intent getSupportParentActivityIntent() {
+		return super.getSupportParentActivityIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	}
+
+	@Nullable
+	@Override
+	public Intent getParentActivityIntent() {
+		return super.getParentActivityIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 	}
 }

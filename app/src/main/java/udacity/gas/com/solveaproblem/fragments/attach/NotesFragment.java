@@ -102,7 +102,13 @@ public class NotesFragment extends Fragment implements LoaderManager.LoaderCallb
 			btAddNote.setVisibility(View.VISIBLE);
 			add_notes_text.setText(R.string.add_notes);
 		}
-		recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL));
+
+		if (PailUtilities.isTablet(getActivity())) {
+			recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
+		} else {
+			recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL));
+		}
+
 		recyclerView.setAdapter(notesAdapter);
 		mMaterialDialog = new MaterialDialog.Builder(getActivity())
 				.title("ADD NOTE")

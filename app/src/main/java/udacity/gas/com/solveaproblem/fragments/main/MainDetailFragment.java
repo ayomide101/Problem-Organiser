@@ -59,6 +59,7 @@ public class MainDetailFragment extends Fragment implements MaterialTabListener 
 	private ShareActionProvider mShareActionProvider;
 	private String mTitle;
 	private String mDescription;
+	private View mlayout;
 
 	public static MainDetailFragment getInstance(long problemId) {
 		MainDetailFragment myFragment = new MainDetailFragment();
@@ -78,17 +79,23 @@ public class MainDetailFragment extends Fragment implements MaterialTabListener 
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		setupTabs();
+		if (savedInstanceState == null) {
+			setupTabs();
+		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
 		Bundle bundle = getArguments();
-		View layout = inflater.inflate(R.layout.fragment_main_detail, container, false);
+		mlayout = inflater.inflate(R.layout.fragment_main_detail, container, false);
 		if (bundle != null) {
 			mProblemid = bundle.getLong(PailContract.ProblemEntry.BUNDLE_KEY);
+		} else {
+			mProblemid = PailContract.ProblemEntry.PROD_ID_NOT_SET;
 		}
-		return layout;
+
+		return mlayout;
 	}
 
 	@Override
@@ -149,9 +156,9 @@ public class MainDetailFragment extends Fragment implements MaterialTabListener 
 	}
 
 	private void setupTabs() {
-		mTabs = (MaterialTabHost) getActivity().findViewById(R.id.tabs);
-		mPager = (ViewPager) getActivity().findViewById(R.id.pager);
-		mPagerAdapter = new TabsAdapter(getActivity().getSupportFragmentManager());
+		mTabs = (MaterialTabHost) mlayout.findViewById(R.id.bigger_tabs);
+		mPager = (ViewPager) mlayout.findViewById(R.id.bigger_pager);
+		mPagerAdapter = new TabsAdapter(getFragmentManager());
 		//The arraylist of the mFragments
 		mPager.setAdapter(mPagerAdapter);
 		mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {

@@ -100,7 +100,12 @@ public class LinksFragment extends Fragment implements View.OnClickListener, Loa
 			add_links_text.setText(R.string.add_links);
 		}
 
-		lRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL));
+
+		if (PailUtilities.isTablet(getActivity())) {
+			lRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
+		} else {
+			lRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL));
+		}
 		lRecyclerView.setAdapter(linkAdapter);
 
 		lMaterialDialog = new MaterialDialog.Builder(getActivity()).title("ADD LINK").autoDismiss(false).customView(R.layout.link_add_form, true).positiveText("Add").positiveColor(R.color.primaryColor).negativeText("Cancel").callback(new MaterialDialog.ButtonCallback() {

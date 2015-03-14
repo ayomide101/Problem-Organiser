@@ -49,6 +49,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 		setupTabs();
 		if (findViewById(R.id.main_detail_fragment) != null) {
 			mTowPane = true;
+
 			if (savedInstanceState == null) {
 				getSupportFragmentManager().beginTransaction()
 						.replace(R.id.main_detail_fragment, new MainDetailFragment(), DETAIL_FRAGMENT_TAG).commit();
@@ -126,27 +127,35 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 	}
 
 	@Override
-	public void onTabReselected(MaterialTab materialTab) {
-
-	}
+	public void onTabReselected(MaterialTab materialTab) {}
 
 	@Override
-	public void onTabUnselected(MaterialTab materialTab) {
-
-	}
+	public void onTabUnselected(MaterialTab materialTab) {}
 
 	@Override
 	public void onItemClicked(long probid) {
 		if (mTowPane) {
+			mTowPane = true;
 			getSupportFragmentManager()
 					.beginTransaction()
 					.replace(R.id.main_detail_fragment, MainDetailFragment.getInstance(probid), DETAIL_FRAGMENT_TAG)
 					.commit();
-			;
 		} else {
+			mTowPane = false;
 			Intent intent = new Intent(this, DetailProblem.class);
 			intent.putExtra(HomeFragment.EXTRA_ID, probid);
 			startActivity(intent);
+		}
+	}
+
+	@Override
+	public void onItemLoaded(long probid) {
+		if (mTowPane) {
+			mTowPane = true;
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.main_detail_fragment, MainDetailFragment.getInstance(probid), DETAIL_FRAGMENT_TAG)
+					.commit();
 		}
 	}
 

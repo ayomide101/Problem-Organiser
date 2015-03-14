@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -45,9 +46,9 @@ public class PailUtilities {
 			String columnName = entry.getKey();
 			int idx = valueCursor.getColumnIndex(columnName);
 			if (idx == -1) {
-				Log.e(tag_name, "Column '"+columnName+"' found.");
+				Log.e(tag_name, "Column '" + columnName + "' found.");
 			} else {
-				Log.e(tag_name, "Column '"+columnName+"' not found.");
+				Log.e(tag_name, "Column '" + columnName + "' not found.");
 			}
 			String expectedValue = entry.getValue().toString();
 			if (valueCursor.getString(idx).equals(expectedValue)) {
@@ -56,6 +57,12 @@ public class PailUtilities {
 				Log.e(tag_name, "Value '" + entry.getValue().toString() + "' did not match the expected value '" + expectedValue + "'");
 			}
 		}
+	}
+
+	public static boolean isTablet(Context context) {
+		boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+		boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+		return (xlarge || large);
 	}
 
 	public static void openLink(Activity activity, String url) {
@@ -77,9 +84,9 @@ public class PailUtilities {
 
 	public static String humanReadableByteCount(long bytes, boolean si) {
 		int unit = si ? 1000 : 1024;
-		if (bytes < unit) return bytes+"B";
+		if (bytes < unit) return bytes + "B";
 		int exp = (int) (Math.log(bytes) / Math.log(unit));
-		String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "":"1");
+		String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "1");
 		return String.format("%.1f%sB", bytes / Math.pow(unit, exp), pre);
 	}
 
@@ -96,7 +103,7 @@ public class PailUtilities {
 		int photoH = bmOptions.outHeight;
 //
 //		Determine how much to scale down the image
-		int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+		int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
 //
 		// Decode the image file into a Bitmap sized to fill the View
 		bmOptions.inJustDecodeBounds = false;
@@ -116,6 +123,7 @@ public class PailUtilities {
 		parcelFileDescriptor.close();
 		return image;
 	}
+
 	public static boolean hideKeyBoardFromScreen(Activity activity, View view) {
 		InputMethodManager IMM = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
 		return IMM.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
@@ -127,6 +135,7 @@ public class PailUtilities {
 		int julianDay = Time.getJulianDay(date, time.gmtoff);
 		return time.setJulianDay(julianDay);
 	}
+
 	public static String getReadableDateString(long time) {
 		// Because the API returns a unix timestamp (measured in seconds),
 		// it must be converted to milliseconds in order to be converted to valid date.
